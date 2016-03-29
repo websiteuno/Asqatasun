@@ -103,21 +103,24 @@ RUN wget -q ${FIREFOX_URL_x86_64}/${FIREFOX_BASENAME}.tar.bz2 -O ${FIREFOX_PAREN
 #
 # ##########################################################
 
-RUN echo "yes\n" | ./install.sh  \
-        --database-db $MYSQL_DATABASE \ 
-        --database-host $MYSQL_HOST \
-        --database-user $MYSQL_USER \
-        --database-passwd $MYSQL_PASSWORD \
-        --asqatasun-url $ASQATASUN_URL \
-        --tomcat-webapps $TOMCAT_WEBAPP_DIR \
-        --tomcat-user $TOMCAT_USER \
-        --asqa-admin-email $ASQATASUN_ADMIN_EMAIL \
-        --asqa-admin-passwd $ASQATASUN_ADMIN_PASSWD \
-        --firefox-esr-binary-path /opt/firefox/firefox \
-        --display-port :99
+ENTRYPOINT ./wait-for-it.sh $MYSQL_DATABASE
+CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
 
-CMD service xvfb start \
-    && /usr/local/tomcat/bin/catalina.sh run  \
-    && tail -f /var/log/asqatasun/asqatasun.log
+#RUN echo "yes\n" | ./install.sh  \
+#        --database-db $MYSQL_DATABASE \ 
+#        --database-host $MYSQL_HOST \
+#        --database-user $MYSQL_USER \
+#        --database-passwd $MYSQL_PASSWORD \
+#        --asqatasun-url $ASQATASUN_URL \
+#        --tomcat-webapps $TOMCAT_WEBAPP_DIR \
+#        --tomcat-user $TOMCAT_USER \
+#        --asqa-admin-email $ASQATASUN_ADMIN_EMAIL \
+#        --asqa-admin-passwd $ASQATASUN_ADMIN_PASSWD \
+#        --firefox-esr-binary-path /opt/firefox/firefox \
+#        --display-port :99
+#
+#CMD service xvfb start \
+#    && /usr/local/tomcat/bin/catalina.sh run  \
+#    && tail -f /var/log/asqatasun/asqatasun.log
 
 #CMD ["catalina.sh", "run"]

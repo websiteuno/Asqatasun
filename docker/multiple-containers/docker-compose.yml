@@ -17,8 +17,10 @@ services:
             - db
         ports:
             - "8080:8080"
+        entrypoint: ./wait-for-it.sh db
         environment:
             MYSQL_HOST: db
             MYSQL_DATABASE: asqatasun
             MYSQL_USER: asqatasun
             MYSQL_PASSWORD: asqaP4sswd
+        
