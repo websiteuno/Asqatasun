@@ -91,11 +91,11 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
         //---------------------------2Failed-03---------------------------------
         //----------------------------------------------------------------------
         processResult = processPageTest("Rgaa30.Test.08.09.01-2Failed-03");
-        checkResultIsFailed(processResult, 16, 1);
+        checkResultIsPreQualified(processResult, 4, 1);
         checkRemarkIsPresent(
                 processResult,
-                TestSolution.FAILED,
-                RemarkMessageStore.FIELDSET_NOT_WITHIN_FORM_MSG,
+                TestSolution.NEED_MORE_INFO,
+                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
                 HtmlElementStore.FIELDSET_ELEMENT,
                 1);        
         
@@ -103,11 +103,11 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
         //---------------------------2Failed-04---------------------------------
         //----------------------------------------------------------------------
         processResult = processPageTest("Rgaa30.Test.08.09.01-2Failed-04");
-        checkResultIsFailed(processResult, 17, 1);
+        checkResultIsPreQualified(processResult, 4, 1);
         checkRemarkIsPresent(
                 processResult,
-                TestSolution.FAILED,
-                RemarkMessageStore.FIELDSET_NOT_WITHIN_FORM_MSG,
+                TestSolution.NEED_MORE_INFO,
+                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
                 HtmlElementStore.FIELDSET_ELEMENT,
                 1);        
         
@@ -163,12 +163,12 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
         //---------------------------3NMI-05------------------------------------
         //----------------------------------------------------------------------
         processResult = processPageTest("Rgaa30.Test.08.09.01-3NMI-05");
-        checkResultIsPreQualified(processResult, 17,  1);
+        checkResultIsPreQualified(processResult, 16,  1);
         checkRemarkIsPresent(
                 processResult,
                 TestSolution.NEED_MORE_INFO,
-                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
-                "",
+                RemarkMessageStore.FIELDSET_NOT_WITHIN_FORM_MSG,
+                HtmlElementStore.FIELDSET_ELEMENT,
                 1);        
         
         //----------------------------------------------------------------------
@@ -179,8 +179,8 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
         checkRemarkIsPresent(
                 processResult,
                 TestSolution.NEED_MORE_INFO,
-                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
-                "",
+                RemarkMessageStore.FIELDSET_NOT_WITHIN_FORM_MSG,
+                HtmlElementStore.FIELDSET_ELEMENT,
                 1);        
         
         //----------------------------------------------------------------------
