@@ -68,10 +68,10 @@
             <groupId>${asqatasunGroupId}</groupId>
             <artifactId>asqatasun-rule-implementation-loader</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>asqatasun-crawler</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>${asqatasunGroupId}</groupId>-->
+            <!--<artifactId>asqatasun-crawler</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
             <artifactId>asqatasun-contentloader</artifactId>
@@ -131,10 +131,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-instrument</artifactId>
         </dependency>
-        <!--       <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-instrument-tomcat</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
