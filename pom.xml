@@ -34,13 +34,14 @@
         <asqatasunVersion>4.1.0-SNAPSHOT</asqatasunVersion>
         
         <springGroupId>org.springframework</springGroupId>
-        <springVersion>3.1.2.RELEASE</springVersion>
+        <springVersion>4.2.5.RELEASE</springVersion>
+        <springSecurityVersion>4.0.4.RELEASE</springSecurityVersion>
 
         <!--<heritrixGroupId>org.archive.heritrix</heritrixGroupId>-->
         <!--<heritrixVersion>3.1.1</heritrixVersion>-->
 
         <hibernateGroupId>org.hibernate</hibernateGroupId>
-        <hibernateVersion>4.3.5.Final</hibernateVersion>
+        <hibernateVersion>4.3.8.Final</hibernateVersion>
         
         <junitGroupId>junit</junitGroupId>
         <junitVersion>3.8.2</junitVersion>
@@ -499,14 +500,9 @@
 
             <!-- commons dependencies -->
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6</version>
-            </dependency>
-            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.1</version>
+                <version>3.4</version>
             </dependency>
             <dependency>
                 <groupId>commons-collections</groupId>
@@ -702,7 +698,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>${springVersion}</version>
+                <version>${springSecurityVersion}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>${springGroupId}</groupId>
@@ -761,17 +757,17 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>${springVersion}</version>
+                <version>${springSecurityVersion}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>${springVersion}</version>
+                <version>${springSecurityVersion}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>${springVersion}</version>
+                <version>${springSecurityVersion}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>${springGroupId}</groupId>
