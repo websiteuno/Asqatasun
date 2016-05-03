@@ -23,7 +23,7 @@ package org.asqatasun.webapp.command;
 
 import java.io.IOException;
 import java.io.Serializable;
-import org.asqatasun.crawler.util.CrawlUtils;
+import org.asqatasun.util.http.HttpRequestHandler;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -98,7 +98,7 @@ public class AddScenarioCommand implements Serializable {
         if (scenarioContent == null) {
             try {
                 if (scenarioFile != null && !scenarioFile.isEmpty() && scenarioFile.getInputStream() != null) {
-                    String tmpCharset = CrawlUtils.extractCharset(scenarioFile.getInputStream());
+                    String tmpCharset = HttpRequestHandler.extractCharset(scenarioFile.getInputStream());
                     scenarioContent = scenarioFile.getFileItem().getString(tmpCharset);
                     // #57 issue quick fix.......
                     scenarioContent = scenarioContent.replace("\"formatVersion\": 2", "\"formatVersion\":1")
