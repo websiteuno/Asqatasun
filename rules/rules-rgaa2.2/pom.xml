@@ -53,7 +53,7 @@
                 </executions>
             </plugin>-->
         </plugins>
-        <finalName>rgaa2.2-${rulesVersion}</finalName>
+        <finalName>rgaa2.2-${project.version}</finalName>
     </build>
     <dependencies>
         <dependency>

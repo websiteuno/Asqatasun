@@ -44,7 +44,7 @@
                 </excludes>
             </resource>
         </resources>
-        <finalName>asqatasun-rules-seo1.0-${rulesVersion}</finalName>
+        <finalName>asqatasun-rules-seo1.0-${project.version}</finalName>
     </build>
     
     <dependencies>
@@ -57,10 +57,8 @@
             <artifactId>asqatasun-rules-testing-tools</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-            <type>jar</type>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 </project>
