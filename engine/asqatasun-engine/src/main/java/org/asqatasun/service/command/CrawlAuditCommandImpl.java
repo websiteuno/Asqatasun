@@ -114,7 +114,6 @@ public abstract class CrawlAuditCommandImpl extends AuditCommandImpl {
     
     /**
      * 
-     * @param url 
      */
     abstract void createEmptyWebResource();
     
