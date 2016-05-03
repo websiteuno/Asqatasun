@@ -21,7 +21,7 @@ package org.asqatasun.rules.seo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.processor.SSPHandler;
