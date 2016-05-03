@@ -421,7 +421,7 @@ public class ProcessRemarkServiceImpl implements ProcessRemarkService {
     
     /**
      * 
-     * @param node
+     * @param element
      * @return
      */
     private int searchElementLineNumber(Element element) {
@@ -504,7 +504,7 @@ public class ProcessRemarkServiceImpl implements ProcessRemarkService {
     /**
      * This methods search the line where the current node is present in
      * the source code
-     * @param node
+     * @param element
      * @return
      */
     private int getElementIndex(Element element) {
@@ -545,7 +545,7 @@ public class ProcessRemarkServiceImpl implements ProcessRemarkService {
      * Initialisation of a local map that handles each source code line, 
      * keyed by the line number
      * 
-     * @param adaptedContent
+     * @param rawSource
      */
     private void initializeRawSourceCodeMap(String rawSource) {
         rawSourceCodeWithLine = new LinkedHashMap<>();
