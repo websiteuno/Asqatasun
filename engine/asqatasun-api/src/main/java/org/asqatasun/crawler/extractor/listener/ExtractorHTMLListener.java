@@ -22,7 +22,7 @@
 
 package org.asqatasun.crawler.extractor.listener;
 
-import org.archive.modules.CrawlURI;
+//import org.archive.modules.CrawlURI;
 
 /**
  *
@@ -34,6 +34,6 @@ public interface ExtractorHTMLListener {
      *
      * @param curi
      */
-    void computeResource(CrawlURI curi);
+//    void computeResource(CrawlURI curi);
 
 }

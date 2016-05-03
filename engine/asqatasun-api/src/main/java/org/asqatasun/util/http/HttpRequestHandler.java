@@ -23,15 +23,18 @@
 package org.asqatasun.util.http;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.List;
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
+
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpHost;
@@ -297,8 +300,7 @@ public class HttpRequestHandler {
     
     /**
      * 
-     * @param url
-     * @return 
+     * @return
      */
     private boolean isProxyCredentialSet() {
         LOGGER.debug("isProxyCredentialSet" + (StringUtils.isNotEmpty(proxyUser) && StringUtils.isNotEmpty(proxyPassword)));
@@ -364,11 +366,142 @@ public class HttpRequestHandler {
     
     private String getEncodedUrl(String url) {
         try {
-            return URIUtil.encodeQuery(URIUtil.decode(url));
-        } catch (URIException ue) {
-            LOGGER.warn("URIException on " + url);
+            return HttpRequestHandler.encodeQuery(HttpRequestHandler.decode(url));
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.warn("Exception on encoding " + url + " "  + e.getMessage());
+            return url;
+        } catch (DecoderException e) {
+            LOGGER.warn("Exception on encoding " + url + " "  + e.getMessage());
             return url;
         }
+    }
+
+    /**
+     * Escape and encode a string regarded as the query component of an URI with
+     * the default protocol charset.
+     * When a query string is not misunderstood the reserved special characters
+     * ("&amp;", "=", "+", ",", and "$") within a query component, this method
+     * is recommended to use in encoding the whole query.
+     *
+     * @param unescaped an unescaped string
+     * @return the escaped string
+     *
+     *
+     */
+    private static String encodeQuery(String unescaped) throws UnsupportedEncodingException {
+        byte[] rawdata = URLCodec.encodeUrl(new BitSet(256),
+                HttpRequestHandler.getBytes(unescaped, Charset.forName("UTF-8").displayName()));
+        return HttpRequestHandler.getAsciiString(rawdata);
+    }
+
+    /**
+     * Converts the specified string to a byte array.  If the charset is not supported the
+     * default system charset is used.
+     *
+     * @param data the string to be encoded
+     * @param charset the desired character encoding
+     * @return The resulting byte array.
+     *
+     */
+    private static byte[] getBytes(final String data, String charset) {
+
+        if (data == null) {
+            throw new IllegalArgumentException("data may not be null");
+        }
+
+        if (charset == null || charset.length() == 0) {
+            throw new IllegalArgumentException("charset may not be null or empty");
+        }
+
+        try {
+            return data.getBytes(charset);
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.warn("Unsupported encoding: " + charset + ". System encoding used.");
+            return data.getBytes();
+        }
+    }
+
+    /**
+     * Converts the byte array of ASCII characters to a string. This method is
+     * to be used when decoding content of HTTP elements (such as response
+     * headers)
+     *
+     * @param data the byte array to be encoded
+     * @return The string representation of the byte array
+     *
+     * @since 3.0
+     */
+    private static String getAsciiString(final byte[] data) throws UnsupportedEncodingException {
+
+        if (data == null) {
+            throw new IllegalArgumentException("Parameter may not be null");
+        }
+
+        return new String(data, 0, data.length, "US-ASCII");
+        }
+
+    /**
+     * Unescape and decode a given string regarded as an escaped string with the
+     * default protocol charset.
+     *
+     * @param escaped a string
+     * @return the unescaped string
+     *
+     *
+     */
+    public static String decode(String escaped) throws UnsupportedEncodingException, DecoderException {
+        byte[] rawdata = URLCodec.decodeUrl(HttpRequestHandler.getAsciiBytes(escaped));
+        return HttpRequestHandler.getString(rawdata, "UTF-8");
+    }
+
+    /**
+     * Converts the byte array of HTTP content characters to a string. If
+     * the specified charset is not supported, default system encoding
+     * is used.
+     *
+     * @param data the byte array to be encoded
+     * @param charset the desired character encoding
+     * @return The result of the conversion.
+     *
+     * @since 3.0
+     */
+    private static String getString(
+            final byte[] data,
+            String charset
+    ) {
+
+        if (data == null) {
+            throw new IllegalArgumentException("Parameter may not be null");
+        }
+
+        if (charset == null || charset.length() == 0) {
+            throw new IllegalArgumentException("charset may not be null or empty");
+        }
+
+        try {
+            return new String(data, 0, data.length, charset);
+        } catch (UnsupportedEncodingException e) {
+
+            LOGGER.warn("Unsupported encoding: " + charset + ". System encoding used");
+            return new String(data, 0, data.length);
+        }
+    }
+
+    /**
+     * Converts the specified string to byte array of ASCII characters.
+     *
+     * @param data the string to be encoded
+     * @return The string as a byte array.
+     *
+     * @since 3.0
+     */
+    private static byte[] getAsciiBytes(final String data) throws UnsupportedEncodingException {
+
+        if (data == null) {
+            throw new IllegalArgumentException("Parameter may not be null");
+        }
+
+        return data.getBytes("US-ASCII");
     }
 
 }

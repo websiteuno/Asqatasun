@@ -16,10 +16,6 @@
             <artifactId>asqatasun-commons-entity</artifactId>
         </dependency>
         <dependency>
-            <groupId>${heritrixGroupId}</groupId>
-            <artifactId>heritrix-modules</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
