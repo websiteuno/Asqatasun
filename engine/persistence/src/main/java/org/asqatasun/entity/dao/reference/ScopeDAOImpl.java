@@ -25,11 +25,13 @@ package org.asqatasun.entity.dao.reference;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.entity.reference.Scope;
 import org.asqatasun.entity.reference.ScopeImpl;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("scopeDAO")
 public class ScopeDAOImpl extends AbstractJPADAO<Scope, Long> implements ScopeDAO {
 
     public ScopeDAOImpl() {

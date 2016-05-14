@@ -24,11 +24,13 @@ import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.entity.subject.WebResourceImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
+@Repository("themeStatisticsDAO")
 public class ThemeStatisticsDAOImpl extends AbstractJPADAO<ThemeStatistics, Long>
         implements ThemeStatisticsDAO {
 

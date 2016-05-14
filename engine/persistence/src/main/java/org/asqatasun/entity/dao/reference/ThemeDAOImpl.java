@@ -24,6 +24,8 @@ package org.asqatasun.entity.dao.reference;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.reference.ThemeImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
 import javax.persistence.Query;
 
@@ -31,6 +33,7 @@ import javax.persistence.Query;
  * 
  * @author jkowalczyk
  */
+@Repository("themeDAO")
 public class ThemeDAOImpl extends AbstractJPADAO<Theme, Long> implements
         ThemeDAO {
 

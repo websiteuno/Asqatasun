@@ -35,11 +35,13 @@ import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("contentDAO")
 public class ContentDAOImpl extends AbstractJPADAO<Content, Long> implements
         ContentDAO {
 

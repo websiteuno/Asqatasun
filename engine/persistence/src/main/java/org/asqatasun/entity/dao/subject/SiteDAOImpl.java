@@ -24,11 +24,13 @@ package org.asqatasun.entity.dao.subject;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.SiteImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("siteDAO")
 public class SiteDAOImpl extends AbstractJPADAO<Site, Long> implements SiteDAO {
 
     public SiteDAOImpl() {

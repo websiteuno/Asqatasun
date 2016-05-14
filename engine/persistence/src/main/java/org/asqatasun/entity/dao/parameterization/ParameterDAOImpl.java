@@ -32,11 +32,13 @@ import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.entity.parameterization.ParameterImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
+@Repository("parameterDAO")
 public class ParameterDAOImpl extends AbstractJPADAO<Parameter, Long> implements
         ParameterDAO {
 

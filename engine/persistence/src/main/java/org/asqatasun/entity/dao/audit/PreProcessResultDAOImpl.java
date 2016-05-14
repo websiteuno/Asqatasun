@@ -30,11 +30,13 @@ import org.asqatasun.entity.audit.PreProcessResult;
 import org.asqatasun.entity.audit.PreProcessResultImpl;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("preProcessResultDAO")
 public class PreProcessResultDAOImpl extends AbstractJPADAO<PreProcessResult, Long>
         implements PreProcessResultDAO {
 

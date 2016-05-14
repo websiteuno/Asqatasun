@@ -29,11 +29,13 @@ import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.AuditImpl;
 import org.asqatasun.entity.reference.*;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
+@Repository("testDAO")
 public class TestDAOImpl extends AbstractJPADAO<Test, Long> implements TestDAO {
 
     /**

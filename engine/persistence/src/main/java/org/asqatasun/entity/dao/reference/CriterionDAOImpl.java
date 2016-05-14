@@ -25,11 +25,13 @@ import java.util.Collection;
 import javax.persistence.Query;
 import org.asqatasun.entity.reference.*;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("criterionDAO")
 public class CriterionDAOImpl extends AbstractJPADAO<Criterion, Long> implements
         CriterionDAO {
 

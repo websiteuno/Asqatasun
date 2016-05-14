@@ -32,11 +32,13 @@ import javax.persistence.NonUniqueResultException;
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.subject.PageImpl;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("webResourceDAO")
 public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
         implements WebResourceDAO {
 

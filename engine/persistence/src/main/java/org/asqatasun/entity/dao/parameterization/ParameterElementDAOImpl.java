@@ -27,11 +27,13 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterElementImpl;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
+@Repository("parameterElementDAO")
 public class ParameterElementDAOImpl extends AbstractJPADAO<ParameterElement, Long> implements
         ParameterElementDAO {
 

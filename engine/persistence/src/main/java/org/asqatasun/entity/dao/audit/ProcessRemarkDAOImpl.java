@@ -30,11 +30,13 @@ import org.asqatasun.entity.audit.ProcessRemarkImpl;
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Repository("processRemarkDAO")
 public class ProcessRemarkDAOImpl extends AbstractJPADAO<ProcessRemark, Long>
         implements ProcessRemarkDAO {
 
