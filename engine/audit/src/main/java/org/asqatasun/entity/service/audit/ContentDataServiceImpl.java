@@ -27,15 +27,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.asqatasun.entity.audit.*;
 import org.asqatasun.entity.dao.audit.ContentDAO;
+import org.asqatasun.entity.factory.audit.AuditFactoryImpl;
 import org.asqatasun.entity.factory.audit.ContentFactory;
+import org.asqatasun.entity.factory.audit.ContentFactoryImpl;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class ContentDataServiceImpl extends AbstractGenericDataService<Content, Long>
         implements ContentDataService {
 
@@ -197,7 +201,6 @@ public class ContentDataServiceImpl extends AbstractGenericDataService<Content, 
      * @param webResourceId
      * @param startValue
      * @param windowSize
-     * @param beginProcessDate
      * @param getContentWithRelatedContent
      * @param getContentWithNullDom
      * @return 

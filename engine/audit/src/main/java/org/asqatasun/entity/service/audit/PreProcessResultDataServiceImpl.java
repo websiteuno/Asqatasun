@@ -25,16 +25,24 @@ import java.util.Collection;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.PreProcessResult;
 import org.asqatasun.entity.dao.audit.PreProcessResultDAO;
+import org.asqatasun.entity.factory.audit.EvidenceElementFactoryImpl;
 import org.asqatasun.entity.factory.audit.PreProcessResultFactory;
+import org.asqatasun.entity.factory.audit.PreProcessResultFactoryImpl;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class PreProcessResultDataServiceImpl extends AbstractGenericDataService<PreProcessResult, Long> implements
         PreProcessResultDataService {
+
+    public PreProcessResultDataServiceImpl() {
+        super();
+    }
 
     @Override
     public String getPreProcessResultByKeyAndWebResource(String key, WebResource webresource) {

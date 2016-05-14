@@ -25,16 +25,20 @@ import java.util.HashMap;
 import java.util.Map;
 import org.asqatasun.entity.audit.Evidence;
 import org.asqatasun.entity.dao.audit.EvidenceDAO;
+import org.asqatasun.entity.factory.audit.AuditFactoryImpl;
+import org.asqatasun.entity.factory.audit.EvidenceFactoryImpl;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class EvidenceDataServiceImpl extends AbstractGenericDataService<Evidence, Long> implements
         EvidenceDataService {
 
-    private Map<String, Evidence> evidenceMap = new HashMap<String, Evidence>();
+    private Map<String, Evidence> evidenceMap = new HashMap<>();
 
     public EvidenceDataServiceImpl() {
         super();

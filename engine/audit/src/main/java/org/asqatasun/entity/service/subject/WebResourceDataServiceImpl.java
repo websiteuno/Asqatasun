@@ -29,11 +29,13 @@ import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.util.FileNaming;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class WebResourceDataServiceImpl extends AbstractGenericDataService<WebResource, Long> implements
         WebResourceDataService {
 

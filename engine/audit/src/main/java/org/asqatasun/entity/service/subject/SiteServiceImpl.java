@@ -23,11 +23,13 @@ package org.asqatasun.entity.service.subject;
 
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class SiteServiceImpl extends AbstractGenericDataService<Site, Long>
         implements SiteDataService {
 

@@ -40,26 +40,22 @@ import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class ProcessResultDataServiceImpl extends AbstractGenericDataService<ProcessResult, Long> implements
         ProcessResultDataService {
 
+    @Autowired
     private DefiniteResultFactory definiteResultFactory;
+
     @Autowired
-    public void setDefiniteResultFactory(DefiniteResultFactory definiteResultFactory) {
-        this.definiteResultFactory = definiteResultFactory;
-    }
-    
     private IndefiniteResultFactory indefiniteResultFactory;
-    @Autowired
-    public void setIndefiniteResultFactory(IndefiniteResultFactory indefiniteResultFactory) {
-        this.indefiniteResultFactory = indefiniteResultFactory;
-    }
-    
+
     @Override
     public int getResultByThemeCount(WebResource webresource, TestSolution testSolution, Theme theme) {
         return ((ProcessResultDAO) entityDao).
