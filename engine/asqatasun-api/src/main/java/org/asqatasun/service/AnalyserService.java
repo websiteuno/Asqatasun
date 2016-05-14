@@ -37,37 +37,10 @@ import org.asqatasun.entity.subject.WebResource;
 public interface AnalyserService {
 
     /**
-     * @deprecated Kept for backward compatibility.
-     * @param netResultList
-     * @return
-     */
-    @Deprecated
-    float analyse(List<ProcessResult> netResultList);
-
-    /**
      * 
      * @param webResource
      * @param audit
      */
     void analyse(WebResource webResource, Audit audit);
-
-    /**
-     * @deprecated Kept for backward compatibility.
-     * @param analyser
-     */
-    @Deprecated
-    void setAnalyser(Analyser analyser);
-
-    /**
-     *
-     * @param analyserFactory
-     */
-    void setAnalyserFactory(AnalyserFactory analyserFactory);
-
-    /**
-     * 
-     * @param analyserFactory
-     */
-    void addAnalyserFactory(AnalyserFactory analyserFactory);
 
 }

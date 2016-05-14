@@ -33,13 +33,6 @@ import org.asqatasun.entity.subject.WebResource;
 public interface AnalyserFactory {
 
     /**
-     *
-     * @param netResultList
-     * @return
-     */
-    Analyser create(List<ProcessResult> netResultList);
-
-    /**
      * 
      * @param webResource
      * @param audit

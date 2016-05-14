@@ -66,9 +66,6 @@ public class AnalyserImpl implements Analyser {
      * auditStatistics instances
      */
     private final WebResourceStatisticsDataService webResourceStatisticsDataService;
-    public WebResourceStatisticsDataService getWebResourceStatisticsDataService() {
-        return webResourceStatisticsDataService;
-    }
     
     /**
      * The ThemeStatisticsDataService instance
@@ -102,15 +99,7 @@ public class AnalyserImpl implements Analyser {
     private Map<Theme, ThemeStatistics> tsMap;
     
     private Collection<ProcessResult> netResultList;
-    @Override
-    public List<ProcessResult> getNetResultList() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
-    @Override
-    public void setNetResultList(final List<ProcessResult> netResultList) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     /**
      * This attribute is used to compute the number of not tested tests. In case
      * of Page audit, this value is supposed to be 1 and thus, the not tested
@@ -298,7 +287,7 @@ public class AnalyserImpl implements Analyser {
             TestSolution testSolution,
             Criterion criterion) {
         if (csMap == null) {
-            csMap = new HashMap();
+            csMap = new HashMap<>();
         }
         if (csMap.containsKey(criterion)) {
             CriterionStatistics cs = csMap.get(criterion);
@@ -344,13 +333,13 @@ public class AnalyserImpl implements Analyser {
     /**
      *
      * @param testSolution
-     * @param criterion
+     * @param theme
      */
     private void addResultToThemeCounterMap(
             TestSolution testSolution,
             Theme theme) {
         if (tsMap == null) {
-            tsMap = new HashMap();
+            tsMap = new HashMap<>();
         }
         if (tsMap.containsKey(theme)) {
             ThemeStatistics ts = tsMap.get(theme);
@@ -496,13 +485,13 @@ public class AnalyserImpl implements Analyser {
         float passed = wrStatistics.getNbOfPassed();
         // page on error, mark set to -1
         if (passed == -1) {
-            wrStatistics.setRawMark(Float.valueOf(-1));
+            wrStatistics.setRawMark(-1f);
             return wrStatistics;
         }
         float failed = wrStatistics.getNbOfFailed();
         float needMoreInfo = wrStatistics.getNbOfNmi();
         if (failed == 0 && passed == 0) {
-            wrStatistics.setMark(Float.valueOf(0));
+            wrStatistics.setMark(0f);
             return wrStatistics;
         }
         float ratioNMI = needMoreInfo / (passed + failed + needMoreInfo);
@@ -522,14 +511,14 @@ public class AnalyserImpl implements Analyser {
         float passed = wrStatistics.getNbOfPassed();
         // page on error, mark set to -1
         if (passed == -1) {
-            wrStatistics.setRawMark(Float.valueOf(-1));
+            wrStatistics.setRawMark(-1f);
             return wrStatistics;
         }
         BigDecimal weightedPassed = BigDecimal.valueOf(passed);
         BigDecimal weightedFailed = wrStatistics.getWeightedFailed();
         if ((weightedFailed.equals(BigDecimal.ZERO) || weightedFailed.equals(ZERO))
                 && (weightedPassed.equals(BigDecimal.ZERO) || weightedPassed.equals(ZERO))) {
-            wrStatistics.setRawMark(Float.valueOf(0));
+            wrStatistics.setRawMark(0f);
             return wrStatistics;
         }
 
@@ -668,8 +657,8 @@ public class AnalyserImpl implements Analyser {
      * @return
      */
     private void extractThemeAndCriterionSet() {
-        themeMap = new HashMap();
-        criterionMap = new HashMap();
+        themeMap = new HashMap<>();
+        criterionMap = new HashMap<>();
         for (Test test : testSet) {
 
             //Collect criterions given the set of tests for the audit, and keep
@@ -703,7 +692,7 @@ public class AnalyserImpl implements Analyser {
      * @return
      */
     private void extractTestSet(boolean extractThemeAndCriterion) {
-        testSet = new HashSet();
+        testSet = new HashSet<>();
         testSet.addAll(auditDataService.getAuditWithTest(this.audit.getId()).getTestList());
         if (extractThemeAndCriterion) {
             extractThemeAndCriterionSet();
@@ -719,7 +708,6 @@ public class AnalyserImpl implements Analyser {
      * definition, the criterion result is the result type
      *
      * @param crs
-     * @param criterionTestListSize
      */
     private void computeCriterionResult(CriterionStatistics crs) {
         if (crs.getNbOfFailed() > 0) {  // at least one test is failed, the criterion is failed
@@ -743,7 +731,6 @@ public class AnalyserImpl implements Analyser {
      * ProcessResult with NOT_TESTED as the result.
      *
      * @param testList
-     * @param themeCode
      * @param netResultList
      * @return
      */
@@ -751,12 +738,12 @@ public class AnalyserImpl implements Analyser {
             Collection<Test> testList,
             Collection<ProcessResult> netResultList) {
 
-        Collection<Test> testedTestList = new ArrayList();
+        Collection<Test> testedTestList = new ArrayList<>();
         for (ProcessResult pr : netResultList) {
             testedTestList.add(pr.getTest());
         }
 
-        Collection<ProcessResult> fullProcessResultList = new ArrayList();
+        Collection<ProcessResult> fullProcessResultList = new ArrayList<>();
         fullProcessResultList.addAll(netResultList);
 
         for (Test test : testList) {

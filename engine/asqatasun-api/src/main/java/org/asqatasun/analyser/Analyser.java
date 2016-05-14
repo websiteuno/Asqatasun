@@ -32,13 +32,6 @@ import org.asqatasun.entity.subject.WebResource;
 public interface Analyser {
 
     /**
-     * @deprecated Kept for backward compatibility.
-     * @return the net result list
-     */
-    @Deprecated
-    List<ProcessResult> getNetResultList();
-
-    /**
      *
      * @return the result
      */
@@ -48,13 +41,6 @@ public interface Analyser {
      * Starts the processing
      */
     void run();
-
-    /**
-     * @deprecated Kept for backward compatibility.
-     * @param netResultList the result list to set
-     */
-    @Deprecated
-    void setNetResultList(List<ProcessResult> netResultList);
 
     /**
      * 

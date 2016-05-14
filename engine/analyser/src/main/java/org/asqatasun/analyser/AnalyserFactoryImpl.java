@@ -41,124 +41,49 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component
 public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javadoc
 
-    private WebResourceStatisticsDataService webResourceStatisticsDataService;
-    public WebResourceStatisticsDataService getWebResourceStatisticsDataService() {
-        return webResourceStatisticsDataService;
-    }
-
-    public void setWebResourceStatisticsDataService(
-            WebResourceStatisticsDataService webResourceStatisticsDataService) {
-        this.webResourceStatisticsDataService = webResourceStatisticsDataService;
-    }
-    
-    private WebResourceDataService webResourceDataService;
-    public WebResourceDataService getWebResourceDataService() {
-        return webResourceDataService;
-    }
-
-    public void setWebResourceDataService(
-            WebResourceDataService webResourceDataService) {
-        this.webResourceDataService = webResourceDataService;
-    }
-    
-    private final ThemeStatisticsDataService themeStatisticsDataService;
-    public ThemeStatisticsDataService getThemeStatisticsDataService() {
-        return themeStatisticsDataService;
-    }
-
-    public void setThemeStatisticsDataService(
-            ThemeStatisticsDataService themeStatisticsDataService) {
-    }
-    
-    private final TestStatisticsDataService testStatisticsDataService;
-    public TestStatisticsDataService getTestStatisticsDataService() {
-        return testStatisticsDataService;
-    }
-
-    public void setTestStatisticsDataService(
-            TestStatisticsDataService testStatisticsDataService) {
-    }
-    
-    private final CriterionStatisticsDataService criterionStatisticsDataService;
-    public CriterionStatisticsDataService getCriterionStatisticsDataService() {
-        return criterionStatisticsDataService;
-    }
-
-    public void setCriterionStatisticsDataService(
-            CriterionStatisticsDataService criterionStatisticsDataService) {
-    }
-    
-    private AuditDataService auditDataService;
-    public AuditDataService getAuditDataService() {
-        return auditDataService;
-    }
-
-    public void setAuditDataService(AuditDataService auditDataService) {
-        this.auditDataService = auditDataService;
-    }
-    
-    private ParameterDataService parameterDataService;
-    public ParameterDataService getParameterDataService() {
-        return parameterDataService;
-    }
-
-    public void setParameterElementDataService(ParameterDataService parameterDataService) {
-        this.parameterDataService = parameterDataService;
-    }
-    
-    private ParameterFamilyDataService parameterFamilyDataService;
-    public ParameterFamilyDataService getParameterFamilyDataService() {
-        return parameterFamilyDataService;
-    }
-
-    public void setParameterFamilyDataService(ParameterFamilyDataService parameterFamilyDataService) {
-        this.parameterFamilyDataService = parameterFamilyDataService;
-    }
-
-    private List<String> testWeightParameterFamilyCodeList = Collections.emptyList();
-    public void setTestWeightParameterFamilyCodeList(List<String> testWeightParameterFamilyCodeList) {
-        this.testWeightParameterFamilyCodeList = testWeightParameterFamilyCodeList;
-    }
-
-    private ProcessResultDataService processResultDataService;
-    public ProcessResultDataService getProcessResultDataService() {
-        return processResultDataService;
-    }
-
-    public void setProcessResultDataService(ProcessResultDataService processResultDataService) {
-        this.processResultDataService = processResultDataService;
-    }
-    
-    private Collection<ParameterFamily> testWeightParameterFamilySet ;
-    
     @Autowired
-    public AnalyserFactoryImpl(
-            AuditDataService auditDataService,
-            WebResourceDataService webResourceDataService,
-            TestStatisticsDataService testStatisticsDataService,
-            ThemeStatisticsDataService themeStatisticsDataService,
-            WebResourceStatisticsDataService webResourceStatisticsDataService, 
-            CriterionStatisticsDataService criterionStatisticsDataService, 
-            ParameterDataService parameterDataService,
-            ParameterFamilyDataService parameterFamilyDataService,
-            ProcessResultDataService processResultDataService) {
-        this.auditDataService = auditDataService;
-        this.webResourceDataService = webResourceDataService;
-        this.testStatisticsDataService = testStatisticsDataService;
-        this.themeStatisticsDataService = themeStatisticsDataService;
-        this.webResourceStatisticsDataService = webResourceStatisticsDataService;
-        this.criterionStatisticsDataService = criterionStatisticsDataService;
-        this.parameterDataService = parameterDataService;
-        this.parameterFamilyDataService = parameterFamilyDataService;
-        this.processResultDataService = processResultDataService;
-    }
+    private WebResourceStatisticsDataService webResourceStatisticsDataService;
+
+    @Autowired
+    private WebResourceDataService webResourceDataService;
+
+    @Autowired
+    private ThemeStatisticsDataService themeStatisticsDataService;
+
+    @Autowired
+    private TestStatisticsDataService testStatisticsDataService;
+
+    @Autowired
+    private CriterionStatisticsDataService criterionStatisticsDataService;
+
+    @Autowired
+    private AuditDataService auditDataService;
+
+    @Autowired
+    private ParameterDataService parameterDataService;
+
+    @Autowired
+    private ParameterFamilyDataService parameterFamilyDataService;
+
+    @Autowired
+    private List<String> testWeightParameterFamilyCodeList = Collections.emptyList();
+
+    @Autowired
+    private ProcessResultDataService processResultDataService;
+
+    @Autowired
+    private Collection<ParameterFamily> testWeightParameterFamilySet ;
+
+    public AnalyserFactoryImpl() {}
 
     @Override
     public Analyser create(WebResource webResource, Audit audit) {
@@ -179,11 +104,6 @@ public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javad
                 nbOfWebResource);
         return analyser;
     }
-
-    @Override
-    public Analyser create(List<ProcessResult> netResultList) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
     /**
      * 
@@ -194,12 +114,12 @@ public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javad
      */
     private Collection<Parameter> getTestWeightParamSet(Audit audit) {
         if (testWeightParameterFamilySet == null) {
-            testWeightParameterFamilySet = new HashSet<ParameterFamily>();
+            testWeightParameterFamilySet = new HashSet<>();
             for (String paramFamilyCode : testWeightParameterFamilyCodeList) {
                 testWeightParameterFamilySet.add(parameterFamilyDataService.getParameterFamily(paramFamilyCode));
             }
         }
-        Collection<Parameter> testWeightParamSet = new HashSet<Parameter>();
+        Collection<Parameter> testWeightParamSet = new HashSet<>();
         for (ParameterFamily pf : testWeightParameterFamilySet) {
                 testWeightParamSet.addAll(parameterDataService.getParameterSet(pf, audit));
         }

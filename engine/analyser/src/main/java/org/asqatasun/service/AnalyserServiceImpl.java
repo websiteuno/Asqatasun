@@ -21,64 +21,31 @@
  */
 package org.asqatasun.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import org.asqatasun.analyser.Analyser;
 import org.asqatasun.analyser.AnalyserFactory;
 import org.asqatasun.entity.audit.Audit;
-import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.subject.WebResource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class AnalyserServiceImpl implements AnalyserService {
 
-    private Set<AnalyserFactory> analyserFactorySet = new HashSet<AnalyserFactory>();
+    @Autowired
+    private AnalyserFactory analyserFactory;
 
     public AnalyserServiceImpl() {
         super();
     }
 
-    /**
-     * @deprecated Kept for backward compatibility.
-     * @param netResultList
-     * @return
-     */
-    @Override
-    @Deprecated
-    public float analyse(List<ProcessResult> netResultList) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * @deprecated Kept for backward compatibility.
-     * @param analyser
-     */
-    @Override
-    @Deprecated
-    public void setAnalyser(Analyser analyser) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     @Override
     public void analyse(WebResource webResource, Audit audit) {
-        for (AnalyserFactory analyserFactory : analyserFactorySet) {
-            Analyser analyser = analyserFactory.create(webResource, audit);
-            analyser.run();
-        }
-    }
-
-    @Override
-    public void addAnalyserFactory(AnalyserFactory analyserFactory) {
-        analyserFactorySet.add(analyserFactory);
-    }
-
-    @Override
-    public void setAnalyserFactory(AnalyserFactory af) {
-        analyserFactorySet.add(af);
+        Analyser analyser = analyserFactory.create(webResource, audit);
+        analyser.run();
     }
 
 }
