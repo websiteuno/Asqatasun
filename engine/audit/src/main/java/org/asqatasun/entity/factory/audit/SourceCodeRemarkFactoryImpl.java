@@ -24,11 +24,13 @@ package org.asqatasun.entity.factory.audit;
 import org.asqatasun.entity.audit.SourceCodeRemark;
 import org.asqatasun.entity.audit.SourceCodeRemarkImpl;
 import org.asqatasun.entity.audit.TestSolution;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class SourceCodeRemarkFactoryImpl implements SourceCodeRemarkFactory {
 
     public SourceCodeRemarkFactoryImpl() {

@@ -23,11 +23,13 @@ package org.asqatasun.entity.factory.audit;
 
 import org.asqatasun.entity.audit.Evidence;
 import org.asqatasun.entity.audit.EvidenceImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class EvidenceFactoryImpl implements EvidenceFactory {
 
     public EvidenceFactoryImpl() {

@@ -36,11 +36,13 @@ import org.asqatasun.entity.audit.JavascriptContentImpl;
 import org.asqatasun.entity.audit.RelatedContentImpl;
 import org.asqatasun.entity.audit.SSPImpl;
 import org.asqatasun.entity.audit.StylesheetContentImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class ContentFactoryImpl implements ContentFactory {
 
     public ContentFactoryImpl() {

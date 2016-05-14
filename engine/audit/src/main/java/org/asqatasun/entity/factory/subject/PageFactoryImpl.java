@@ -23,11 +23,13 @@ package org.asqatasun.entity.factory.subject;
 
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.PageImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class PageFactoryImpl implements PageFactory {
 
     public PageFactoryImpl() {

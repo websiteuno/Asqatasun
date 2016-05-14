@@ -28,11 +28,13 @@ import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.entity.reference.Test;
 import org.asqatasun.entity.subject.WebResource;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class DefiniteResultFactoryImpl implements DefiniteResultFactory {
 
     public DefiniteResultFactoryImpl() {

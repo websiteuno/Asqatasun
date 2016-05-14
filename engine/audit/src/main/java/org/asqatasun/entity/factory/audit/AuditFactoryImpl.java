@@ -23,12 +23,15 @@ package org.asqatasun.entity.factory.audit;
 
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.AuditImpl;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class AuditFactoryImpl implements AuditFactory {
 
     public AuditFactoryImpl() {

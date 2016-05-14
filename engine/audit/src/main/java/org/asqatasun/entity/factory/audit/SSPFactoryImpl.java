@@ -24,12 +24,15 @@ package org.asqatasun.entity.factory.audit;
 import org.asqatasun.entity.audit.SSP;
 import org.asqatasun.entity.audit.SSPImpl;
 import org.asqatasun.entity.subject.Page;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class SSPFactoryImpl implements SSPFactory {
 
     public SSPFactoryImpl() {

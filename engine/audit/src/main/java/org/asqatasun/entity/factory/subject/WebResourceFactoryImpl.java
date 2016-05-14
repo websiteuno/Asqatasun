@@ -26,11 +26,13 @@ import org.asqatasun.entity.subject.PageImpl;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.SiteImpl;
 import org.asqatasun.entity.subject.WebResource;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class WebResourceFactoryImpl implements WebResourceFactory {
 
     public WebResourceFactoryImpl() {

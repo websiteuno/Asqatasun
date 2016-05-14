@@ -24,11 +24,13 @@ package org.asqatasun.entity.factory.audit;
 import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.entity.audit.ProcessRemarkImpl;
 import org.asqatasun.entity.audit.TestSolution;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class ProcessRemarkFactoryImpl implements ProcessRemarkFactory {
 
     public ProcessRemarkFactoryImpl() {

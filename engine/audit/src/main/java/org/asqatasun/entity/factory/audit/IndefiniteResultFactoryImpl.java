@@ -27,11 +27,13 @@ import org.asqatasun.entity.audit.IndefiniteResultImpl;
 import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.entity.reference.Test;
 import org.asqatasun.entity.subject.WebResource;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class IndefiniteResultFactoryImpl implements IndefiniteResultFactory {
 
     public IndefiniteResultFactoryImpl() {

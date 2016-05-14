@@ -25,11 +25,13 @@ import org.asqatasun.entity.audit.Evidence;
 import org.asqatasun.entity.audit.EvidenceElement;
 import org.asqatasun.entity.audit.EvidenceElementImpl;
 import org.asqatasun.entity.audit.ProcessRemark;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class EvidenceElementFactoryImpl implements EvidenceElementFactory {
 
     public EvidenceElementFactoryImpl() {

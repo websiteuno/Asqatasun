@@ -22,11 +22,13 @@
 
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.SiteImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class SiteFactoryImpl implements SiteFactory {
 
     public SiteFactoryImpl() {

@@ -26,11 +26,13 @@ import org.asqatasun.entity.audit.DefiniteResultImpl;
 import org.asqatasun.entity.audit.IndefiniteResult;
 import org.asqatasun.entity.audit.IndefiniteResultImpl;
 import org.asqatasun.entity.audit.ProcessResult;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component
 public class ProcessResultFactoryImpl implements ProcessResultFactory {
 
     public ProcessResultFactoryImpl() {
