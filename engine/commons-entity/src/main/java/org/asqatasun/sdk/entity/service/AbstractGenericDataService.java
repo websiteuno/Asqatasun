@@ -26,6 +26,8 @@ import java.util.Collection;
 import org.asqatasun.sdk.entity.Entity;
 import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.factory.GenericFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
@@ -33,10 +35,13 @@ import org.asqatasun.sdk.entity.factory.GenericFactory;
  * @param <K>
  * @author jkowalczyk
  */
+@Service
 public abstract class AbstractGenericDataService<E extends Entity, K extends Serializable>
         implements GenericDataService<E, K> {
 
+    @Autowired
     protected GenericDAO<E, K> entityDao;
+    @Autowired
     protected GenericFactory<E> entityFactory;
 
     public AbstractGenericDataService() {
