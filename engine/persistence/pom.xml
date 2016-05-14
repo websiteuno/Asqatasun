@@ -92,7 +92,6 @@
         <dependency>
             <groupId>${springGroupId}</groupId>
             <artifactId>spring-context</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${springGroupId}</groupId>
