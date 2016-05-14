@@ -27,11 +27,13 @@ import org.apache.log4j.Logger;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.service.command.AuditCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component
 public class AuditServiceThreadQueueImpl implements AuditServiceThreadQueue, AuditServiceThreadListener {
     
     private static final Logger LOGGER = Logger.getLogger(AuditServiceThreadQueueImpl.class);

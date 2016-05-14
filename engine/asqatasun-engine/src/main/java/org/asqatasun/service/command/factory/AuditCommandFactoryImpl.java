@@ -52,102 +52,62 @@ import org.asqatasun.service.command.ScenarioAuditCommandImpl;
 import org.asqatasun.service.command.SiteAuditCommandImpl;
 import org.asqatasun.service.command.UploadAuditCommandImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public class AuditCommandFactoryImpl implements AuditCommandFactory {
 
-    private AuditDataService auditDataService;
     @Autowired
+    private AuditDataService auditDataService;
     public void setAuditDataService(AuditDataService auditDataService) {
         this.auditDataService = auditDataService;
     }
 
+    @Autowired
     private WebResourceDataService webResourceDataService;
-    @Autowired
-    public void setWebResourceDataService(WebResourceDataService webResourceDataService) {
-        this.webResourceDataService = webResourceDataService;
-    }
 
+    @Autowired
     private TestDataService testDataService;
-    @Autowired
-    public void setTestDataService(TestDataService testDataService) {
-        this.testDataService = testDataService;
-    }
 
+    @Autowired
     private ParameterDataService parameterDataService;
-    @Autowired
-    public void setParameterDataService(ParameterDataService parameterDataService) {
-        this.parameterDataService = parameterDataService;
-    }
 
+    @Autowired
     private ContentDataService contentDataService;
-    @Autowired
-    public void setContentDataService(ContentDataService contentDataService) {
-        this.contentDataService = contentDataService;
-    }
 
+    @Autowired
     private ProcessResultDataService processResultDataService;
-    @Autowired
-    public void setProcessResultDataService(ProcessResultDataService processResultDataService) {
-        this.processResultDataService = processResultDataService;
-    }
 
+    @Autowired
     private PreProcessResultDataService preProcessResultDataService;
-    @Autowired
-    public void setPreProcessResultDataService(PreProcessResultDataService preProcessResultDataService) {
-        this.preProcessResultDataService = preProcessResultDataService;
-    }
 
+    @Autowired
     private CrawlerService crawlerService;
-    @Autowired
-    public void setCrawlerService(CrawlerService crawlerService) {
-        this.crawlerService = crawlerService;
-    }
 
+    @Autowired
     private ContentLoaderService contentLoaderService;
-    @Autowired
-    public void setContentLoaderService(ContentLoaderService contentLoaderService) {
-        this.contentLoaderService = contentLoaderService;
-    }
 
+    @Autowired
     private ScenarioLoaderService scenarioLoaderService;
-    @Autowired
-    public void setScenarioLoaderService(ScenarioLoaderService scenarioLoaderService) {
-        this.scenarioLoaderService = scenarioLoaderService;
-    }
 
+    @Autowired
     private ContentAdapterService contentAdapterService;
-    @Autowired
-    public void setContentAdapterService(ContentAdapterService contentAdapterService) {
-        this.contentAdapterService = contentAdapterService;
-    }
 
+    @Autowired
     private ProcessorService processorService;
-    @Autowired
-    public void setProcessorService(ProcessorService processorService) {
-        this.processorService = processorService;
-    }
 
+    @Autowired
     private ConsolidatorService consolidatorService;
-    @Autowired
-    public void setConsolidatorService(ConsolidatorService consolidatorService) {
-        this.consolidatorService = consolidatorService;
-    }
 
+    @Autowired
     private AnalyserService analyserService;
-    @Autowired
-    public void setAnalyserService(AnalyserService analyserService) {
-        this.analyserService = analyserService;
-    }
 
-    private AdaptationListener adaptationListener;
     @Autowired
-    public void setAdaptationListener(AdaptationListener adaptationListener) {
-        this.adaptationListener = adaptationListener;
-    }
+    private AdaptationListener adaptationListener;
 
     private boolean auditPageWithCrawler = false;
     public void setAuditPageWithCrawler(boolean auditPageWithCrawler) {

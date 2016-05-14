@@ -31,15 +31,17 @@ import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.service.command.AuditCommand;
 import org.asqatasun.service.command.factory.AuditCommandFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service
 public class AuditServiceImpl implements AuditService, AuditServiceListener {
-	
-    private AuditServiceThreadFactory auditServiceThreadFactory;
+
     @Autowired
+    private AuditServiceThreadFactory auditServiceThreadFactory;
     public void setAuditServiceThreadFactory(AuditServiceThreadFactory auditServiceThreadFactory) {
         this.auditServiceThreadFactory = auditServiceThreadFactory;
     }
@@ -54,8 +56,8 @@ public class AuditServiceImpl implements AuditService, AuditServiceListener {
         this.auditServiceThreadQueue.add(this);
     }
 
-    private AuditCommandFactory auditCommandFactory;
     @Autowired
+    private AuditCommandFactory auditCommandFactory;
     public void setAuditCommandFactory(AuditCommandFactory auditCommandFactory) {
         this.auditCommandFactory = auditCommandFactory;
     }

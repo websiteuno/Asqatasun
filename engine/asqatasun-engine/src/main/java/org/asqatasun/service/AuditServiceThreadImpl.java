@@ -26,13 +26,13 @@ import java.util.Set;
 
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.service.command.AuditCommand;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
-//@Service
-//@Lazy
+@Component
 public class AuditServiceThreadImpl implements AuditServiceThread {
 
     private Audit audit;
@@ -141,7 +141,6 @@ public class AuditServiceThreadImpl implements AuditServiceThread {
         for (AuditServiceThreadListener listener : listeners) {
             listener.auditCompleted(this);
         }
-        //TODO :envoi JMS
     }
 
     private void fireAuditException(Exception e) {
