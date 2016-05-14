@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("siteFactory")
 public class SiteFactoryImpl implements SiteFactory {
 
     public SiteFactoryImpl() {

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("pageFactory")
 public class PageFactoryImpl implements PageFactory {
 
     public PageFactoryImpl() {

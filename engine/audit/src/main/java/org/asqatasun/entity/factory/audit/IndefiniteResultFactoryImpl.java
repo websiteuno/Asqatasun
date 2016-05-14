@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("indefiniteResultFactory")
 public class IndefiniteResultFactoryImpl implements IndefiniteResultFactory {
 
     public IndefiniteResultFactoryImpl() {

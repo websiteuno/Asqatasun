@@ -31,7 +31,7 @@ import java.util.Date;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("auditFactory")
 public class AuditFactoryImpl implements AuditFactory {
 
     public AuditFactoryImpl() {

@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("evidenceElementFactory")
 public class EvidenceElementFactoryImpl implements EvidenceElementFactory {
 
     public EvidenceElementFactoryImpl() {

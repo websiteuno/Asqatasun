@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("sourceCodeRemarkFactory")
 public class SourceCodeRemarkFactoryImpl implements SourceCodeRemarkFactory {
 
     public SourceCodeRemarkFactoryImpl() {

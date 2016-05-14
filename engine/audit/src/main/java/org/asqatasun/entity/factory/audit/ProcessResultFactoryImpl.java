@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+//@Component
 public class ProcessResultFactoryImpl implements ProcessResultFactory {
 
     public ProcessResultFactoryImpl() {

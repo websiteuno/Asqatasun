@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("webResourceFactory")
 public class WebResourceFactoryImpl implements WebResourceFactory {
 
     public WebResourceFactoryImpl() {

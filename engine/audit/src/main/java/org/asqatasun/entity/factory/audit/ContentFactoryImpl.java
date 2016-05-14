@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("contentFactory")
 public class ContentFactoryImpl implements ContentFactory {
 
     public ContentFactoryImpl() {

@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("definiteResultFactory")
 public class DefiniteResultFactoryImpl implements DefiniteResultFactory {
 
     public DefiniteResultFactoryImpl() {

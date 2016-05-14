@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author jkowalczyk
  */
-@Component
+@Component("processRemarkFactory")
 public class ProcessRemarkFactoryImpl implements ProcessRemarkFactory {
 
     public ProcessRemarkFactoryImpl() {
