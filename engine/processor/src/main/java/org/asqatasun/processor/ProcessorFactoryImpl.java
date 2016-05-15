@@ -29,73 +29,28 @@ import org.asqatasun.entity.service.audit.ProcessRemarkDataService;
 import org.asqatasun.processing.ProcessRemarkServiceFactory;
 import org.asqatasun.service.NomenclatureLoaderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
-public class ProcessorFactoryImpl implements ProcessorFactory {// TODO Write javadoc
+@Component("processorFactory")
+public class ProcessorFactoryImpl implements ProcessorFactory {
 
+    @Autowired
     private NomenclatureLoaderService nomenclatureLoaderService;
-    public NomenclatureLoaderService getNomenclatureLoaderService() {
-        return nomenclatureLoaderService;
-    }
-    
     @Autowired
-    public void setNomenclatureLoaderService(NomenclatureLoaderService nomenclatureLoaderService) {
-        this.nomenclatureLoaderService = nomenclatureLoaderService;
-    }
-    
     private EvidenceDataService evidenceDataService;
-    public EvidenceDataService getEvidenceDataService() {
-        return evidenceDataService;
-    }
-
     @Autowired
-    public void setEvidenceDataService(EvidenceDataService evidenceDataService) {
-        this.evidenceDataService = evidenceDataService;
-    }
-
     private EvidenceElementDataService evidenceElementDataService;
-    public EvidenceElementDataService getEvidenceElementDataService() {
-        return evidenceElementDataService;
-    }
-
     @Autowired
-    public void setEvidenceElementDataService(EvidenceElementDataService evidenceElementDataService) {
-        this.evidenceElementDataService = evidenceElementDataService;
-    }
-    
     private ProcessRemarkDataService processRemarkDataService;
-    public ProcessRemarkDataService getProcessRemarkDataService() {
-        return processRemarkDataService;
-    }
-    
     @Autowired
-    public void setProcessRemarkDataService(ProcessRemarkDataService processRemarkDataService) {
-        this.processRemarkDataService = processRemarkDataService;
-    }
-
     private URLIdentifierFactory urlIdentifierFactory;
-    public URLIdentifierFactory getUrlIdentifierFactory() {
-        return urlIdentifierFactory;
-    }
-    
     @Autowired
-    public void setUrlIdentifierFactory(URLIdentifierFactory urlIdentifierFactory) {
-        this.urlIdentifierFactory = urlIdentifierFactory;
-    }
-    
     private PreProcessResultDataService preProcessResultDataService;
-    public PreProcessResultDataService getPreProcessResultDataService() {
-        return preProcessResultDataService;
-    }
 
-    @Autowired
-    public void setPreProcessResultDataService(PreProcessResultDataService preProcessResultDataService) {
-        this.preProcessResultDataService = preProcessResultDataService;
-    }
-    
     @Override
     public Processor create() {
         return new ProcessorImpl(

@@ -30,6 +30,7 @@ import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,55 +51,42 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.mozilla.universalchardet.UniversalDetector;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public class HttpRequestHandler {
     
     private static final String ASQATASUN_USER_AGENT = "asqatasun";
     private static final Logger LOGGER  = Logger.getLogger(HttpRequestHandler.class);
 
+    @Value("${proxyPort}")
     private String proxyPort;
-    public void setProxyPort(String proxyPort) {
-        this.proxyPort = proxyPort;
-    }
-    
+    @Value("${proxyHost}")
     private String proxyHost;
-    public void setProxyHost(String proxyHost) {
-        this.proxyHost = proxyHost;
-    }
-    
+    @Value("${proxyUser}")
     private String proxyUser;
-    public void setProxyUser(String proxyUser) {
-        this.proxyUser = proxyUser;
-    }
-    
+    @Value("${proxyPassword}")
     private String proxyPassword;
-    public void setProxyPassword(String proxyPassword) {
-        this.proxyPassword = proxyPassword;
-    }
-    
+//    @Value("${bypassChecky}")
     private boolean bypassCheck = false;
-    public void setBypassCheck(String bypassCheck) {
-        this.bypassCheck = Boolean.valueOf(bypassCheck);
-    }
 
     private static final String DEFAULT_CHARSET = "UTF-8";
 
     /**
      * Multiple Url can be set through a unique String separated by ;
      */
-    private final List<String> proxyExclusionUrlList = new ArrayList<>();
+    @Value("${proxyExclusionUrl}")
+    private String proxyExclusionUrl;
     public List<String> getProxyExclusionUrlList() {
-        return proxyExclusionUrlList;
-    }
-
-    public void setProxyExclusionUrl(String proxyExclusionUrl) {
         if (StringUtils.isNotBlank(proxyExclusionUrl.trim())) {
-            proxyExclusionUrlList.addAll(Arrays.asList(proxyExclusionUrl.split(";")));
+            return Arrays.asList(proxyExclusionUrl.split(";"));
         }
+        return Collections.emptyList();
     }
 
     private int connectionTimeout = 3000;
@@ -292,7 +280,7 @@ public class HttpRequestHandler {
      * @return 
      */
     public boolean isProxySet(String url) {
-        for (String excludedUrl : proxyExclusionUrlList) {
+        for (String excludedUrl : getProxyExclusionUrlList()) {
             if (url.contains(excludedUrl) && StringUtils.isNotBlank(excludedUrl)) {
                 LOGGER.debug("Proxy Not Set due to exclusion with : " + excludedUrl);
                 return false;
