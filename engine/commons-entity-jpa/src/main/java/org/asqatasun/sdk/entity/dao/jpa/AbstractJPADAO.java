@@ -30,7 +30,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.asqatasun.sdk.entity.Entity;
 import org.asqatasun.sdk.entity.dao.GenericDAO;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -38,7 +39,8 @@ import org.springframework.stereotype.Repository;
  * @param <E>
  * @param <K>
  */
-@Repository
+@Component
+@Transactional
 public abstract class AbstractJPADAO<E extends Entity, K extends Serializable>
         implements GenericDAO<E, K> {
 
