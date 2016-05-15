@@ -23,14 +23,16 @@ package org.asqatasun.entity.service.parameterization;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.entity.dao.parameterization.ParameterElementDAO;
-import org.asqatasun.entity.factory.parameterization.ParameterElementFactory;
+import org.asqatasun.entity.parameterization.factory.ParameterElementFactory;
 import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterFamily;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("parameterElementDataService")
 public class ParameterElementDataServiceImpl extends AbstractGenericDataService<ParameterElement, Long>
         implements ParameterElementDataService{
 

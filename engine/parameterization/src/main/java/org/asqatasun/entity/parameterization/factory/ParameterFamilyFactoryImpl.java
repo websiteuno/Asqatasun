@@ -19,15 +19,17 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.parameterization;
+package org.asqatasun.entity.parameterization.factory;
 
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.entity.parameterization.ParameterFamilyImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("parameterFamilyFactory")
 public class ParameterFamilyFactoryImpl implements ParameterFamilyFactory {
 
     @Override

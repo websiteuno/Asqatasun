@@ -19,28 +19,40 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.parameterization;
+package org.asqatasun.entity.parameterization.factory;
 
+import org.asqatasun.entity.audit.Audit;
+import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterElement;
-import org.asqatasun.entity.parameterization.ParameterElementImpl;
-import org.asqatasun.entity.parameterization.ParameterFamily;
+import org.asqatasun.entity.parameterization.ParameterImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
-public class ParameterElementFactoryImpl implements ParameterElementFactory{
+@Component("parameterFactory")
+public class ParameterFactoryImpl implements ParameterFactory {
 
     @Override
-    public ParameterElement create() {
-        return new ParameterElementImpl();
+    public Parameter create() {
+        return new ParameterImpl();
     }
 
     @Override
-    public ParameterElement createParameter(ParameterFamily parameterFamily) {
-        ParameterElement parameterElement =  new ParameterElementImpl();
-        parameterElement.setParameterFamily(parameterFamily);
-        return parameterElement;
+    public Parameter createParameter(ParameterElement parameterElement, String value) {
+        Parameter parameter = new ParameterImpl();
+        parameter.setDefaultParameterValue(false);
+        parameter.setParameterElement(parameterElement);
+        parameter.setValue(value);
+        return parameter;
+    }
+
+    @Override
+    public Parameter createParameter(ParameterElement parameterElement, String value, Audit audit) {
+        Parameter parameter = createParameter(parameterElement, value);
+        audit.addParameter(parameter);
+        return parameter;
     }
 
 }

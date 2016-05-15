@@ -24,11 +24,13 @@ package org.asqatasun.entity.service.parameterization;
 import org.asqatasun.entity.dao.parameterization.ParameterFamilyDAO;
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("parameterFamilyDataService")
 public class ParameterFamilyDataServiceImpl extends AbstractGenericDataService<ParameterFamily, Long>
         implements ParameterFamilyDataService{
 

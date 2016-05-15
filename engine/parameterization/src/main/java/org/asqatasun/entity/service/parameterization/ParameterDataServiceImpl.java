@@ -26,16 +26,18 @@ import java.util.HashSet;
 import java.util.Set;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.dao.parameterization.ParameterDAO;
-import org.asqatasun.entity.factory.parameterization.ParameterFactory;
+import org.asqatasun.entity.parameterization.factory.ParameterFactory;
 import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("parameterDataService")
 public class ParameterDataServiceImpl extends AbstractGenericDataService<Parameter, Long>
         implements ParameterDataService {
 
