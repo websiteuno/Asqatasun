@@ -111,7 +111,6 @@
         <dependency>
             <groupId>${springGroupId}</groupId>
             <artifactId>spring-beans</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

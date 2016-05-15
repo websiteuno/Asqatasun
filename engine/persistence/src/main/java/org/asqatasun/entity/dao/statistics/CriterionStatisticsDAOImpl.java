@@ -38,6 +38,7 @@ import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.entity.subject.WebResourceImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -60,16 +61,9 @@ public class CriterionStatisticsDAOImpl extends AbstractJPADAO<CriterionStatisti
     public Class<? extends WebResource> getWebResourceEntityClass() {
         return WebResourceImpl.class;
     }
-    
-    private String selectAllThemeKey;
-    public String getSelectAllThemeKey() {
-        return selectAllThemeKey;
-    }
 
-    public void setSelectAllThemeKey(String selectAllThemeKey) {
-        this.selectAllThemeKey = selectAllThemeKey;
-    }
-    
+    @Value("${selectAllThemeKey:all-theme}")
+    private String selectAllThemeKey;
 
     @Override
     public Long findResultCountByResultTypeAndCriterion(
