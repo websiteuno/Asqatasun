@@ -61,6 +61,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuditCommandFactoryImpl implements AuditCommandFactory {
 
+    public static final int ANALYSE_TREATMENT_WINDOW = 10;
+    public static final int PROCESSING_TREATMENT_WINDOW = 4;
+    public static final int ADAPTATION_TREATMENT_WINDOW = 4;
+    public static final int CONSOLIDATION_TREATMENT_WINDOW = 200;
+    
     @Autowired
     private AuditDataService auditDataService;
     public void setAuditDataService(AuditDataService auditDataService) {
@@ -85,8 +90,8 @@ public class AuditCommandFactoryImpl implements AuditCommandFactory {
     @Autowired
     private PreProcessResultDataService preProcessResultDataService;
 
-    @Autowired
-    private CrawlerService crawlerService;
+//    @Autowired
+//    private CrawlerService crawlerService;
 
     @Autowired
     private ContentLoaderService contentLoaderService;
@@ -121,30 +126,10 @@ public class AuditCommandFactoryImpl implements AuditCommandFactory {
         this.cleanUpRelatedContent = cleanUpRelatedContent;
     }
 
-    public static final int ANALYSE_TREATMENT_WINDOW = 10;
-    public static final int PROCESSING_TREATMENT_WINDOW = 4;
-    public static final int ADAPTATION_TREATMENT_WINDOW = 4;
-    public static final int CONSOLIDATION_TREATMENT_WINDOW = 200;
-
     private int adaptationTreatmentWindow = ADAPTATION_TREATMENT_WINDOW;
-    public void setAdaptationTreatmentWindow(int adaptationTreatmentWindow) {
-        this.adaptationTreatmentWindow = adaptationTreatmentWindow;
-    }
-
     private int analyseTreatmentWindow = ANALYSE_TREATMENT_WINDOW;
-    public void setAnalyseTreatmentWindow(int analyseTreatmentWindow) {
-        this.analyseTreatmentWindow = analyseTreatmentWindow;
-    }
-
     private int consolidationTreatmentWindow = CONSOLIDATION_TREATMENT_WINDOW;
-    public void setConsolidationTreatmentWindow(int consolidationTreatmentWindow) {
-        this.consolidationTreatmentWindow = consolidationTreatmentWindow;
-    }
-
     private int processingTreatmentWindow = PROCESSING_TREATMENT_WINDOW;
-    public void setProcessingTreatmentWindow(int processingTreatmentWindow) {
-        this.processingTreatmentWindow = processingTreatmentWindow;
-    }
 
     @Override
     public AuditCommand create(String url, Set<Parameter> paramSet, boolean isSite) {
@@ -152,13 +137,13 @@ public class AuditCommandFactoryImpl implements AuditCommandFactory {
             SiteAuditCommandImpl auditCommand = 
                     new SiteAuditCommandImpl(url, paramSet, auditDataService);
             initCommandServices(auditCommand);
-            auditCommand.setCrawlerService(crawlerService);
+//            auditCommand.setCrawlerService(crawlerService);
             return auditCommand;
         } else if (auditPageWithCrawler) {
             PageAuditCrawlerCommandImpl auditCommand = 
                     new PageAuditCrawlerCommandImpl(url, paramSet, auditDataService);
             initCommandServices(auditCommand);
-            auditCommand.setCrawlerService(crawlerService);
+//            auditCommand.setCrawlerService(crawlerService);
             return auditCommand;
         } else {
             PageAuditCommandImpl auditCommand = 
@@ -189,7 +174,7 @@ public class AuditCommandFactoryImpl implements AuditCommandFactory {
                             paramSet,
                             auditDataService);
             initCommandServices(auditCommand);
-            auditCommand.setCrawlerService(crawlerService);
+//            auditCommand.setCrawlerService(crawlerService);
             return auditCommand;
         } else {
             GroupOfPagesAuditCommandImpl auditCommand = 

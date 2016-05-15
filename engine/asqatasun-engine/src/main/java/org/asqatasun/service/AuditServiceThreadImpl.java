@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
  *
  * @author enzolalay
  */
-@Component
 public class AuditServiceThreadImpl implements AuditServiceThread {
 
     private Audit audit;
@@ -88,8 +87,6 @@ public class AuditServiceThreadImpl implements AuditServiceThread {
 
     @Override
     public void run() {
-
-        //FIXME :Taoufiq
         try {
             init();
             loadContent();
