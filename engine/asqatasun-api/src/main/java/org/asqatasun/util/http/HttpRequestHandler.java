@@ -86,8 +86,8 @@ public class HttpRequestHandler {
     @Value("${proxyExclusionUrl}")
     private String proxyExclusionUrl;
     public List<String> getProxyExclusionUrlList() {
-        if (StringUtils.isNotBlank(proxyExclusionUrl.trim())) {
-            return Arrays.asList(proxyExclusionUrl.split(";"));
+        if (StringUtils.isNotBlank(proxyExclusionUrl)) {
+            return Arrays.asList(proxyExclusionUrl.trim().split(";"));
         }
         return Collections.emptyList();
     }
@@ -224,8 +224,6 @@ public class HttpRequestHandler {
     
     public int getHttpStatusFromGet (String url) throws IOException {
         String encodedUrl = getEncodedUrl(url);
-        LOGGER.error("boubouboub");
-        LOGGER.error(encodedUrl);
         CloseableHttpClient httpClient = getHttpClient(encodedUrl);
         HttpGet get = new HttpGet(encodedUrl);
         try {

@@ -59,7 +59,7 @@ public final class ProfileFactory {
     private String proxyPort;
     @Value("${proxyHost}")
     private String proxyHost;
-    @Value("${pathToPreSetProfile}")
+    @Value("${pathToPreSetProfile:}")
     private String pathToPreSetProfile;
     @Value("${proxyExclusionUrl}")
     private String proxyExclusionUrl;
