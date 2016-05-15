@@ -22,11 +22,12 @@
 package org.asqatasun.sebuilder.interpreter.webdriverfactory;
 
 import com.sebuilder.interpreter.webdriverfactory.WebDriverFactory;
-import java.util.HashMap;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.HashMap;
 
 public class PhantomJsFactory implements WebDriverFactory {
 

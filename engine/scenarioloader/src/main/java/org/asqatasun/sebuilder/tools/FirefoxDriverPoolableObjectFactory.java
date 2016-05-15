@@ -21,11 +21,11 @@
  */
 package org.asqatasun.sebuilder.tools;
 
-import java.util.concurrent.TimeUnit;
-import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of FirefoxDriver poolable factory. Each instance of 
@@ -35,7 +35,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
  * 
  * @author jkowalczyk
  */
-public class FirefoxDriverPoolableObjectFactory implements PoolableObjectFactory<FirefoxDriver> {
+public class FirefoxDriverPoolableObjectFactory {
+//public class FirefoxDriverPoolableObjectFactory implements PoolableObjectFactory<FirefoxDriver> {
 
     private static final String DISPLAY_PROPERTY_KEY = "display";
     
@@ -57,7 +58,7 @@ public class FirefoxDriverPoolableObjectFactory implements PoolableObjectFactory
         this.pageLoadDriverTimeout = pageLoadDriverTimeout;
     }
     
-    @Override
+//    @Override
     public FirefoxDriver makeObject() throws Exception {
         FirefoxBinary ffBinary = new FirefoxBinary();
         if (System.getProperty(DISPLAY_PROPERTY_KEY) != null) {
@@ -74,7 +75,7 @@ public class FirefoxDriverPoolableObjectFactory implements PoolableObjectFactory
         return fd;
     }
 
-    @Override
+//    @Override
     public void destroyObject(FirefoxDriver t) throws Exception {
         t.close();
         t.quit();
@@ -83,17 +84,17 @@ public class FirefoxDriverPoolableObjectFactory implements PoolableObjectFactory
         }
     }
 
-    @Override
+//    @Override
     public boolean validateObject(FirefoxDriver t) {
         return true;
     }
 
-    @Override
+//    @Override
     public void activateObject(FirefoxDriver t) throws Exception {
 //        DO NOTHING HERE
     }
 
-    @Override
+//    @Override
     public void passivateObject(FirefoxDriver t) throws Exception {
 //        DO NOTHING HERE
     }

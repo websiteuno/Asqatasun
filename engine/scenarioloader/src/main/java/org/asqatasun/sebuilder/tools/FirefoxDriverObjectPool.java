@@ -40,11 +40,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author jkowalczyk
  */
-public class FirefoxDriverObjectPool extends GenericObjectPool<FirefoxDriver> {
-
-    @Autowired
-    public FirefoxDriverObjectPool(PoolableObjectFactory pof) {
-        super(pof);
-    }
+public class FirefoxDriverObjectPool {
+//public class FirefoxDriverObjectPool extends GenericObjectPool<FirefoxDriver> {
+//
+//    @Autowired
+//    public FirefoxDriverObjectPool(PoolableObjectFactory pof) {
+//        super(pof);
+//    }
 
 }

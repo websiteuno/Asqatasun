@@ -21,9 +21,10 @@
  */
 package org.asqatasun.sebuilder.tools;
 
+import junit.framework.TestCase;
+
 import java.util.LinkedList;
 import java.util.List;
-import junit.framework.TestCase;
 
 /**
  *

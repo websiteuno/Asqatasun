@@ -26,15 +26,16 @@ import com.sebuilder.interpreter.Script;
 import com.sebuilder.interpreter.TestRun;
 import com.sebuilder.interpreter.factory.TestRunFactory;
 import com.sebuilder.interpreter.webdriverfactory.WebDriverFactory;
+import org.apache.commons.logging.Log;
+import org.asqatasun.sebuilder.interpreter.NewPageListener;
+import org.asqatasun.sebuilder.interpreter.TgTestRun;
+import org.asqatasun.sebuilder.interpreter.webdriverfactory.FirefoxDriverFactory;
+import org.openqa.selenium.firefox.FirefoxProfile;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.openqa.selenium.firefox.FirefoxProfile;
-import org.asqatasun.sebuilder.interpreter.NewPageListener;
-import org.asqatasun.sebuilder.interpreter.TgTestRun;
-import org.asqatasun.sebuilder.interpreter.webdriverfactory.FirefoxDriverFactory;
 
 /**
  *

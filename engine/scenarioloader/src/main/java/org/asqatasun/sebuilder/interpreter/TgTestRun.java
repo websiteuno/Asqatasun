@@ -25,20 +25,20 @@ import com.sebuilder.interpreter.Script;
 import com.sebuilder.interpreter.TestRun;
 import com.sebuilder.interpreter.Verify;
 import com.sebuilder.interpreter.webdriverfactory.WebDriverFactory;
-import java.awt.Graphics2D;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.asqatasun.sebuilder.interpreter.exception.TestRunException;
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
-import javax.imageio.ImageIO;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.asqatasun.sebuilder.interpreter.exception.TestRunException;
-import org.asqatasun.sebuilder.tools.FirefoxDriverObjectPool;
 
 /**
  * A single run of a test getScript().
@@ -87,18 +87,19 @@ public class TgTestRun extends TestRun {
     private RemoteWebDriver rwd;
     @Override
     public RemoteWebDriver getDriver() {
-        if (firefoxDriverObjectPool != null) {
-            return rwd;
-        } else {
-            // keep the ability not to use an object pool
-            return super.getDriver();
-        }
+        return super.getDriver();
+//        if (firefoxDriverObjectPool != null) {
+//            return rwd;
+//        } else {
+//            // keep the ability not to use an object pool
+//            return super.getDriver();
+//        }
     }
     
-    private FirefoxDriverObjectPool firefoxDriverObjectPool;
-    public void setFirefoxDriverObjectPool(FirefoxDriverObjectPool firefoxDriverObjectPool) {
-        this.firefoxDriverObjectPool = firefoxDriverObjectPool;
-    }
+//    private FirefoxDriverObjectPool firefoxDriverObjectPool;
+//    public void setFirefoxDriverObjectPool(FirefoxDriverObjectPool firefoxDriverObjectPool) {
+//        this.firefoxDriverObjectPool = firefoxDriverObjectPool;
+//    }
 
     /**
      * Constructor
@@ -360,19 +361,24 @@ public class TgTestRun extends TestRun {
 
     @Override
     public void initRemoteWebDriver() {
-        if (firefoxDriverObjectPool != null && getDriver() == null) {
-            getLog().debug("Initialisation FirefoxDriver terminated ");
-            try {
-                rwd = firefoxDriverObjectPool.borrowObject();
-            } catch (Exception ex) {
-                getLog().warn("Firefox driver cannot be borrowed due to  " + ex.getMessage());
-            }
-        // if the firefoxDriver object pool is not set, keep the default behaviour
-        } else if (getDriver() == null) {
+        if (getDriver() == null) {
             getLog().debug("Launching initialisation of WebDriver");
             super.initRemoteWebDriver();
             getLog().debug("WebDriver initialised");
         }
+//        if (firefoxDriverObjectPool != null && getDriver() == null) {
+//            getLog().debug("Initialisation FirefoxDriver terminated ");
+//            try {
+//                rwd = firefoxDriverObjectPool.borrowObject();
+//            } catch (Exception ex) {
+//                getLog().warn("Firefox driver cannot be borrowed due to  " + ex.getMessage());
+//            }
+//        // if the firefoxDriver object pool is not set, keep the default behaviour
+//        } else if (getDriver() == null) {
+//            getLog().debug("Launching initialisation of WebDriver");
+//            super.initRemoteWebDriver();
+//            getLog().debug("WebDriver initialised");
+//        }
     }
  
     /**
@@ -381,28 +387,39 @@ public class TgTestRun extends TestRun {
      */
     private void properlyCloseWebDriver() {
         getLog().debug("Closing Firefox driver.");
-        if (firefoxDriverObjectPool != null && 
-                getDriver() instanceof FirefoxDriver) {
-            //set the blank page before returning the webDriver instance
-            getDriver().get("");
-            try {
-                firefoxDriverObjectPool.returnObject((FirefoxDriver)getDriver());
-            } catch (Exception ex) {
-                getLog().warn("Firefox driver cannot be returned due to  " + ex.getMessage());
-            }
-        } else {
-            try {
-                getDriver().close();
-                getDriver().quit();
-            } catch (Exception e) {
-                getLog().warn("An error occured while closing driver."
-                        + " A defunct firefox process may run on the system. "
-                        + " Trying to kill before leaving");
-                if (getDriver() instanceof FirefoxDriver) {
-                    ((FirefoxDriver)getDriver()).kill();
-                }
+        try {
+            getDriver().close();
+            getDriver().quit();
+        } catch (Exception e) {
+            getLog().warn("An error occured while closing driver."
+                    + " A defunct firefox process may run on the system. "
+                    + " Trying to kill before leaving");
+            if (getDriver() instanceof FirefoxDriver) {
+                ((FirefoxDriver)getDriver()).kill();
             }
         }
+//        if (firefoxDriverObjectPool != null &&
+//                getDriver() instanceof FirefoxDriver) {
+//            //set the blank page before returning the webDriver instance
+//            getDriver().get("");
+//            try {
+//                firefoxDriverObjectPool.returnObject((FirefoxDriver)getDriver());
+//            } catch (Exception ex) {
+//                getLog().warn("Firefox driver cannot be returned due to  " + ex.getMessage());
+//            }
+//        } else {
+//            try {
+//                getDriver().close();
+//                getDriver().quit();
+//            } catch (Exception e) {
+//                getLog().warn("An error occured while closing driver."
+//                        + " A defunct firefox process may run on the system. "
+//                        + " Trying to kill before leaving");
+//                if (getDriver() instanceof FirefoxDriver) {
+//                    ((FirefoxDriver)getDriver()).kill();
+//                }
+//            }
+//        }
     }
 
 }

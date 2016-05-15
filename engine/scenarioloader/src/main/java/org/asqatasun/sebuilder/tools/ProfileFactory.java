@@ -22,9 +22,6 @@
 
 package org.asqatasun.sebuilder.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -32,6 +29,10 @@ import org.openqa.selenium.Proxy;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  *
@@ -63,10 +64,6 @@ public final class ProfileFactory {
     private String pathToPreSetProfile;
     @Value("${proxyExclusionUrl}")
     private String proxyExclusionUrl;
-    private String firebugVersion;
-    public void setFirebugVersion(String firebugVersion) {
-        this.firebugVersion = firebugVersion;
-    }
     
     /**
      * Each profile is started with a specific NetExport path (created randomly).
@@ -222,7 +219,6 @@ public final class ProfileFactory {
         firefoxProfile.setPreference("extensions.firebug.net.enableSites", true);
         firefoxProfile.setPreference("extensions.firebug.script.enableSites", true);
         firefoxProfile.setPreference("extensions.firebug.onByDefault",true);
-        firefoxProfile.setPreference("extensions.firebug.currentVersion", firebugVersion);
         //----------------------------------------------------------------------
         
         
@@ -271,7 +267,7 @@ public final class ProfileFactory {
             if (StringUtils.isNotEmpty(proxyExclusionUrl)) {
                 proxy.setNoProxy(proxyExclusionUrl.replaceAll(";", ","));
             }
-            firefoxProfile.setProxyPreferences(proxy);
+                firefoxProfile.setProxyPreferences(proxy);
         }
     }
     

@@ -22,12 +22,13 @@
 package org.asqatasun.sebuilder.interpreter.webdriverfactory;
 
 import com.sebuilder.interpreter.webdriverfactory.WebDriverFactory;
-import java.util.HashMap;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.HashMap;
 
 public class FirefoxDriverFactory implements WebDriverFactory {
 
