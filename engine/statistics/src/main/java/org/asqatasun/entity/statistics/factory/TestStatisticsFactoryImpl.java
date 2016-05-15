@@ -23,11 +23,13 @@ package org.asqatasun.entity.statistics.factory;
 
 import org.asqatasun.entity.statistics.TestStatistics;
 import org.asqatasun.entity.statistics.TestStatisticsImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("testStatisticsFactory")
 public class TestStatisticsFactoryImpl implements TestStatisticsFactory{
 
     @Override

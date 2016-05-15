@@ -23,11 +23,13 @@ package org.asqatasun.entity.statistics.factory;
 
 import org.asqatasun.entity.statistics.CriterionStatistics;
 import org.asqatasun.entity.statistics.CriterionStatisticsImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("criterionStatisticsFactory")
 public class CriterionStatisticsFactoryImpl implements CriterionStatisticsFactory{
 
     @Override

@@ -23,11 +23,13 @@ package org.asqatasun.entity.statistics.factory;
 
 import org.asqatasun.entity.statistics.ThemeStatistics;
 import org.asqatasun.entity.statistics.ThemeStatisticsImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("themeStatisticsFactory")
 public class ThemeStatisticsFactoryImpl implements ThemeStatisticsFactory{
 
     @Override

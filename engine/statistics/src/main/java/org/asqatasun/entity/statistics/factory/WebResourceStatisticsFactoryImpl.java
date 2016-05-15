@@ -23,11 +23,13 @@ package org.asqatasun.entity.statistics.factory;
 
 import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.statistics.WebResourceStatisticsImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("webResourceStatisticsFactory")
 public class WebResourceStatisticsFactoryImpl implements WebResourceStatisticsFactory {
 
     @Override
