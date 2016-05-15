@@ -33,115 +33,41 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.util.factory.DateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component("scenarioLoaderFactory")
 public class ScenarioLoaderFactoryImpl implements ScenarioLoaderFactory {
 
-//    private SnapshotDataService snapshotDataService;
-//    public SnapshotDataService getSnapshotDataService() {
-//        return snapshotDataService;
-//    }
-//
-//    @Autowired
-//    public void setSnapshotDataService(SnapshotDataService snapshotDataService) {
-//        this.snapshotDataService = snapshotDataService;
-//    }
-//    
-//    private SnapshotFactory snapshotFactory;
-//    public SnapshotFactory getSnapshotFactory() {
-//        return snapshotFactory;
-//    }
-//
-//    @Autowired
-//    public void setSnapshotFactory(SnapshotFactory snapshotFactory) {
-//        this.snapshotFactory = snapshotFactory;
-//    }
-    
+    @Autowired
     private WebResourceDataService webResourceDataService;
-    public WebResourceDataService getWebResourceDataService() {
-        return webResourceDataService;
-    }
-
     @Autowired
-    public void setWebResourceDataService(WebResourceDataService webResourceDataService) {
-        this.webResourceDataService = webResourceDataService;
-    }
-    
     private ParameterDataService parameterDataService;
-    public ParameterDataService getParameterDataService() {
-        return parameterDataService;
-    }
-
     @Autowired
-    public void setParameterDataService(ParameterDataService parameterDataService) {
-        this.parameterDataService = parameterDataService;
-    }
-    
     private ContentDataService contentDataService;
-    public ContentDataService getContentDataService() {
-        return contentDataService;
-    }
-
     @Autowired
-    public void setContentDataService(ContentDataService contentDataService) {
-        this.contentDataService = contentDataService;
-    }
-    
     private PreProcessResultDataService preProcessResultDataService;
-    public PreProcessResultDataService getPreProcessResultDataService() {
-        return preProcessResultDataService;
-    }
-
     @Autowired
-    public void setPreProcessResultDataService(PreProcessResultDataService preProcessResultDataService) {
-        this.preProcessResultDataService = preProcessResultDataService;
-    }
-    
-//    private FirefoxDriverObjectPool firefoxDriverObjectPool;
-//    public FirefoxDriverObjectPool getFirefoxDriverObjectPool() {
-//        return firefoxDriverObjectPool;
-//    }
-//
-//    @Autowired
-//    public void setFirefoxDriverObjectPool(FirefoxDriverObjectPool firefoxDriverObjectPool) {
-//        this.firefoxDriverObjectPool = firefoxDriverObjectPool;
-//    }
-    
-    private Map<String, String> jsScriptMap;
+    private DateFactory dateFactory;
+
+    @Value("${colorExtractor:/js/colorExtractor_nativeJs.js}")
+    private String colorExtractor;
     public Map<String, String> getJsScriptMap() {
+        Map<String, String> jsScriptMap = new HashMap<>();
+        try {
+            jsScriptMap.put("colorExtractor", IOUtils.toString(getClass().getResourceAsStream(colorExtractor)));
+        } catch (IOException ex) {
+            Logger.getLogger(this.getClass()).warn(ex);
+        }
         return jsScriptMap;
     }
 
-    public void setJsScriptMap(Map<String, String> jsScriptMap) {
-        if (this.jsScriptMap == null) {
-            this.jsScriptMap = new HashMap<>();
-        }
-        for (Map.Entry<String, String> entry : jsScriptMap.entrySet()) {
-            try {
-                this.jsScriptMap.put(entry.getKey(), IOUtils.toString(getClass().getResourceAsStream(entry.getValue())));
-            } catch (IOException ex) {
-                Logger.getLogger(this.getClass()).warn(ex);
-            }
-        }
-    }
-    
-    private DateFactory dateFactory;
-    public DateFactory getDateFactory() {
-        return dateFactory;
-    }
-
-    @Autowired
-    public void setDateFactory(DateFactory dateFactory) {
-        this.dateFactory = dateFactory;
-    }
-
-    int pageLoadDriverTimeout = -1;
-    public void setPageLoadDriverTimeout(int pageLoadDriverTimeout) {
-        this.pageLoadDriverTimeout = pageLoadDriverTimeout;
-    }
+    @Value("${pageLoadTimeout:-1}")
+    int pageLoadDriverTimeout;
     
     @Override
     public ScenarioLoader create(WebResource mainWebResource, String scenario) {
@@ -152,7 +78,7 @@ public class ScenarioLoaderFactoryImpl implements ScenarioLoaderFactory {
         scenarioLoader.setDateFactory(dateFactory);
         scenarioLoader.setWebResourceDataService(webResourceDataService);
         scenarioLoader.setPreProcessResultDataService(preProcessResultDataService);
-        scenarioLoader.setJsScriptMap(jsScriptMap);
+        scenarioLoader.setJsScriptMap(getJsScriptMap());
         scenarioLoader.setPageLoadDriverTimeout(pageLoadDriverTimeout);
         scenarioLoader.setParameterDataService(parameterDataService);
 //        scenarioLoader.setFirefoxDriverObjectPool(firefoxDriverObjectPool);

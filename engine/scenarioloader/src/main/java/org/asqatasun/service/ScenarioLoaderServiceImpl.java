@@ -30,31 +30,21 @@ import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.scenarioloader.ScenarioLoader;
 import org.asqatasun.scenarioloader.ScenarioLoaderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("scenarioLoaderService")
 public class ScenarioLoaderServiceImpl implements ScenarioLoaderService {
 
-    private ScenarioLoaderFactory scenarioLoaderFactory;
-    @Override
     @Autowired
-    public void setScenarioLoaderFactory(ScenarioLoaderFactory scenarioLoaderFactory) {
-        this.scenarioLoaderFactory = scenarioLoaderFactory;
-    }
-
+    private ScenarioLoaderFactory scenarioLoaderFactory;
+    @Autowired
     private ContentDataService contentDataService;
     @Autowired
-    public void setContentDataService (ContentDataService contentDataService) {
-        this.contentDataService = contentDataService;
-    }
-    
     private WebResourceDataService webResourceDataService;
-    @Autowired
-    public void setWebResourceDataService (WebResourceDataService webResourceDataService) {
-        this.webResourceDataService = webResourceDataService;
-    }
 
     public ScenarioLoaderServiceImpl() {
         super();
@@ -66,10 +56,11 @@ public class ScenarioLoaderServiceImpl implements ScenarioLoaderService {
         ScenarioLoader scenarioLoader = scenarioLoaderFactory.create(webResource, scenarioFile);
         scenarioLoader.run();
         List<Content> contentList = scenarioLoader.getResult();
+
         for (Content content : contentList) {
-//            content.setAudit(audit);
             contentDataService.saveAuditToContent(content.getId(),audit.getId());
         }
+
         // Before returning the list of content we save the webResource
         webResourceDataService.saveOrUpdate(webResource);
         return contentList;

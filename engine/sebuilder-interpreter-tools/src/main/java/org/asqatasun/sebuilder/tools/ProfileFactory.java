@@ -30,11 +30,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public final class ProfileFactory {
 
     private List<String> extensionPathList = new ArrayList<String>();
@@ -51,28 +54,15 @@ public final class ProfileFactory {
     public void setDeleteProfileData(boolean deleteProfileData) {
         this.deleteProfileData = deleteProfileData;
     }
-    
-    private String proxyPort;
-    public void setProxyPort(String proxyPort) {
-        this.proxyPort = proxyPort;
-    }
-    
-    private String proxyHost;
-    public void setProxyHost(String proxyHost) {
-        this.proxyHost = proxyHost;
-    }
 
+    @Value("${proxyPort}")
+    private String proxyPort;
+    @Value("${proxyHost}")
+    private String proxyHost;
+    @Value("${pathToPreSetProfile}")
     private String pathToPreSetProfile;
-    public void setPathToPreSetProfile(String pathToPreSetProfile) {
-        this.pathToPreSetProfile = pathToPreSetProfile;
-    }
-    
-    
+    @Value("${proxyExclusionUrl}")
     private String proxyExclusionUrl;
-    public void setProxyExclusionUrl(String proxyExclusionUrl) {
-        this.proxyExclusionUrl = proxyExclusionUrl;
-    }
-    
     private String firebugVersion;
     public void setFirebugVersion(String firebugVersion) {
         this.firebugVersion = firebugVersion;
@@ -82,8 +72,7 @@ public final class ProfileFactory {
      * Each profile is started with a specific NetExport path (created randomly).
      * That map associated this path for a given profile
      */
-    private Map<FirefoxProfile, String> netExportPathMap = 
-            new HashMap<FirefoxProfile, String>();
+    private Map<FirefoxProfile, String> netExportPathMap = new HashMap<>();
     
     /**
      * The holder that handles the unique instance of ProfileFactory
