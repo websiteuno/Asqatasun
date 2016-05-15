@@ -35,7 +35,6 @@ import org.springframework.stereotype.Service;
  * @param <K>
  * @author jkowalczyk
  */
-@Service
 public abstract class AbstractGenericDataService<E extends Entity, K extends Serializable>
         implements GenericDataService<E, K> {
 
