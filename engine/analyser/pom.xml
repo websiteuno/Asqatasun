@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>asqatasun-statistics</artifactId>
+            <artifactId>asqatasun-services</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
