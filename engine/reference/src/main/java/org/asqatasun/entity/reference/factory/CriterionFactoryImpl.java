@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
 import org.asqatasun.entity.reference.Criterion;
 import org.asqatasun.entity.reference.CriterionImpl;

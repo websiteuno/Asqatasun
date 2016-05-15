@@ -19,30 +19,25 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
-import org.asqatasun.entity.reference.NomenclatureElement;
-import org.asqatasun.entity.reference.NomenclatureElementImpl;
+import org.asqatasun.entity.reference.Theme;
+import org.asqatasun.entity.reference.ThemeImpl;
 import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Component("nomenclatureElementFactory")
-public class NomenclatureElementFactoryImpl implements
-        NomenclatureElementFactory {
+@Component("themeFactory")
+public class ThemeFactoryImpl implements ThemeFactory {
 
-    public NomenclatureElementFactoryImpl() {
+    public ThemeFactoryImpl() {
         super();
     }
 
-    public NomenclatureElement create() {
-        return new NomenclatureElementImpl();
-    }
-
-    public NomenclatureElement create(String value) {
-        return new NomenclatureElementImpl(value);
+    public Theme create() {
+        return new ThemeImpl();
     }
 
 }

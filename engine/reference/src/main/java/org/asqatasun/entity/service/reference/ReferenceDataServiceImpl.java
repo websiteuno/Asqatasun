@@ -26,15 +26,17 @@ import java.util.Map;
 import org.asqatasun.entity.dao.reference.ReferenceDAO;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("referenceDataService")
 public class ReferenceDataServiceImpl extends AbstractGenericDataService<Reference, Long> implements
         ReferenceDataService {
 
-    private Map<String, Reference> referenceMap = new HashMap<String,Reference>();
+    private Map<String, Reference> referenceMap = new HashMap<>();
     
     public ReferenceDataServiceImpl() {
         super();

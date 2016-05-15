@@ -19,25 +19,25 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
-import org.asqatasun.entity.reference.Test;
-import org.asqatasun.entity.reference.TestImpl;
+import org.asqatasun.entity.reference.ScopeImpl;
+import org.asqatasun.entity.reference.Scope;
 import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Component("testFactory")
-public class TestFactoryImpl implements TestFactory {
+@Component("scopeFactory")
+public class ScopeFactoryImpl implements ScopeFactory {
 
-    public TestFactoryImpl() {
+    public ScopeFactoryImpl() {
         super();
     }
 
-    public Test create() {
-        return new TestImpl();
+    public Scope create() {
+        return new ScopeImpl();
     }
 
 }

@@ -23,11 +23,13 @@ package org.asqatasun.entity.service.reference;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.entity.reference.Scope;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("scopeDataService")
 public class ScopeDataServiceImpl extends AbstractGenericDataService<Scope, Long>
         implements ScopeDataService {
 

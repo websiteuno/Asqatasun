@@ -19,30 +19,30 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
-import org.asqatasun.entity.reference.Nomenclature;
-import org.asqatasun.entity.reference.NomenclatureImpl;
+import org.asqatasun.entity.reference.StandardMessage;
+import org.asqatasun.entity.reference.StandardMessageImpl;
 import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Component("nomenclatureFactory")
-public class NomenclatureFactoryImpl implements NomenclatureFactory {
+@Component("standardMessageFactory")
+public class StandardMessageFactoryImpl implements StandardMessageFactory {
 
-    public NomenclatureFactoryImpl() {
+    public StandardMessageFactoryImpl() {
         super();
     }
 
-    public Nomenclature create() {
-        return new NomenclatureImpl();
+    public StandardMessage create() {
+        return new StandardMessageImpl();
     }
 
     @Override
-    public Nomenclature create(String code) {
-        return new NomenclatureImpl(code);
+    public StandardMessage create(String code, String text) {
+        return new StandardMessageImpl(code, text);
     }
 
 }

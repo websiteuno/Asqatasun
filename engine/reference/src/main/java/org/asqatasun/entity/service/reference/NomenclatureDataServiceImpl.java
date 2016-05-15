@@ -28,11 +28,13 @@ import org.asqatasun.entity.dao.reference.StandardMessageDAO;
 import org.asqatasun.entity.reference.Nomenclature;
 import org.asqatasun.entity.reference.NomenclatureElement;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("nomenclatureDataService")
 public class NomenclatureDataServiceImpl extends AbstractGenericDataService<Nomenclature, Long> implements
         NomenclatureDataService {
 

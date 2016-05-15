@@ -19,25 +19,30 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
-import org.asqatasun.entity.reference.ScopeImpl;
-import org.asqatasun.entity.reference.Scope;
+import org.asqatasun.entity.reference.NomenclatureElement;
+import org.asqatasun.entity.reference.NomenclatureElementImpl;
 import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Component("scopeFactory")
-public class ScopeFactoryImpl implements ScopeFactory {
+@Component("nomenclatureElementFactory")
+public class NomenclatureElementFactoryImpl implements
+        NomenclatureElementFactory {
 
-    public ScopeFactoryImpl() {
+    public NomenclatureElementFactoryImpl() {
         super();
     }
 
-    public Scope create() {
-        return new ScopeImpl();
+    public NomenclatureElement create() {
+        return new NomenclatureElementImpl();
+    }
+
+    public NomenclatureElement create(String value) {
+        return new NomenclatureElementImpl(value);
     }
 
 }

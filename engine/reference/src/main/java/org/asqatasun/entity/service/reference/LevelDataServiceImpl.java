@@ -26,11 +26,13 @@ import java.util.Map;
 import org.asqatasun.entity.dao.reference.LevelDAO;
 import org.asqatasun.entity.reference.Level;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("levelDataService")
 public class LevelDataServiceImpl extends AbstractGenericDataService<Level, Long> implements LevelDataService {
 
     private Map<String, Level> levelMap = new HashMap<String,Level>();

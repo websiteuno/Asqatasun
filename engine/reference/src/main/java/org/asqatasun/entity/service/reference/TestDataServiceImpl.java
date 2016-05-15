@@ -32,11 +32,13 @@ import org.asqatasun.entity.reference.Level;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.reference.Test;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("testDataService")
 public class TestDataServiceImpl extends AbstractGenericDataService<Test, Long>
         implements TestDataService {
 

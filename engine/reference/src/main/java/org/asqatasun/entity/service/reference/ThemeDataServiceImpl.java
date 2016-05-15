@@ -25,11 +25,13 @@ import java.util.Collection;
 import org.asqatasun.entity.reference.Criterion;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("themeDataService")
 public class ThemeDataServiceImpl extends AbstractGenericDataService<Theme, Long> implements ThemeDataService {
 
     public ThemeDataServiceImpl() {

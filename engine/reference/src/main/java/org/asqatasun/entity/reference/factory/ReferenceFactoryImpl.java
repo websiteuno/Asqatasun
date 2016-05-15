@@ -19,25 +19,25 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.factory.reference;
+package org.asqatasun.entity.reference.factory;
 
-import org.asqatasun.entity.reference.Theme;
-import org.asqatasun.entity.reference.ThemeImpl;
+import org.asqatasun.entity.reference.Reference;
+import org.asqatasun.entity.reference.ReferenceImpl;
 import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Component("themeFactory")
-public class ThemeFactoryImpl implements ThemeFactory {
+@Component("referenceFactory")
+public class ReferenceFactoryImpl implements ReferenceFactory {
 
-    public ThemeFactoryImpl() {
+    public ReferenceFactoryImpl() {
         super();
     }
 
-    public Theme create() {
-        return new ThemeImpl();
+    public Reference create() {
+        return new ReferenceImpl();
     }
 
 }

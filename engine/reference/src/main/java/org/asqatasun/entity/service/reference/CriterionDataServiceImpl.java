@@ -25,11 +25,13 @@ import org.asqatasun.entity.dao.reference.CriterionDAO;
 import org.asqatasun.entity.reference.Criterion;
 import org.asqatasun.entity.reference.Level;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("criterionDataService")
 public class CriterionDataServiceImpl extends AbstractGenericDataService<Criterion, Long> implements
         CriterionDataService {
 
