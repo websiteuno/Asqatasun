@@ -34,7 +34,7 @@
         <asqatasunVersion>4.1.0-SNAPSHOT</asqatasunVersion>
         
         <springGroupId>org.springframework</springGroupId>
-        <springVersion>4.2.5.RELEASE</springVersion>
+        <springVersion>4.2.6.RELEASE</springVersion>
         <springSecurityVersion>4.0.4.RELEASE</springSecurityVersion>
 
         <!--<heritrixGroupId>org.archive.heritrix</heritrixGroupId>-->
@@ -48,6 +48,8 @@
 
         <log4jGroupId>log4j</log4jGroupId>
         <log4jVersion>1.2.15</log4jVersion>
+
+        <flywayVersion>3.2.1</flywayVersion>
 
         <httpcomponentsGroupId>org.apache.httpcomponents</httpcomponentsGroupId>
         
@@ -225,51 +227,36 @@
             </dependency>
             <dependency>
                 <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-audit</artifactId>
+                <artifactId>asqatasun-model</artifactId>
                 <version>${asqatasunVersion}</version>
             </dependency>
             <dependency>
                 <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-crawler</artifactId>
+                <artifactId>asqatasun-services</artifactId>
                 <version>${asqatasunVersion}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>poi</groupId>
-                        <artifactId>poi</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>poi</groupId>
-                        <artifactId>poi-ooxlm</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>poi</groupId>
-                        <artifactId>poi-scratchpad</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
+            <!--<dependency>-->
+                <!--<groupId>${asqatasunGroupId}</groupId>-->
+                <!--<artifactId>asqatasun-crawler</artifactId>-->
+                <!--<version>${asqatasunVersion}</version>-->
+                <!--<exclusions>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>poi</groupId>-->
+                        <!--<artifactId>poi</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>poi</groupId>-->
+                        <!--<artifactId>poi-ooxlm</artifactId>-->
+                    <!--</exclusion>-->
+                    <!--<exclusion>-->
+                        <!--<groupId>poi</groupId>-->
+                        <!--<artifactId>poi-scratchpad</artifactId>-->
+                    <!--</exclusion>-->
+                <!--</exclusions>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>${asqatasunGroupId}</groupId>
                 <artifactId>asqatasun-persistence</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-jms</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-statistics</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-reference</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-parameterization</artifactId>
                 <version>${asqatasunVersion}</version>
             </dependency>
             <dependency>
@@ -553,7 +540,6 @@
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
                 <version>1.4</version>
-                <scope>test</scope>
             </dependency>
 <!--        <dependency>
                 <groupId>org.milyn</groupId>
@@ -941,13 +927,13 @@
             <dependency>
                 <groupId>org.dbunit</groupId>
                 <artifactId>dbunit</artifactId>
-                <version>2.5.0</version>
+                <version>2.5.2</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
-                <version>2.3.2</version>
+                <version>2.3.3</version>
                 <scope>test</scope>
             </dependency>
 
