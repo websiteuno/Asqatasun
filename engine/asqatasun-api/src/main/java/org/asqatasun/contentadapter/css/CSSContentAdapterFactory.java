@@ -45,18 +45,4 @@ public interface CSSContentAdapterFactory extends ContentAdapterFactory {
             URLIdentifier urlIdentifier,
             Downloader downloader,
             ContentDataService contentDataService);
-
-    /**
-     *
-     * @return
-     *      the external css retriever instance
-     */
-    ExternalCSSRetriever getExternalCSSRetriever();
-
-    /**
-     * Set the external css retriever instance
-     * @param externalCSSRetriever
-     */
-    void setExternalCSSRetriever(ExternalCSSRetriever externalCSSRetriever);
-
 }

@@ -33,6 +33,7 @@ import org.asqatasun.contentadapter.util.AdaptationActionVoter;
 import org.asqatasun.contentadapter.util.DocumentCaseInsensitiveAdapter;
 import org.asqatasun.entity.audit.Content;
 import org.asqatasun.entity.audit.SSP;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
@@ -41,30 +42,24 @@ import org.asqatasun.entity.audit.SSP;
 public class ContentsAdapterImpl implements ContentsAdapter {
 
     private Collection<Content> contentList;
-    private HTMLCleaner htmlCleaner;
-    private HTMLParser htmlParser;
+    private final HTMLCleaner htmlCleaner;
+    private final HTMLParser htmlParser;
     private Collection<Content> result;
-    private Boolean writeCleanHtmlInFile = false;
-    private String tempFolderRootPath = "C:/tmp_spec";
+    private final Boolean writeCleanHtmlInFile;
+    private final String tempFolderRootPath;
     private boolean xmlizeContent = false;
     private boolean parseAndRetrievelRelatedContent = true;
 
     ContentsAdapterImpl(
-            Collection<Content> contentList, 
             boolean writeCleanHtmlInFile, 
             String tempFolderRootPath, 
             HTMLCleaner htmlCleaner, 
             HTMLParser htmlParser) {
         super();
-        this.contentList = contentList;
         this.writeCleanHtmlInFile = writeCleanHtmlInFile;
         this.tempFolderRootPath = tempFolderRootPath;
         this.htmlCleaner = htmlCleaner;
         this.htmlParser = htmlParser;
-    }
-    
-    public void setTempFolderRootPath(String tempFolderRootPath) {
-        this.tempFolderRootPath = tempFolderRootPath;
     }
 
     @Override
@@ -127,23 +122,8 @@ public class ContentsAdapterImpl implements ContentsAdapter {
     }
 
     @Override
-    public void setContentAdapterSet(Set<ContentAdapter> contentAdapterSet) {
-//        this.contentAdapterSet = contentAdapterSet;
-    }
-
-    @Override
     public void setContentList(List<Content> contentList) {
         this.contentList = contentList;
-    }
-
-    @Override
-    public void setHTMLCleaner(HTMLCleaner htmlCleaner) {
-        this.htmlCleaner = htmlCleaner;
-    }
-
-    @Override
-    public void setHTMLParser(HTMLParser htmlParser) {
-        this.htmlParser = htmlParser;
     }
 
     private void writeCleanDomInFile(SSP ssp) {
@@ -190,11 +170,6 @@ public class ContentsAdapterImpl implements ContentsAdapter {
             return;
         }
         this.xmlizeContent = false;
-    }
-    
-    @Override
-    public void setWriteCleanHtmlInFile(Boolean writeCleanHtmlInFile) {
-        this.writeCleanHtmlInFile = writeCleanHtmlInFile;
     }
 
 }

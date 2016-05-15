@@ -45,32 +45,8 @@ public interface ContentsAdapter {
 
     /**
      *
-     * @param contentAdapterSet
-     */
-    void setContentAdapterSet(Set<ContentAdapter> contentAdapterSet);
-
-    /**
-     *
      * @param contentList
      */
     void setContentList(List<Content> contentList);
 
-    /**
-     *
-     * @param htmlCleaner
-     */
-    void setHTMLCleaner(HTMLCleaner htmlCleaner);
-
-    /**
-     * 
-     * @param htmlParser
-     */
-    void setHTMLParser(HTMLParser htmlParser);
-
-    /**
-     *
-     * @param writeCleanHtmlInFile
-     */
-    void setWriteCleanHtmlInFile(Boolean writeCleanHtmlInFile);
-    
 }

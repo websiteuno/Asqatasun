@@ -27,6 +27,8 @@ import org.apache.log4j.Logger;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.service.parameterization.ParameterDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * This voter decides whether an action is executable regarding the current 
@@ -38,10 +40,6 @@ public class AdaptationActionVoterImpl implements AdaptationActionVoter {
 
     @Autowired
     private ParameterDataService parameterDataService;
-    @Override
-    public void setParameterDataService(ParameterDataService parameterDataService) {
-        this.parameterDataService = parameterDataService;
-    }
 
     private Collection<String> authorizedValues;
     @Override

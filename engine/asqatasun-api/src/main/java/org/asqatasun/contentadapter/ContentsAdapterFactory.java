@@ -21,7 +21,8 @@
  */
 package org.asqatasun.contentadapter;
 
-import java.util.Collection;
+import java.util.List;
+
 import org.asqatasun.entity.audit.Content;
 
 /**
@@ -42,7 +43,7 @@ public interface ContentsAdapterFactory {
      * @return
      */
     ContentsAdapter create(
-            Collection<Content> contentList,
+            List<Content> contentList,
             boolean writeCleanHtmlInFile,
             String tempFolderRootPath,
             HTMLCleaner htmlCleaner,

@@ -24,13 +24,17 @@ package org.asqatasun.contentadapter.css;
 import org.asqatasun.contentadapter.util.URLIdentifier;
 import org.asqatasun.contentloader.Downloader;
 import org.asqatasun.entity.service.audit.ContentDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component("cssContentAdapterFactory")
 public class CSSContentAdapterFactoryImpl implements CSSContentAdapterFactory {
 
+    @Autowired
     private ExternalCSSRetriever externalCSSRetriever;
 
     @Override
@@ -42,17 +46,7 @@ public class CSSContentAdapterFactoryImpl implements CSSContentAdapterFactory {
                 urlIdentifier,
                 downloader,
                 contentDataService,
-                getExternalCSSRetriever());
-    }
-
-    @Override
-    public ExternalCSSRetriever getExternalCSSRetriever() {
-        return externalCSSRetriever;
-    }
-
-    @Override
-    public void setExternalCSSRetriever(ExternalCSSRetriever externalCSSRetriever) {
-        this.externalCSSRetriever = externalCSSRetriever;
+                externalCSSRetriever);
     }
 
 }

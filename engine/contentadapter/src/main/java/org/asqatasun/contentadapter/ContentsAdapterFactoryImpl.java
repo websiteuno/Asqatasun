@@ -22,24 +22,28 @@
 package org.asqatasun.contentadapter;
 
 import java.util.Collection;
+import java.util.List;
+
 import org.asqatasun.contentadapter.util.AdaptationActionVoter;
 import org.asqatasun.entity.audit.Content;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component("contentsAdapterFactory")
 public class ContentsAdapterFactoryImpl implements ContentsAdapterFactory {
 
+    @Autowired
+    @Qualifier("xmlizeVoter")
     private AdaptationActionVoter xmlizeVoter;
-    public void setXmlizeVoter(AdaptationActionVoter xmlizeVoter) {
-        this.xmlizeVoter = xmlizeVoter;
-    }
-    
+
+    @Autowired
+    @Qualifier("parseHtmlVoter")
     private AdaptationActionVoter parseHtmlVoter;
-    public void setParseHtmlVoter(AdaptationActionVoter parseHtmlVoter) {
-        this.parseHtmlVoter = parseHtmlVoter;
-    }
     
     public ContentsAdapterFactoryImpl() {
         super();
@@ -47,13 +51,12 @@ public class ContentsAdapterFactoryImpl implements ContentsAdapterFactory {
 
     @Override
     public ContentsAdapter create(
-            Collection<Content> contentList,
+            List<Content> contentList,
             boolean writeCleanHtmlInFile,
             String tempFolderRootPath,
             HTMLCleaner htmlCleaner,
             HTMLParser htmlParser) {
         ContentsAdapterImpl contentsAdapter = new ContentsAdapterImpl(
-                contentList,
                 writeCleanHtmlInFile,
                 tempFolderRootPath,
                 htmlCleaner,
@@ -64,6 +67,7 @@ public class ContentsAdapterFactoryImpl implements ContentsAdapterFactory {
         if (xmlizeVoter != null) {
             contentsAdapter.setXmlizeVoter(xmlizeVoter);
         }
+        contentsAdapter.setContentList(contentList);
         return contentsAdapter;
     }
 

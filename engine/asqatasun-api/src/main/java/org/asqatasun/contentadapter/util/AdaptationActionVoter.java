@@ -38,12 +38,6 @@ public interface AdaptationActionVoter {
      * audit
      */
     boolean doesExecute(Audit audit);
-
-    /**
-     * 
-     * @param parameterDataService 
-     */
-    void setParameterDataService(ParameterDataService parameterDataService);
     
     /**
      * 

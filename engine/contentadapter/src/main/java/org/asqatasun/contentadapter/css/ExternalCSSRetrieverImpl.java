@@ -32,25 +32,24 @@ import org.asqatasun.entity.audit.SSP;
 import org.asqatasun.entity.audit.StylesheetContent;
 import org.asqatasun.entity.service.audit.ContentDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("externalCSSRetriever")
 public class ExternalCSSRetrieverImpl implements ExternalCSSRetriever, AdaptationListener {
 
     private static final Logger LOGGER = Logger.getLogger(ExternalCSSRetrieverImpl.class);
-    private Map<Long, Collection<StylesheetContent>> externalCssMap =
-            new HashMap<Long, Collection<StylesheetContent>>();
 
-//    private static final String CSS_ON_ERROR = "CSS_ON_ERROR";
+    private Map<Long, Collection<StylesheetContent>> externalCssMap = new HashMap<>();
+
+//    @Value("{persistOnTheFly:true}") // --> TO DO : use @Value with boolean
     private boolean persistOnTheFly = true;
-    private ContentDataService contentDataService;
-
     @Autowired
-    public ExternalCSSRetrieverImpl(ContentDataService contentDataService){
-        this.contentDataService = contentDataService;
-    }
+    private ContentDataService contentDataService;
 
     @Override
     public Collection<StylesheetContent> getExternalCSS(SSP ssp) {

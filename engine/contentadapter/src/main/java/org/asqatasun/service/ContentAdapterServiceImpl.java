@@ -1,37 +1,49 @@
 package org.asqatasun.service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 import org.asqatasun.contentadapter.*;
 import org.asqatasun.contentadapter.util.URLIdentifierFactory;
 import org.asqatasun.contentloader.DownloaderFactory;
 import org.asqatasun.entity.audit.Content;
 import org.asqatasun.entity.service.audit.ContentDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("contentAdapterService")
 public class ContentAdapterServiceImpl implements ContentAdapterService {
 
-    private boolean writeCleanHtmlInFile;
+//    @Value("${writeCleanHtmlInFile") -> TO DO : use @Value with boolean
+    private Boolean writeCleanHtmlInFile = false;
+    @Value("${tempFolderRootPath:/var/tmp/asqatasun}")
     private String tempFolderRootPath;
+    @Autowired
     private ContentsAdapterFactory contentsAdapterFactory;
+    @Autowired
     private HTMLCleanerFactory htmlCleanerFactory;
+    @Autowired
     private HTMLParserFactory htmlParserFactory;
-    private Set<ContentAdapterFactory> contentAdapterFactorySet;
+    @Autowired
     private URLIdentifierFactory urlIdentifierFactory;
+    @Autowired
     private DownloaderFactory downloaderFactory;
+
+    private Set<ContentAdapterFactory> contentAdapterFactorySet;
+    @Autowired
+    public void setContentAdapterFactorySet(Set<ContentAdapterFactory> contentAdapterFactorySet) {
+        this.contentAdapterFactorySet = contentAdapterFactorySet;
+    }
+
+    @Autowired
     private ContentDataService contentDataService;
 
     public ContentAdapterServiceImpl() {
         super();
-    }
-
-    @Override
-    public void setTempFolderRootPath(String tempFolderRootPath) {
-        this.tempFolderRootPath = tempFolderRootPath;
     }
 
     @Override
@@ -46,8 +58,11 @@ public class ContentAdapterServiceImpl implements ContentAdapterService {
                     contentDataService));
         }
 
+        List<Content> localList = new ArrayList<>();
+        localList.addAll(contentList);
+
         ContentsAdapter adapter = contentsAdapterFactory.create(
-                contentList, 
+                localList,
                 writeCleanHtmlInFile, 
                 tempFolderRootPath, 
                 htmlCleanerFactory.create(), 
@@ -56,44 +71,4 @@ public class ContentAdapterServiceImpl implements ContentAdapterService {
         return adapter.getResult();
     }
 
-    @Override
-    public void setWriteCleanHtmlInFile(boolean writeCleanHtmlInFile) {
-        this.writeCleanHtmlInFile = writeCleanHtmlInFile;
-    }
-
-    @Override
-    public void setContentsAdapterFactory(ContentsAdapterFactory contentsAdapterFactory) {
-        this.contentsAdapterFactory = contentsAdapterFactory;
-    }
-
-    @Override
-    public void setHtmlCleanerFactory(HTMLCleanerFactory htmlCleanerFactory) {
-        this.htmlCleanerFactory = htmlCleanerFactory;
-    }
-
-    @Override
-    public void setHtmlParserFactory(HTMLParserFactory htmlParserFactory) {
-        this.htmlParserFactory = htmlParserFactory;
-    }
-
-    @Override
-    public void setContentAdapterFactorySet(Set<ContentAdapterFactory> contentAdapterFactorySet) {
-        this.contentAdapterFactorySet = contentAdapterFactorySet;
-    }
-
-    @Override
-    public void setUrlIdentifierFactory(URLIdentifierFactory urlIdentifierFactory) {
-        this.urlIdentifierFactory = urlIdentifierFactory;
-    }
-
-    @Override
-    public void setDownloaderFactory(DownloaderFactory downloaderFactory) {
-        this.downloaderFactory = downloaderFactory;
-    }
-
-    @Override
-    public void setContentDataService(ContentDataService contentDataService) {
-        this.contentDataService = contentDataService;
-    }
-    
 }
