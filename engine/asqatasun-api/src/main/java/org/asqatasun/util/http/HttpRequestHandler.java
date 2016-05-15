@@ -193,7 +193,7 @@ public class HttpRequestHandler {
             return "";
         }
         String encodedUrl = getEncodedUrl(url);
-        CloseableHttpClient httpClient = getHttpClient(encodedUrl); 
+        CloseableHttpClient httpClient = getHttpClient(encodedUrl);
         HttpGet get = new HttpGet(encodedUrl);
         try {
             LOGGER.debug("executing request to retrieve content on " + get.getURI());
