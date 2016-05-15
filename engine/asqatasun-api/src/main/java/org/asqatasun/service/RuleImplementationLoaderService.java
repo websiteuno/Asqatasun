@@ -42,19 +42,6 @@ public interface RuleImplementationLoaderService {
 
     /**
      *
-     * @param processResultDataService
-     */
-    void setProcessResultDataService(ProcessResultDataService processResultDataService);
-
-    /**
-     *
-     * @param nomenclatureLoaderService
-     */
-    void setNomenclatureLoaderService(
-            NomenclatureLoaderService nomenclatureLoaderService);
-
-    /**
-     *
      * @param test
      * @return
      */
@@ -65,11 +52,5 @@ public interface RuleImplementationLoaderService {
      * @param archiveRoot
      */
     void setArchiveRoot(String archiveRoot);
-
-    /**
-     *
-     * @param ruleImplementationLoaderFactory
-     */
-    void setRuleImplementationLoaderFactory(RuleImplementationLoaderFactory ruleImplementationLoaderFactory);
 
 }

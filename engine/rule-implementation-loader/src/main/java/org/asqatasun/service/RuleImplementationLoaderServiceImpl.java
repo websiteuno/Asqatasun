@@ -31,18 +31,24 @@ import org.asqatasun.ruleimplementation.RuleImplementation;
 import org.asqatasun.ruleimplementationloader.RuleImplementationLoader;
 import org.asqatasun.ruleimplementationloader.RuleImplementationLoaderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("ruleImplementationLoaderService")
 public class RuleImplementationLoaderServiceImpl implements RuleImplementationLoaderService {
 
+    @Autowired
     private NomenclatureLoaderService nomenclatureLoaderService;
+    @Autowired
     private ProcessRemarkDataService processRemarkDataService;
+    @Autowired
     private ProcessResultDataService processResultDataService;
-    private String archiveRoot;
+    @Autowired
     private RuleImplementationLoaderFactory ruleImplementationLoaderFactory;
+    private String archiveRoot;
 
     public RuleImplementationLoaderServiceImpl() {
         super();
@@ -79,31 +85,8 @@ public class RuleImplementationLoaderServiceImpl implements RuleImplementationLo
     }
 
     @Override
-    @Autowired
-    public void setNomenclatureLoaderService(NomenclatureLoaderService nomenclatureService) {
-        this.nomenclatureLoaderService = nomenclatureService;
-    }
-    
-    @Autowired
-    public void setProcessRemarkDataService(ProcessRemarkDataService processRemarkDataService) {
-        this.processRemarkDataService = processRemarkDataService;
-    }
-
-    @Override
     public void setArchiveRoot(String archiveRoot) {
         this.archiveRoot = archiveRoot;
-    }
-
-    @Override
-    @Autowired
-    public void setRuleImplementationLoaderFactory(RuleImplementationLoaderFactory ruleImplementationLoaderFactory) {
-        this.ruleImplementationLoaderFactory = ruleImplementationLoaderFactory;
-    }
-
-    @Override
-    @Autowired
-    public void setProcessResultDataService(ProcessResultDataService processResultDataService) {
-        this.processResultDataService = processResultDataService;
     }
 
 }
