@@ -38,9 +38,7 @@ import org.springframework.stereotype.Service;
 public class NomenclatureDataServiceImpl extends AbstractGenericDataService<Nomenclature, Long> implements
         NomenclatureDataService {
 
-    protected StandardMessageDAO standardMessageDao;
-    private Map<String, Nomenclature> nomenclatureMapByCode = 
-            new HashMap<String, Nomenclature>();
+    private Map<String, Nomenclature> nomenclatureMapByCode = new HashMap<>();
 
     public NomenclatureDataServiceImpl() {
         super();
