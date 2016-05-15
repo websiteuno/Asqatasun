@@ -33,10 +33,6 @@ import org.springframework.stereotype.Component;
 @Component("sourceCodeRemarkFactory")
 public class SourceCodeRemarkFactoryImpl implements SourceCodeRemarkFactory {
 
-    public SourceCodeRemarkFactoryImpl() {
-        super();
-    }
-
     @Override
     public SourceCodeRemark create() {
         return new SourceCodeRemarkImpl();

@@ -34,10 +34,6 @@ import org.springframework.stereotype.Component;
 @Component("preProcessResultFactory")
 public class PreProcessResultFactoryImpl implements PreProcessResultFactory {
 
-    public PreProcessResultFactoryImpl() {
-        super();
-    }
-
     @Override
     public PreProcessResult create() {
         return new PreProcessResultImpl();

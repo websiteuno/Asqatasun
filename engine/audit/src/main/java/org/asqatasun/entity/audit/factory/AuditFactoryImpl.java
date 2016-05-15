@@ -34,10 +34,6 @@ import java.util.Date;
 @Component("auditFactory")
 public class AuditFactoryImpl implements AuditFactory {
 
-    public AuditFactoryImpl() {
-        super();
-    }
-
     @Override
     public Audit create() {
         return new AuditImpl(new Date());

@@ -37,10 +37,6 @@ import org.springframework.stereotype.Component;
 @Component("definiteResultFactory")
 public class DefiniteResultFactoryImpl implements DefiniteResultFactory {
 
-    public DefiniteResultFactoryImpl() {
-        super();
-    }
-
     @Override
     public DefiniteResult create() {
         return new DefiniteResultImpl();

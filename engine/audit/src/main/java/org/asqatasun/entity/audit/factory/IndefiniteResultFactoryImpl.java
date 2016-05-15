@@ -37,10 +37,6 @@ import java.util.Collection;
 @Component("indefiniteResultFactory")
 public class IndefiniteResultFactoryImpl implements IndefiniteResultFactory {
 
-    public IndefiniteResultFactoryImpl() {
-        super();
-    }
-
     @Override
     public IndefiniteResult create() {
         return new IndefiniteResultImpl();

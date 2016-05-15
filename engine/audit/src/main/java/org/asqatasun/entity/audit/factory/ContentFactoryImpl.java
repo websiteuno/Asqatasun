@@ -45,10 +45,6 @@ import org.springframework.stereotype.Component;
 @Component("contentFactory")
 public class ContentFactoryImpl implements ContentFactory {
 
-    public ContentFactoryImpl() {
-        super();
-    }
-
     @Override
     public Content create() {
         throw new UnsupportedOperationException("Not supported yet.");

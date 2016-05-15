@@ -35,10 +35,6 @@ import java.util.Date;
 @Component
 public class SSPFactoryImpl implements SSPFactory {
 
-    public SSPFactoryImpl() {
-        super();
-    }
-
     @Override
     public SSP create() {
         return new SSPImpl();

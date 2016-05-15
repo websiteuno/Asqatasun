@@ -33,10 +33,6 @@ import org.springframework.stereotype.Component;
 @Component("processRemarkFactory")
 public class ProcessRemarkFactoryImpl implements ProcessRemarkFactory {
 
-    public ProcessRemarkFactoryImpl() {
-        super();
-    }
-
     @Override
     public ProcessRemark create() {
         return new ProcessRemarkImpl();

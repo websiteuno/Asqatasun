@@ -32,10 +32,6 @@ import org.springframework.stereotype.Component;
 @Component("evidenceFactory")
 public class EvidenceFactoryImpl implements EvidenceFactory {
 
-    public EvidenceFactoryImpl() {
-        super();
-    }
-
     @Override
     public Evidence create() {
         return new EvidenceImpl();

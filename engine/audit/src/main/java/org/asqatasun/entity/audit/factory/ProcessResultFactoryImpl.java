@@ -22,17 +22,14 @@
 package org.asqatasun.entity.audit.factory;
 
 import org.asqatasun.entity.audit.*;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
-//@Component
+@Component("processResultFactory")
 public class ProcessResultFactoryImpl implements ProcessResultFactory {
-
-    public ProcessResultFactoryImpl() {
-        super();
-    }
 
     @Override
     public ProcessResult create() {
