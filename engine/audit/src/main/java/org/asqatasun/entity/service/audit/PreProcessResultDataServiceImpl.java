@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("preProcessResultDataService")
 public class PreProcessResultDataServiceImpl extends AbstractGenericDataService<PreProcessResult, Long> implements
         PreProcessResultDataService {
 

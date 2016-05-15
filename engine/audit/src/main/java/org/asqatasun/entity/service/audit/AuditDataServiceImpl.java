@@ -35,7 +35,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("auditDataService")
 public class AuditDataServiceImpl extends AbstractGenericDataService<Audit, Long> implements AuditDataService {
 
     public AuditDataServiceImpl() {

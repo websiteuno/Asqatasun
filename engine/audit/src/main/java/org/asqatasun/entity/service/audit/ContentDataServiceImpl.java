@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("contentDataService")
 public class ContentDataServiceImpl extends AbstractGenericDataService<Content, Long>
         implements ContentDataService {
 

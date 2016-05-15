@@ -31,18 +31,24 @@ import org.asqatasun.entity.factory.audit.ProcessRemarkFactory;
 import org.asqatasun.entity.factory.audit.SourceCodeRemarkFactory;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("processRemarkDataService")
 public class ProcessRemarkDataServiceImpl extends AbstractGenericDataService<ProcessRemark, Long> implements
         ProcessRemarkDataService {
 
     @Autowired
+    @Qualifier("sourceCodeRemarkFactory")
     private SourceCodeRemarkFactory sourceCodeRemarkFactory;
+
+    @Autowired
+    @Qualifier("processRemarkFactory")
+    protected ProcessRemarkFactory entityFactory;
     
     @Override
     public Collection<ProcessRemark> findProcessRemarksFromProcessResult(
@@ -71,7 +77,7 @@ public class ProcessRemarkDataServiceImpl extends AbstractGenericDataService<Pro
 
     @Override
     public ProcessRemark getProcessRemark(TestSolution issue, String messageCode) {
-        return ((ProcessRemarkFactory) entityFactory).create(issue, messageCode);
+        return entityFactory.create(issue, messageCode);
     }
     
     @Override

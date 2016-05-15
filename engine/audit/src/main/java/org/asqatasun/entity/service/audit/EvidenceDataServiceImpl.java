@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("evidenceDataService")
 public class EvidenceDataServiceImpl extends AbstractGenericDataService<Evidence, Long> implements
         EvidenceDataService {
 

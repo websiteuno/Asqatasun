@@ -40,20 +40,23 @@ import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("processResultDataService")
 public class ProcessResultDataServiceImpl extends AbstractGenericDataService<ProcessResult, Long> implements
         ProcessResultDataService {
 
     @Autowired
+    @Qualifier("definiteResultFactory")
     private DefiniteResultFactory definiteResultFactory;
 
     @Autowired
+    @Qualifier("indefiniteResultFactory")
     private IndefiniteResultFactory indefiniteResultFactory;
 
     @Override

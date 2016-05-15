@@ -29,16 +29,23 @@ import org.asqatasun.entity.dao.audit.EvidenceElementDAO;
 import org.asqatasun.entity.factory.audit.EvidenceElementFactory;
 import org.asqatasun.entity.factory.audit.EvidenceElementFactoryImpl;
 import org.asqatasun.entity.factory.audit.EvidenceFactoryImpl;
+import org.asqatasun.entity.factory.audit.ProcessRemarkFactory;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Service
+@Service("evidenceElementDataService")
 public class EvidenceElementDataServiceImpl extends AbstractGenericDataService<EvidenceElement, Long> implements
         EvidenceElementDataService {
+
+    @Autowired
+    @Qualifier("evidenceElementFactory")
+    protected EvidenceElementFactory entityFactory;
 
     public EvidenceElementDataServiceImpl() {
         super();
@@ -53,17 +60,17 @@ public class EvidenceElementDataServiceImpl extends AbstractGenericDataService<E
 
     @Override
     public EvidenceElement getEvidenceElement(String value) {
-        return ((EvidenceElementFactory) entityFactory).create(value);
+        return entityFactory.create(value);
     }
 
     @Override
     public EvidenceElement getEvidenceElement(ProcessRemark processRemark, String value, Evidence evidence) {
-        return ((EvidenceElementFactory) entityFactory).create(processRemark, value, evidence);
+        return entityFactory.create(processRemark, value, evidence);
     }
     
     @Override
     public EvidenceElement getEvidenceElement(String value, Evidence evidence) {
-        return ((EvidenceElementFactory) entityFactory).create(value, evidence);
+        return entityFactory.create(value, evidence);
     }
 
 }
