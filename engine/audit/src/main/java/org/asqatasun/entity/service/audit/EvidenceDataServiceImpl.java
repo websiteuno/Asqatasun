@@ -25,8 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.asqatasun.entity.audit.Evidence;
 import org.asqatasun.entity.dao.audit.EvidenceDAO;
-import org.asqatasun.entity.factory.audit.AuditFactoryImpl;
-import org.asqatasun.entity.factory.audit.EvidenceFactoryImpl;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.stereotype.Service;
 

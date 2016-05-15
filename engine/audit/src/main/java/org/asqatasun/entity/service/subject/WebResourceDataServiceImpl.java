@@ -23,10 +23,10 @@ package org.asqatasun.entity.service.subject;
 
 import java.util.List;
 import org.asqatasun.entity.dao.subject.WebResourceDAO;
-import org.asqatasun.entity.factory.subject.WebResourceFactory;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
+import org.asqatasun.entity.subject.factory.WebResourceFactory;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.util.FileNaming;
 import org.springframework.stereotype.Service;
@@ -60,8 +60,7 @@ public class WebResourceDataServiceImpl extends AbstractGenericDataService<WebRe
 
     @Override
     public WebResource read(Long key) {
-        WebResource entity = super.read(key);
-        return entity;
+        return super.read(key);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class WebResourceDataServiceImpl extends AbstractGenericDataService<WebRe
     
     @Override
     public WebResource deepRead(Long webResourceId) {
-        return ((WebResourceDAO) entityDao).read(webResourceId);
+        return (entityDao.read(webResourceId));
     }
 
     @Override

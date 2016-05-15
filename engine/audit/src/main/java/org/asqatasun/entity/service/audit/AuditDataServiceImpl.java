@@ -25,9 +25,8 @@ import java.util.Collection;
 import java.util.Date;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.AuditStatus;
+import org.asqatasun.entity.audit.factory.AuditFactory;
 import org.asqatasun.entity.dao.audit.AuditDAO;
-import org.asqatasun.entity.factory.audit.AuditFactory;
-import org.asqatasun.entity.factory.audit.AuditFactoryImpl;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.stereotype.Service;
 
