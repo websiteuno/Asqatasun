@@ -32,6 +32,8 @@ import org.asqatasun.entity.reference.Level;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.reference.Test;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,20 +46,14 @@ public class TestDataServiceImpl extends AbstractGenericDataService<Test, Long>
 
     private static final Logger LOGGER = Logger.getLogger(TestDataServiceImpl.class);
 
+    @Value("${levelParameterCode:LEVEL}")
     private String levelParameterCode = "LEVEL";
-    public void setLevelParameterCode(String levelParameterCode) {
-        this.levelParameterCode = levelParameterCode;
-    }
 
+    @Autowired
     private LevelDataService levelDataService;
-    public void setLevelDataService(LevelDataService levelDataService) {
-        this.levelDataService = levelDataService;
-    }
 
+    @Autowired
     private ReferenceDataService referenceDataService;
-    public void setReferenceDataService(ReferenceDataService referenceDataService) {
-        this.referenceDataService = referenceDataService;
-    }
     
     public TestDataServiceImpl() {
         super();
