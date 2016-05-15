@@ -34,17 +34,24 @@ import org.asqatasun.entity.service.audit.ProcessRemarkDataService;
 import org.asqatasun.processing.ProcessRemarkServiceFactory;
 import org.asqatasun.ruleimplementation.RuleImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("consolidatorService")
 public class ConsolidatorServiceImpl implements ConsolidatorService {
 
+    @Autowired
     protected RuleImplementationLoaderService ruleImplementationLoaderService;
+    @Autowired
     private ProcessRemarkDataService processRemarkDataService;
+    @Autowired
     private EvidenceElementDataService evidenceElementDataService;
+    @Autowired
     private EvidenceDataService evidenceDataService;
+    @Autowired
     private ConsolidatorFactory consolidatorFactory;
 
     public ConsolidatorServiceImpl() {
@@ -71,36 +78,6 @@ public class ConsolidatorServiceImpl implements ConsolidatorService {
             }
         }
         return resultList;
-    }
-
-    @Override
-    @Autowired
-    public void setRuleImplementationLoaderService(RuleImplementationLoaderService ruleImplementationLoaderService) {
-        this.ruleImplementationLoaderService = ruleImplementationLoaderService;
-    }
-
-    @Override
-    @Autowired
-    public void setEvidenceDataService(EvidenceDataService evidenceDataService) {
-        this.evidenceDataService = evidenceDataService;
-    }
-
-    @Override
-    @Autowired
-    public void setEvidenceElementDataService(EvidenceElementDataService evidenceElementDataService) {
-        this.evidenceElementDataService = evidenceElementDataService;
-    }
-
-    @Override
-    @Autowired
-    public void setProcessRemarkDataService(ProcessRemarkDataService processRemarkDataService) {
-        this.processRemarkDataService = processRemarkDataService;
-    }
-
-    @Override
-    @Autowired
-    public void setConsolidatorFactory(ConsolidatorFactory consolidatorFactory) {
-        this.consolidatorFactory = consolidatorFactory;
     }
 
 }

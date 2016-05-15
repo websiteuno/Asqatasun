@@ -35,7 +35,7 @@ import org.asqatasun.entity.service.audit.ProcessRemarkDataService;
  * @author jkowalczyk
  */
 @XmlTransient
-public interface ConsolidatorService {// TODO Write javadoc
+public interface ConsolidatorService {
 
     /**
      *
@@ -45,35 +45,5 @@ public interface ConsolidatorService {// TODO Write javadoc
      */
     Collection<ProcessResult> consolidate(Collection<ProcessResult> grossResultList,
             Collection<Test> testList);
-
-    /**
-     * 
-     * @param ruleImplementationLoaderService the rule implementation loader service to set
-     */
-    void setRuleImplementationLoaderService(RuleImplementationLoaderService ruleImplementationLoaderService);
-
-    /**
-     *
-     * @param evidenceDataService
-     */
-    void setEvidenceDataService(EvidenceDataService evidenceDataService);
-
-    /**
-     *
-     * @param evidenceElementDataService
-     */
-    void setEvidenceElementDataService(EvidenceElementDataService evidenceElementDataService);
-
-    /**
-     *
-     * @param processRemarkDataService
-     */
-    void setProcessRemarkDataService(ProcessRemarkDataService processRemarkDataService);
-
-    /**
-     * 
-     * @param consolidatorFactory
-     */
-    void setConsolidatorFactory(ConsolidatorFactory consolidatorFactory);
 
 }

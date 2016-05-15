@@ -25,11 +25,13 @@ import java.util.Collection;
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.ruleimplementation.RuleImplementation;
 import org.asqatasun.service.ProcessRemarkService;
+import org.springframework.stereotype.Component;
 
 /**
  * Based on the design pattern factory, create instances of ConsolidatorFactory
  * @author enzolalay
  */
+@Component("consolidatorFactory")
 public class ConsolidatorFactoryImpl implements ConsolidatorFactory {
 
     /**
