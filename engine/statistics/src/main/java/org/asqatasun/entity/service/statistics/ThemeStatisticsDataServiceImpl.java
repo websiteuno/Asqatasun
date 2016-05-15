@@ -27,11 +27,13 @@ import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("themeStatisticsDataService")
 public class ThemeStatisticsDataServiceImpl extends AbstractGenericDataService<ThemeStatistics, Long>
         implements ThemeStatisticsDataService {
 

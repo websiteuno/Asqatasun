@@ -46,44 +46,28 @@ import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("webResourceStatisticsDataService")
 public class WebResourceStatisticsDataServiceImpl extends
         AbstractGenericDataService<WebResourceStatistics, Long> implements
         WebResourceStatisticsDataService {
 
     private static final BigDecimal ZERO = BigDecimal.valueOf(0.0);
 
+    @Autowired
     private CriterionStatisticsDAO criterionStatisticsDAO;
-
+    @Autowired
     private ThemeStatisticsDAO themeStatisticsDAO;
-
+    @Autowired
     private CriterionStatisticsDataService criterionStatisticsDataService;
-
+    @Autowired
     private ThemeStatisticsDataService themeStatisticsDataService;
 
-    public ThemeStatisticsDataService getThemeStatisticsDataService() {
-        return themeStatisticsDataService;
-    }
-
-    @Autowired
-    public void setThemeStatisticsDataService(
-            ThemeStatisticsDataService themeStatisticsDataService) {
-        this.themeStatisticsDataService = themeStatisticsDataService;
-    }
-
-    public CriterionStatisticsDataService getCriterionStatisticsDataService() {
-        return criterionStatisticsDataService;
-    }
-
-    @Autowired
-    public void setCriterionStatisticsDataService(
-            CriterionStatisticsDataService criterionStatisticsDataService) {
-        this.criterionStatisticsDataService = criterionStatisticsDataService;
-    }
 
     @Override
     public Long getResultCountByResultType(Long webresourceId,
@@ -329,7 +313,7 @@ public class WebResourceStatisticsDataServiceImpl extends
 
                 populateCriterionStatistics(criterionStatisticsDb, criterionStatisticsFromMap);
                 computeCriterionResult(criterionStatisticsDb);
-                criterionStatisticsDAO.saveOrUpdate(criterionStatisticsDb);
+                criterionStatisticsDataService.saveOrUpdate(criterionStatisticsDb);
             }
 
             for (ThemeStatistics ts : tsMap.values()) {
@@ -343,7 +327,7 @@ public class WebResourceStatisticsDataServiceImpl extends
                 }
 
                 populateThemeStatistics(themeStatisticsDb, themeStatisticsFromMap);
-                themeStatisticsDAO.saveOrUpdate(themeStatisticsDb);
+                themeStatisticsDataService.saveOrUpdate(themeStatisticsDb);
             }
         }
 
@@ -397,7 +381,6 @@ public class WebResourceStatisticsDataServiceImpl extends
      * definition, the criterion result is the result type
      *
      * @param crs
-     * @param criterionTestListSize
      */
     private void computeCriterionResult(CriterionStatistics crs) {
 
@@ -441,8 +424,9 @@ public class WebResourceStatisticsDataServiceImpl extends
     /**
      *
      * @param testSolution
-     * @param criterion
+     * @param theme
      * @param wrs
+     * @param tsMap
      */
     private void addResultToThemeCounterMap(
             TestSolution testSolution,
@@ -520,20 +504,4 @@ public class WebResourceStatisticsDataServiceImpl extends
         }
     }
 
-    public CriterionStatisticsDAO getCriterionStatisticsDAO() {
-        return criterionStatisticsDAO;
-    }
-
-    public void setCriterionStatisticsDAO(
-            CriterionStatisticsDAO criterionStatisticsDAO) {
-        this.criterionStatisticsDAO = criterionStatisticsDAO;
-    }
-
-    public ThemeStatisticsDAO getThemeStatisticsDAO() {
-        return themeStatisticsDAO;
-    }
-
-    public void setThemeStatisticsDAO(ThemeStatisticsDAO themeStatisticsDAO) {
-        this.themeStatisticsDAO = themeStatisticsDAO;
-    }
 }

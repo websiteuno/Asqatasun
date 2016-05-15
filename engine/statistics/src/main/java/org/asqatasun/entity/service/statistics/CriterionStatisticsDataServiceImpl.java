@@ -29,11 +29,13 @@ import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.statistics.CriterionStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("criterionStatisticsDataService")
 public class CriterionStatisticsDataServiceImpl extends AbstractGenericDataService<CriterionStatistics, Long>
         implements CriterionStatisticsDataService {
 
