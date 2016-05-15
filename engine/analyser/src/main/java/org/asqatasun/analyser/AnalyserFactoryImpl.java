@@ -21,12 +21,10 @@
  */
 package org.asqatasun.analyser;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.audit.Audit;
-import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.entity.service.audit.AuditDataService;
@@ -41,13 +39,14 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
-@Component
+@Component("analyserFactory")
 public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javadoc
 
     @Autowired
@@ -75,13 +74,27 @@ public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javad
     private ParameterFamilyDataService parameterFamilyDataService;
 
     @Autowired
-    private List<String> testWeightParameterFamilyCodeList = Collections.emptyList();
-
-    @Autowired
     private ProcessResultDataService processResultDataService;
 
-    @Autowired
-    private Collection<ParameterFamily> testWeightParameterFamilySet ;
+    @Value("${testWeightParameterFamilyCodeList:Seo_TEST_WEIGHT_MANAGEMENT}")
+    private String testWeightParameterFamilyCodeList;
+    public List<String> getTestWeightParameterFamilyCodeList() {
+        return StringUtils.isNotBlank(testWeightParameterFamilyCodeList) ?
+                Arrays.asList(testWeightParameterFamilyCodeList.split(";")) :
+                Collections.<String>emptyList();
+    }
+
+    private Collection<ParameterFamily> testWeightParameterFamilySet;
+    public Collection<ParameterFamily> getTestWeightParameterFamilySet() {
+        if (testWeightParameterFamilySet == null) {
+            testWeightParameterFamilySet = new HashSet<>();
+            for (String paramFamilyCode : getTestWeightParameterFamilyCodeList()) {
+                testWeightParameterFamilySet.add(parameterFamilyDataService.getParameterFamily(paramFamilyCode));
+            }
+        }
+        return testWeightParameterFamilySet;
+    }
+
 
     public AnalyserFactoryImpl() {}
 
@@ -113,15 +126,9 @@ public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javad
      *  the collection of test weight parameters for the given audit
      */
     private Collection<Parameter> getTestWeightParamSet(Audit audit) {
-        if (testWeightParameterFamilySet == null) {
-            testWeightParameterFamilySet = new HashSet<>();
-            for (String paramFamilyCode : testWeightParameterFamilyCodeList) {
-                testWeightParameterFamilySet.add(parameterFamilyDataService.getParameterFamily(paramFamilyCode));
-            }
-        }
         Collection<Parameter> testWeightParamSet = new HashSet<>();
-        for (ParameterFamily pf : testWeightParameterFamilySet) {
-                testWeightParamSet.addAll(parameterDataService.getParameterSet(pf, audit));
+        for (ParameterFamily pf : getTestWeightParameterFamilySet()) {
+            testWeightParamSet.addAll(parameterDataService.getParameterSet(pf, audit));
         }
         return testWeightParamSet;
     }
