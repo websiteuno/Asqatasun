@@ -72,8 +72,11 @@ public class HttpRequestHandler {
     private String proxyUser;
     @Value("${proxyPassword}")
     private String proxyPassword;
-//    @Value("${bypassChecky}")
+    //    @Value("${bypassCheck}")
     private boolean bypassCheck = false;
+    public void setBypassCheck(String bypassCheck) {
+        this.bypassCheck = Boolean.valueOf(bypassCheck);
+    }
 
     private static final String DEFAULT_CHARSET = "UTF-8";
 
