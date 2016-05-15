@@ -23,11 +23,13 @@ package org.asqatasun.service;
 
 import org.asqatasun.entity.reference.Nomenclature;
 import org.asqatasun.nomenclatureloader.NomenclatureLoader;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("nomenclatureLoaderService")
 public class NomenclatureLoaderServiceImpl implements NomenclatureLoaderService {
 
     private NomenclatureLoader nomenclatureLoader;
