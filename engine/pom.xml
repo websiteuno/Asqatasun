@@ -13,25 +13,23 @@
     <modules>
         <module>commons-entity</module>
         <module>commons-entity-jpa</module>
-        <module>reference</module>
-        <module>audit</module>
+        <module>asqatasun-api</module>
+        <module>asqatasun-model</module>
+        <module>asqatasun-services</module>
+        <module>asqatasun-persistence</module>
+
         <module>rule-implementation-loader</module>
         <module>nomenclatureloader</module>
-<!--        <module>crawler</module>-->
         <module>contentloader</module>
+        <module>scenarioloader</module>
         <module>contentadapter</module>
         <module>commons-processing</module>
         <module>processor</module>
         <module>consolidator</module>
         <module>analyser</module>
-        <module>persistence</module>
-        <module>logging</module>
-        <module>parameterization</module>
-        <module>statistics</module>
-        <module>scenarioloader</module>
-        <module>sebuilder-interpreter-tools</module>
-        <module>asqatasun-api</module>
         <module>asqatasun-engine</module>
+        <module>logging</module>
+
         <module>asqatasun-resources</module>
     </modules>
 </project>
