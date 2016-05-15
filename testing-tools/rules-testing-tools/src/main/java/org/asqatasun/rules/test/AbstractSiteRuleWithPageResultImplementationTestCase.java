@@ -42,8 +42,11 @@ public abstract class AbstractSiteRuleWithPageResultImplementationTestCase exten
     public Collection<ProcessResult> consolidateWithListAsReturn(String webResourceKey) {
         System.out.println(this + "::consolidate(\"" + webResourceKey + "\")");
         WebResource webResource = getWebResourceMap().get(webResourceKey);
-        Collection<ProcessResult> netResultList = getConsolidatorService().consolidate(getGrossResultMap().get(webResource), getTestList());
-//        netResultMap.put(webResource, netResult);
+        Collection<ProcessResult> netResultList =
+                getConsolidatorService().consolidate(
+                    grossResultMap.get(webResource),
+                        testList);
+
         return netResultList;
     }
 

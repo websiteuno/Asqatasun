@@ -23,12 +23,13 @@
 package org.asqatasun.rules.test;
 
 import java.util.Collection;
+
+import org.asqatasun.entity.audit.factory.SourceCodeRemarkFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.audit.SourceCodeRemark;
 import org.asqatasun.entity.audit.TestSolution;
-import org.asqatasun.entity.factory.audit.SourceCodeRemarkFactory;
 import org.asqatasun.entity.service.audit.ProcessRemarkDataService;
 import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.factory.GenericFactory;
@@ -39,12 +40,9 @@ import org.asqatasun.sdk.entity.factory.GenericFactory;
  */
 public class ProcessRemarkDataServiceMock implements ProcessRemarkDataService{
 
+    @Autowired
     private SourceCodeRemarkFactory sourceCodeRemarkFactory;
     @Autowired
-    public void setSourceCodeRemarkFactory(SourceCodeRemarkFactory sourceCodeRemarkFactory) {
-        this.sourceCodeRemarkFactory = sourceCodeRemarkFactory;
-    }
-    
     private GenericFactory<ProcessRemark> processRemarkFactory;
     
     @Override
