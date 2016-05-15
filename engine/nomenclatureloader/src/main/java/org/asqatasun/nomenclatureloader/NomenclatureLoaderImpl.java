@@ -23,14 +23,18 @@ package org.asqatasun.nomenclatureloader;
 
 import org.asqatasun.entity.reference.Nomenclature;
 import org.asqatasun.entity.service.reference.NomenclatureDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Component("nomenclatureLoader")
 public class NomenclatureLoaderImpl implements NomenclatureLoader {
 
     private String code;
+    @Autowired
     private NomenclatureDataService nomenclatureDataService;
     private Nomenclature result;
 
@@ -58,9 +62,5 @@ public class NomenclatureLoaderImpl implements NomenclatureLoader {
         this.code = code;
     }
 
-    public void setNomenclatureDataService(
-            NomenclatureDataService nomenclatureDataService) {
-        this.nomenclatureDataService = nomenclatureDataService;
-    }
 
 }
