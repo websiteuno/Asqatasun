@@ -27,6 +27,7 @@ import org.asqatasun.entity.dao.statistics.CriterionStatisticsDAO;
 import org.asqatasun.entity.reference.Criterion;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.statistics.CriterionStatistics;
+import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.stereotype.Service;
@@ -72,6 +73,11 @@ public class CriterionStatisticsDataServiceImpl extends AbstractGenericDataServi
     @Override
     public Long getCriterionStatisticsCountByWebResource(Long webResourceId) {
         return ((CriterionStatisticsDAO) entityDao).findCriterionStatisticsCountByWebResource(webResourceId);
+    }
+
+    @Override
+    public CriterionStatistics getCriterionStatisticsByWebResource(Criterion criterion ,WebResourceStatistics webResourceStatistics) {
+        return ((CriterionStatisticsDAO) entityDao).findCriterionStatisticsByWebResource(criterion, webResourceStatistics);
     }
 
 }

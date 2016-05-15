@@ -60,10 +60,6 @@ public class WebResourceStatisticsDataServiceImpl extends
     private static final BigDecimal ZERO = BigDecimal.valueOf(0.0);
 
     @Autowired
-    private CriterionStatisticsDAO criterionStatisticsDAO;
-    @Autowired
-    private ThemeStatisticsDAO themeStatisticsDAO;
-    @Autowired
     private CriterionStatisticsDataService criterionStatisticsDataService;
     @Autowired
     private ThemeStatisticsDataService themeStatisticsDataService;
@@ -304,7 +300,7 @@ public class WebResourceStatisticsDataServiceImpl extends
             for (CriterionStatistics css : csMap.values()) {
                 CriterionStatistics criterionStatisticsFromMap = csMap.get(css.getCriterion());
 
-                CriterionStatistics criterionStatisticsDb = criterionStatisticsDAO.findCriterionStatisticsByWebResource(css.getCriterion(), wrStats);
+                CriterionStatistics criterionStatisticsDb = criterionStatisticsDataService.getCriterionStatisticsByWebResource(css.getCriterion(), wrStats);
                 if (criterionStatisticsDb == null) {
                     criterionStatisticsDb = criterionStatisticsDataService.create();
                     criterionStatisticsDb.setWebResourceStatistics(wrStats);
@@ -319,7 +315,7 @@ public class WebResourceStatisticsDataServiceImpl extends
             for (ThemeStatistics ts : tsMap.values()) {
                 ThemeStatistics themeStatisticsFromMap = tsMap.get(ts.getTheme());
 
-                ThemeStatistics themeStatisticsDb = themeStatisticsDAO.findThemeStatisticsByWebResource(ts.getTheme(), wrStats);
+                ThemeStatistics themeStatisticsDb = themeStatisticsDataService.getThemeStatisticsByWebResource(ts.getTheme(), wrStats);
                 if (themeStatisticsDb == null) {
                     themeStatisticsDb = themeStatisticsDataService.create();
                     themeStatisticsDb.setWebResourceStatistics(wrStats);

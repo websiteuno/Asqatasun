@@ -25,6 +25,7 @@ import org.asqatasun.entity.dao.statistics.ThemeStatisticsDAO;
 import org.asqatasun.entity.statistics.ThemeStatistics;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.entity.reference.Theme;
+import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.stereotype.Service;
@@ -42,8 +43,12 @@ public class ThemeStatisticsDataServiceImpl extends AbstractGenericDataService<T
             WebResource webResource,
             TestSolution testSolution,
             Theme theme) {
-        return ((ThemeStatisticsDAO) entityDao).
-                findResultCountByResultTypeAndTheme(webResource, testSolution, theme);
+        return ((ThemeStatisticsDAO) entityDao).findResultCountByResultTypeAndTheme(webResource, testSolution, theme);
+    }
+
+    @Override
+    public ThemeStatistics getThemeStatisticsByWebResource(Theme theme, WebResourceStatistics wrStats) {
+        return ((ThemeStatisticsDAO) entityDao).findThemeStatisticsByWebResource(theme, wrStats);
     }
 
 }
