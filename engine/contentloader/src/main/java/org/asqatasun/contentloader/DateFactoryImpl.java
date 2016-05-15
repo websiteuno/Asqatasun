@@ -24,11 +24,13 @@ package org.asqatasun.contentloader;
 
 import java.util.Date;
 import org.asqatasun.util.factory.DateFactory;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("dateFactory")
 public class DateFactoryImpl implements DateFactory{
 
     @Override

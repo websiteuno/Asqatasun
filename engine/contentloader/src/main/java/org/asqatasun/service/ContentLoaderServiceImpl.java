@@ -31,37 +31,32 @@ import org.asqatasun.entity.service.audit.ContentDataService;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.util.factory.DateFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author jkowalczyk
  */
+@Service("contentLoaderService")
 public class ContentLoaderServiceImpl implements ContentLoaderService {
 
-    private ContentDataService contentDataService;
-    @Override
     @Autowired
+    private ContentDataService contentDataService;
     public void setContentDataService(ContentDataService contentDataService) {
         this.contentDataService = contentDataService;
     }
-
-    private ContentLoaderFactory contentLoaderFactory;
-    @Override
     @Autowired
+    private ContentLoaderFactory contentLoaderFactory;
     public void setContentLoaderFactory(ContentLoaderFactory contentLoaderFactory) {
         this.contentLoaderFactory = contentLoaderFactory;
     }
-
-    private DownloaderFactory downloaderFactory;
-    @Override
     @Autowired
+    private DownloaderFactory downloaderFactory;
     public void setDownloaderFactory(DownloaderFactory downloaderFactory) {
         this.downloaderFactory = downloaderFactory;
     }
-    
-    private DateFactory dateFactory;
-    @Override
     @Autowired
+    private DateFactory dateFactory;
     public void setDateFactory(DateFactory dateFactory) {
         this.dateFactory = dateFactory;
     }

@@ -47,7 +47,7 @@ public class FileContentLoaderFactoryImplTest extends TestCase {
     }
 
     /**
-     * Test of create method, of class FileContentLoaderFactoryImpl.
+     * Test of create method, of class ContentLoaderFactoryImpl.
      */
     public void testCreate() {
         System.out.println("create");
@@ -57,7 +57,7 @@ public class FileContentLoaderFactoryImplTest extends TestCase {
         Map<String, String> fileMap = null;
         DateFactory dateFactory = null;
         
-        FileContentLoaderFactoryImpl instance = new FileContentLoaderFactoryImpl();
+        ContentLoaderFactoryImpl instance = new ContentLoaderFactoryImpl();
         
         ContentLoader contentLoader = instance.create(
                 contentDataService, 

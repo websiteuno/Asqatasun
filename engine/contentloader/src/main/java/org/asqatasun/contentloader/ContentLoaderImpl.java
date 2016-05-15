@@ -42,6 +42,7 @@ public class ContentLoaderImpl implements ContentLoader {
     private final Downloader downloader;
     private List<Content> result;
     private WebResource webResource;
+
     @Override
     public void setWebResource(WebResource webResource) {
         this.webResource = webResource;

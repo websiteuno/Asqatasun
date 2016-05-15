@@ -21,10 +21,13 @@
  */
 package org.asqatasun.contentloader;
 
+import org.springframework.stereotype.Component;
+
 /**
  *
  * @author enzolalay
  */
+@Component("downloaderFactory")
 public class DownloaderFactoryImpl implements DownloaderFactory {
 
     @Override

@@ -36,7 +36,7 @@ import org.asqatasun.util.factory.DateFactory;
  * @author jkowalczyk
  */
 @XmlTransient
-public interface ContentLoaderService {// TODO Write javadoc
+public interface ContentLoaderService {
 
     /**
      *
@@ -52,29 +52,5 @@ public interface ContentLoaderService {// TODO Write javadoc
      * @return
      */
     List<Content> loadContent(WebResource webResource, Map<String, String> fileMap);
-
-    /**
-     *
-     * @param contentDataService
-     */
-    void setContentDataService(ContentDataService contentDataService);
-
-    /**
-     *
-     * @param contentLoaderFactory
-     */
-    void setContentLoaderFactory(ContentLoaderFactory contentLoaderFactory);
-
-    /**
-     *
-     * @param downloaderFactory
-     */
-    void setDownloaderFactory(DownloaderFactory downloaderFactory);
-    
-    /**
-     *
-     * @param dateFactory
-     */
-    void setDateFactory(DateFactory dateFactory);
 
 }

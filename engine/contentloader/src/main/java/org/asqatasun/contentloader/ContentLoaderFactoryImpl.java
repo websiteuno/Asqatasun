@@ -24,11 +24,13 @@ package org.asqatasun.contentloader;
 import java.util.Map;
 import org.asqatasun.entity.service.audit.ContentDataService;
 import org.asqatasun.util.factory.DateFactory;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author enzolalay
  */
+@Component("contentLoaderFactory")
 public class ContentLoaderFactoryImpl implements ContentLoaderFactory {
 
     @Override
@@ -37,10 +39,10 @@ public class ContentLoaderFactoryImpl implements ContentLoaderFactory {
             Downloader downloader, 
             DateFactory dateFactory,
             Map<String, String> fileMap) {
-        
-        return new ContentLoaderImpl(
-                contentDataService, 
-                downloader, 
+
+        return new FileContentLoaderImpl(
+                contentDataService,
+                fileMap,
                 dateFactory);
     }
 }
