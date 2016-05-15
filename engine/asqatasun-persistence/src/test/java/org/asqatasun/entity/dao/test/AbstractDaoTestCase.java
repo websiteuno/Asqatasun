@@ -22,89 +22,79 @@
 package org.asqatasun.entity.dao.test;
 
 import java.io.FileInputStream;
+
 import org.apache.log4j.Logger;
-import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.asqatasun.entity.dao.config.PersistenceConfigTest;
+import org.dbunit.DataSourceBasedDBTestCase;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ReplacementDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.AfterTransaction;
+import org.springframework.test.context.transaction.BeforeTransaction;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.sql.DataSource;
 
 /**
  *
  * @author lralambomanana
  */
-public abstract class AbstractDaoTestCase extends DBTestCase {
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+@TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
+@ContextConfiguration(classes = {PersistenceConfigTest.class})
+public abstract class AbstractDaoTestCase extends DataSourceBasedDBTestCase {
 
     /**
      * Logger.
      */
     protected static final Logger LOGGER = Logger.getLogger(AbstractDaoTestCase.class);
-    /**
-     * driver JDBC
-     */
-    private static final String JDBC_DRIVER =
-            "org.hsqldb.jdbcDriver";
 
-    private static final String SPRING_FILE_PATH =
-            "src/test/resources/conf/context/unit-test-context.xml";
 
     private final String inputDataFilePath = "src/test/resources/dataSets/";
     public String getInputDataFilePath() {
         return inputDataFilePath;
     }
 
-    private String inputDataFileName = "";
-    public String getInputDataFileName() {
-        return inputDataFileName;
-    }
+    @Autowired
+    private DataSource dataSource;
 
-    public void setInputDataFileName(String inputDataFileName) {
-        this.inputDataFileName = inputDataFileName;
-    }
-
-    private DatabaseOperation setUpOperationValue = DatabaseOperation.CLEAN_INSERT;
-    public DatabaseOperation getSetUpOperationValue() {
-        return setUpOperationValue;
-    }
-    
-    public void setSetUpOperationValue(DatabaseOperation setUpOperationValue) {
-        this.setUpOperationValue = setUpOperationValue;
-    }
-    
-    private DatabaseOperation teardownOperationValue = DatabaseOperation.NONE;
-    public DatabaseOperation getTeardownOperationValue() {
-        return teardownOperationValue;
-    }
-
+    DatabaseOperation teardownOperationValue = DatabaseOperation.DELETE;
     public void setTeardownOperationValue(DatabaseOperation teardownOperationValue) {
         this.teardownOperationValue = teardownOperationValue;
     }
-    
-    protected BeanFactory springBeanFactory;
 
-    public AbstractDaoTestCase(String testName) {
-        super(testName);
-        ApplicationContext springApplicationContext =
-                new FileSystemXmlApplicationContext(SPRING_FILE_PATH);
-        springBeanFactory = springApplicationContext;
-        DriverManagerDataSource dmds =
-                (DriverManagerDataSource)springBeanFactory.getBean("dataSource");
-        System.setProperty(
-                PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
-                JDBC_DRIVER);
-        System.setProperty(
-                PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
-                dmds.getUrl());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,
-                dmds.getUsername());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
-                dmds.getPassword());
+    @Override
+    @BeforeTransaction
+    public void setUp() throws Exception {
+        LOGGER.info("Loading dataset {} " +  getDataSetFilename());
+        super.setUp();
+    }
+
+    @Override
+    @AfterTransaction
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    protected abstract String getDataSetFilename() throws Exception;
+
+    public AbstractDaoTestCase() {
+        super();
+    }
+
+    @Override
+    protected DataSource getDataSource() {
+        return this.dataSource;
     }
 
     /**
@@ -127,14 +117,9 @@ public abstract class AbstractDaoTestCase extends DBTestCase {
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);
         ReplacementDataSet dataSet = new ReplacementDataSet(builder.build(new FileInputStream(
-                getInputDataFileName())));
+                getDataSetFilename())));
         dataSet.addReplacementObject("[NULL]", null);
         return dataSet;
-    }
-
-    @Override
-    protected DatabaseOperation getSetUpOperation() throws Exception {
-        return setUpOperationValue;
     }
 
     @Override

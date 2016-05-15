@@ -28,6 +28,8 @@ import org.asqatasun.entity.audit.AuditStatus;
 import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.Site;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -37,18 +39,19 @@ public class AuditDAOImplTest extends AbstractDaoTestCase {
 
     private static final String INPUT_DATA_SET_FILENAME = "auditFlatXmlDataSet.xml";
 
-    private final AuditDAO auditDAO;
+    @Autowired
+    private AuditDAO auditDAO;
 
-    public AuditDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath()+INPUT_DATA_SET_FILENAME);
-        auditDAO = (AuditDAO)
-                springBeanFactory.getBean("auditDAO");
-        if (!testName.equalsIgnoreCase("testFindAuditWithTest")) {
-            setTeardownOperationValue(DatabaseOperation.DELETE);
-        }
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
     }
 
+    public AuditDAOImplTest() {
+        super();
+    }
+
+    @Test
     public void testFindAll_AuditStatus() {
         Collection<Audit> auditList = auditDAO.findAll(AuditStatus.COMPLETED);
         assertEquals(2, auditList.size());
@@ -56,6 +59,7 @@ public class AuditDAOImplTest extends AbstractDaoTestCase {
         assertEquals(0, auditList.size());
     }
 
+    @Test
     public void testRead() {
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(1), audit.getId());
@@ -67,6 +71,7 @@ public class AuditDAOImplTest extends AbstractDaoTestCase {
         assertTrue(audit.getSubject() instanceof Page);
     }
 
+    @Test
     public void testFindAuditWithTest() {
         Audit audit = auditDAO.findAuditWithTest(Long.valueOf(1));
         assertEquals(Long.valueOf(1), audit.getId());

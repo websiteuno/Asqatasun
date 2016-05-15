@@ -32,6 +32,8 @@ import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.reference.Scope;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -43,27 +45,27 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
      * Nom du fichier xml contenant le jeu de données à importer
      */
     private static final String INPUT_DATA_SET_FILENAME = "processRemarkFlatXmlDataSet.xml";
+    @Autowired
     private ProcessResultDAO processResultDAO;
+    @Autowired
     private ThemeDAO themeDAO;
+    @Autowired
     private WebResourceDAO webresourceDAO;
+    @Autowired
     private ScopeDAO scopeDAO;
+    @Autowired
     private AuditDAO auditDAO;
 
-    public ProcessResultDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath()+INPUT_DATA_SET_FILENAME);
-        processResultDAO = (ProcessResultDAO)
-                springBeanFactory.getBean("processResultDAO");
-        themeDAO = (ThemeDAO)
-                springBeanFactory.getBean("themeDAO");
-        webresourceDAO = (WebResourceDAO)
-                springBeanFactory.getBean("webresourceDAO");
-        scopeDAO = (ScopeDAO)
-                springBeanFactory.getBean("scopeDAO");
-        auditDAO = (AuditDAO)
-                springBeanFactory.getBean("auditDAO");
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
     }
 
+    public ProcessResultDAOImplTest() {
+        super();
+    }
+
+    @Test
     public void testGetResultByThemeCount() {
         Theme theme1 = themeDAO.read(Long.valueOf(1));
         Theme theme2 = themeDAO.read(Long.valueOf(2));
@@ -94,6 +96,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
                 (wa, TestSolution.NOT_APPLICABLE, null));
     }
 
+    @Test
     public void testGetResultByScopeList() {
         Scope scope1 = scopeDAO.read(Long.valueOf(1));
         Scope scope2 = scopeDAO.read(Long.valueOf(2));
@@ -102,6 +105,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
         assertEquals(5, processResultDAO.getResultByScopeList(wa, scope1).size());
     }
 
+    @Test
     public void testRetrieveNumberOfGrossResultFromAudit(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(10), processResultDAO.retrieveNumberOfGrossResultFromAudit(audit));
@@ -109,6 +113,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(2), processResultDAO.retrieveNumberOfGrossResultFromAudit(audit));
     }
 
+    @Test
     public void testRetrieveNumberOfNetResultFromAudit(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(10), processResultDAO.retrieveNumberOfNetResultFromAudit(audit));
@@ -116,6 +121,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(2), processResultDAO.retrieveNumberOfNetResultFromAudit(audit));
     }
 
+    @Test
     public void testRetrieveNetResultFromAudit(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         Collection<ProcessResult> processResultList =
@@ -129,6 +135,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(2), ((ProcessResult)processResultList.iterator().next()).getSubject().getId());
     }
 
+    @Test
     public void testRetrieveGrossResultFromAudit(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         Collection<ProcessResult> processResultList =
@@ -142,6 +149,7 @@ public class ProcessResultDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(2), ((ProcessResult)processResultList.iterator().next()).getSubject().getId());
     }
 
+    @Test
     public void testRetrieveGrossResultFromAuditAndWebResource(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         WebResource wr = webresourceDAO.read(Long.valueOf(1));

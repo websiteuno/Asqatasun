@@ -31,8 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -48,12 +46,9 @@ import java.util.Properties;
  *
  */
 @Configuration
-//@EnableJpaRepositories("com.itkweb.vintel.persistence.repositories")
 @EnableTransactionManagement
 @PropertySource({"classpath:hibernate.properties","classpath:flyway.properties"})
 public class PersistenceConfig {
-
-    private static final Logger LOG = LoggerFactory.getLogger(PersistenceConfig.class);
 
     public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
     public static final String HIBERNATE_CACHE_USE_QUERY_CACHE = "hibernate.cache.use_query_cache";

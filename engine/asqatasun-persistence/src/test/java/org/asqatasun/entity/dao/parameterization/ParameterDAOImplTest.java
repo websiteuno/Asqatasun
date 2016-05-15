@@ -27,6 +27,8 @@ import org.asqatasun.entity.dao.audit.AuditDAO;
 import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterElement;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -35,79 +37,23 @@ import org.asqatasun.entity.parameterization.ParameterElement;
 public class ParameterDAOImplTest extends AbstractDaoTestCase {
 
     private static final String INPUT_DATA_SET_FILENAME = "parameterizationDataSet.xml";
+    @Autowired
     private ParameterDAO parameterDAO;
+    @Autowired
     private ParameterElementDAO parameterElementDAO;
-    private ParameterFamilyDAO parameterFamilyDAO;
+    @Autowired
     private AuditDAO auditDAO;
 
-    public ParameterDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath()+INPUT_DATA_SET_FILENAME);
-        parameterDAO = (ParameterDAO)
-                springBeanFactory.getBean("parameterDAO");
-        auditDAO = (AuditDAO)
-                springBeanFactory.getBean("auditDAO");
-        parameterElementDAO = (ParameterElementDAO)
-                springBeanFactory.getBean("parameterElementDAO");
-        parameterFamilyDAO = (ParameterFamilyDAO)
-                springBeanFactory.getBean("parameterFamilyDAO");
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
     }
 
-    public void testFindParameterSet() {
-        // TO DO : implement the findParameterSet from parameterFamily and Audit
-//        ParameterFamily paramFam = parameterFamilyDAO.read(Long.valueOf(1));
-//        
-//        Audit audit = auditDAO.read(Long.valueOf(1));
-//        Set<Parameter> paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        Parameter param = paramSet.iterator().next();
-//        assertEquals("Value1", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(2));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value2", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(3));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value3", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(4));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value4", param.getValue());
-//        
-//        paramFam = parameterFamilyDAO.read(Long.valueOf(2));
-//        
-//        audit = auditDAO.read(Long.valueOf(5));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value5", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(6));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value6", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(7));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value7", param.getValue());
-//        
-//        audit = auditDAO.read(Long.valueOf(8));
-//        paramSet = parameterDAO.findParameterSet(paramFam, audit);
-//        assertEquals(1, paramSet.size());
-//        param = paramSet.iterator().next();
-//        assertEquals("Value8", param.getValue());
+    public ParameterDAOImplTest() {
+        super();
     }
 
+    @Test
     public void testFindDefaultParameterSet() {
         Set<Parameter> paramSet = parameterDAO.findDefaultParameterSet();
         assertEquals(2, paramSet.size());
@@ -122,6 +68,7 @@ public class ParameterDAOImplTest extends AbstractDaoTestCase {
         }
     }
 
+    @Test
     public void testFindParameterSetFromAudit() {
         Audit audit = auditDAO.read(Long.valueOf(1));
         Set<Parameter> paramSet = parameterDAO.findParameterSetFromAudit(audit);
@@ -144,6 +91,7 @@ public class ParameterDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Integer.valueOf(0), Integer.valueOf(paramSet.size()));
     }
 
+    @Test
     public void testFindParameter() {
         ParameterElement paramElement = parameterElementDAO.read(Long.valueOf(1));
         Parameter param = parameterDAO.findParameter(paramElement, "0");
@@ -161,6 +109,7 @@ public class ParameterDAOImplTest extends AbstractDaoTestCase {
         }
     }
 
+    @Test
     public void testFindDefaultParameter() {
         ParameterElement paramElement = parameterElementDAO.read(Long.valueOf(1));
         Parameter param = parameterDAO.findDefaultParameter(paramElement);

@@ -29,6 +29,8 @@ import org.asqatasun.entity.audit.Content;
 import org.asqatasun.entity.dao.subject.WebResourceDAO;
 import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.subject.WebResource;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -37,22 +39,24 @@ import org.asqatasun.entity.subject.WebResource;
 public class ContentDAOImplTest extends AbstractDaoTestCase {
 
     private static final String INPUT_DATA_SET_FILENAME = "contentFlatXmlDataSet.xml";
+    @Autowired
     private WebResourceDAO webresourceDAO;
+    @Autowired
     private ContentDAO contentDAO;
+    @Autowired
     private AuditDAO auditDAO;
 
-    public ContentDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath()+INPUT_DATA_SET_FILENAME);
-        webresourceDAO = (WebResourceDAO)
-                springBeanFactory.getBean("webresourceDAO");
-        auditDAO = (AuditDAO)
-                springBeanFactory.getBean("auditDAO");
-        contentDAO = (ContentDAO)
-                springBeanFactory.getBean("contentDAO");
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
+    }
+
+    public ContentDAOImplTest() {
+        super();
         setTeardownOperationValue(DatabaseOperation.DELETE);
     }
 
+    @Test
     public void testFindOrphanContentList() {
         WebResource wr = webresourceDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(2), contentDAO.findNumberOfOrphanContentFromWebResource(wr));
@@ -68,6 +72,7 @@ public class ContentDAOImplTest extends AbstractDaoTestCase {
         assertEquals(1, contentList.size());
     }
 
+    @Test
     public void testFindNumberOfSSPFromWebResource() {
         WebResource wr = webresourceDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(0), contentDAO.findNumberOfSSPFromWebResource(wr, HttpStatus.SC_OK));
@@ -81,6 +86,7 @@ public class ContentDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(0), contentDAO.findNumberOfSSPFromWebResource(wr,HttpStatus.SC_OK));
     }
 
+    @Test
     public void testHasContent(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertFalse(contentDAO.hasContent(audit));
@@ -90,6 +96,7 @@ public class ContentDAOImplTest extends AbstractDaoTestCase {
         assertTrue(contentDAO.hasContent(audit));
     }
 
+    @Test
     public void testHasAdaptedSSP(){
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertFalse(contentDAO.hasAdaptedSSP(audit));
@@ -99,6 +106,7 @@ public class ContentDAOImplTest extends AbstractDaoTestCase {
         assertTrue(contentDAO.hasAdaptedSSP(audit));
     }
 
+    @Test
     public void testFind() {
         Audit audit = auditDAO.read(Long.valueOf(1));
         assertNull(contentDAO.find(audit, "http://www.mock-url.org/2.html"));

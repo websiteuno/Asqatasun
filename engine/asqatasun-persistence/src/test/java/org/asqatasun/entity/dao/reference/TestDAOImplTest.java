@@ -31,6 +31,7 @@ import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.reference.Level;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.reference.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -39,18 +40,23 @@ import org.asqatasun.entity.reference.Test;
 public class TestDAOImplTest extends AbstractDaoTestCase {
 
     private static final String INPUT_DATA_SET_FILENAME = "processRemarkFlatXmlDataSet.xml";
+    @Autowired
     private TestDAO testDAO;
+    @Autowired
     private ReferenceDAO referenceDAO;
+    @Autowired
     private LevelDAO levelDAO;
 
-    public TestDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath() + INPUT_DATA_SET_FILENAME);
-        testDAO = (TestDAO) springBeanFactory.getBean("testDAO");
-        levelDAO = (LevelDAO) springBeanFactory.getBean("levelDAO");
-        referenceDAO = (ReferenceDAO) springBeanFactory.getBean("referenceDAO");
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath() + INPUT_DATA_SET_FILENAME;
     }
 
+    public TestDAOImplTest() {
+        super();
+    }
+
+    @org.junit.Test
     public void testRetrieveAll_Reference() {
         Reference ref = referenceDAO.read(Long.valueOf(1));
         assertEquals(10, testDAO.retrieveAll(ref).size());
@@ -58,6 +64,7 @@ public class TestDAOImplTest extends AbstractDaoTestCase {
         assertEquals(5, testDAO.retrieveAll(ref).size());
     }
 
+    @org.junit.Test
     public void testRetrieveAllByCode() {
         String[] testTab = new String[10];
         int testCode = 10101;
@@ -76,6 +83,7 @@ public class TestDAOImplTest extends AbstractDaoTestCase {
         assertEquals(15, testDAO.retrieveAllByCode(testTab).size());
     }
 
+    @org.junit.Test
     public void testRetrieveAllByReferenceAndLevel() {
         Reference ref = referenceDAO.read(Long.valueOf(1));
         Level level = levelDAO.read(Long.valueOf(1)); // bronze level ref 1
@@ -92,6 +100,7 @@ public class TestDAOImplTest extends AbstractDaoTestCase {
         assertEquals(3, testDAO.retrieveAllByReferenceAndLevel(ref, level).size());
     }
 
+    @org.junit.Test
     public void testRetrieveTestFromAuditAndLabel() {
         Audit audit = new AuditImpl();
         audit.setId(1L);

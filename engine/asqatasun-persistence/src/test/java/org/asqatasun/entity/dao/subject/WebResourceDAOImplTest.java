@@ -28,6 +28,8 @@ import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.dao.audit.AuditDAO;
 import org.asqatasun.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.entity.subject.WebResource;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -44,19 +46,17 @@ public class WebResourceDAOImplTest extends AbstractDaoTestCase {
      * Nom du fichier xml contenant le jeu de données à importer
      */
     private static final String INPUT_DATA_SET_FILENAME = "webresourceFlatXmlDataSet.xml";
+    @Autowired
     private WebResourceDAO webresourceDAO;
+    @Autowired
     private AuditDAO auditDAO;
 
-    public WebResourceDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(getInputDataFilePath()+INPUT_DATA_SET_FILENAME);
-        auditDAO = (AuditDAO)
-                springBeanFactory.getBean("auditDAO");
-        webresourceDAO = (WebResourceDAO)
-                springBeanFactory.getBean("webresourceDAO");
+    public WebResourceDAOImplTest() {
+        super();
         setTeardownOperationValue(DatabaseOperation.DELETE);
     }
 
+    @Test
     public void testFindByAuditAndUrl() {
         Audit audit1 = auditDAO.read(Long.valueOf(1));
         Audit audit2 = auditDAO.read(Long.valueOf(2));
@@ -69,6 +69,7 @@ public class WebResourceDAOImplTest extends AbstractDaoTestCase {
         assertNull(webresourceDAO.findByAuditAndUrl(audit3, URL2));
     }
 
+    @Test
     public void testFindByUrlAndParentWebResource(){
         WebResource parentWr = webresourceDAO.read(Long.valueOf(1));
         WebResource wr = webresourceDAO.findByUrlAndParentWebResource(URL2, parentWr);
@@ -77,6 +78,7 @@ public class WebResourceDAOImplTest extends AbstractDaoTestCase {
         assertNull(wr);
     }
 
+    @Test
     public void testRetrieveWebResourceFromItsParent(){
         WebResource parentWr = webresourceDAO.read(Long.valueOf(1));
         assertEquals(Long.valueOf(3), webresourceDAO.findNumberOfChildWebResource(parentWr));
@@ -90,4 +92,8 @@ public class WebResourceDAOImplTest extends AbstractDaoTestCase {
         assertEquals(Long.valueOf(4), ((WebResource)iter.next()).getId());
     }
 
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
+    }
 }
