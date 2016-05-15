@@ -24,13 +24,14 @@ package org.asqatasun.entity.dao.subject;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.PageImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Repository("pageDAO")
+@Component("pageDAO")
 public class PageDAOImpl extends AbstractJPADAO<Page, Long> implements PageDAO {
 
     public PageDAOImpl() {

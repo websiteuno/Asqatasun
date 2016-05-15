@@ -26,6 +26,7 @@ import javax.persistence.Query;
 import org.asqatasun.entity.reference.Nomenclature;
 import org.asqatasun.entity.reference.NomenclatureImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ import java.util.Collection;
  * 
  * @author jkowalczyk
  */
-@Repository("nomenclatureDAO")
+@Component("nomenclatureDAO")
 public class NomenclatureDAOImpl extends AbstractJPADAO<Nomenclature, Long>
         implements NomenclatureDAO {
 
@@ -48,6 +49,7 @@ public class NomenclatureDAOImpl extends AbstractJPADAO<Nomenclature, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Collection<Nomenclature> retrieveAllByCode(String code) {
         Query query = entityManager.createQuery("SELECT n FROM "
                 + getEntityClass().getName() + " n WHERE n.code = :code");
@@ -56,6 +58,7 @@ public class NomenclatureDAOImpl extends AbstractJPADAO<Nomenclature, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Nomenclature retrieveByCode(String code) {
         Query query = entityManager.createQuery("SELECT n FROM "
                 + getEntityClass().getName() + " n" + " WHERE n.code = :code");

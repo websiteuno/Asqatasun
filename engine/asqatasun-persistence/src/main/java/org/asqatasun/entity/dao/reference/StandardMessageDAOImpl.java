@@ -26,6 +26,7 @@ import javax.persistence.Query;
 import org.asqatasun.entity.reference.StandardMessage;
 import org.asqatasun.entity.reference.StandardMessageImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ import java.util.Collection;
  * 
  * @author jkowalczyk
  */
-@Repository("standardMessageDAO")
+@Component("standardMessageDAO")
 public class StandardMessageDAOImpl
         extends AbstractJPADAO<StandardMessage, Long> implements StandardMessageDAO {
 

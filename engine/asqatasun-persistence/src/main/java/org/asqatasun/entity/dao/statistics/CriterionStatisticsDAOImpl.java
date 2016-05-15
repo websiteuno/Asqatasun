@@ -39,13 +39,14 @@ import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.entity.subject.WebResourceImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
-@Repository("criterionStatisticsDAO")
+@Component("criterionStatisticsDAO")
 public class CriterionStatisticsDAOImpl extends AbstractJPADAO<CriterionStatistics, Long>
         implements CriterionStatisticsDAO {
 

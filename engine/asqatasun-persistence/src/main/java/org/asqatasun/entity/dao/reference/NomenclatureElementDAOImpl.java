@@ -27,13 +27,14 @@ import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import java.util.Collection;
 import javax.persistence.Query;
 import org.asqatasun.entity.reference.Nomenclature;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Repository("nomenclatureElementDAO")
+@Component("nomenclatureElementDAO")
 public class NomenclatureElementDAOImpl extends AbstractJPADAO<NomenclatureElement, Long>
         implements NomenclatureElementDAO {
 

@@ -28,13 +28,14 @@ import org.asqatasun.entity.audit.EvidenceElement;
 import org.asqatasun.entity.audit.EvidenceElementImpl;
 import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Repository("evidenceElementDAO")
+@Component("evidenceElementDAO")
 public class EvidenceElementDAOImpl extends AbstractJPADAO<EvidenceElement, Long> implements
         EvidenceElementDAO {
 

@@ -30,13 +30,14 @@ import org.asqatasun.entity.statistics.TestStatisticsImpl;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.entity.subject.WebResourceImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
-@Repository("testStatisticsDAO")
+@Component("testStatisticsDAO")
 public class TestStatisticsDAOImpl extends AbstractJPADAO<TestStatistics, Long>
         implements TestStatisticsDAO {
 

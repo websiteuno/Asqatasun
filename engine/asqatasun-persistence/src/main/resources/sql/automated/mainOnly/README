@@ -1,0 +1,1 @@
+Script in this directory will be applied only on main databases. Increment numbers are shared between common, mainOnly and testOnly folders.

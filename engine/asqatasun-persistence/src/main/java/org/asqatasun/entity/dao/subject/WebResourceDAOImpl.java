@@ -32,13 +32,14 @@ import javax.persistence.NonUniqueResultException;
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.subject.PageImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  * 
  * @author jkowalczyk
  */
-@Repository("webResourceDAO")
+@Component("webResourceDAO")
 public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
         implements WebResourceDAO {
 
@@ -50,6 +51,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WebResource findByUrl(String url) {
         Query query = entityManager.createQuery(
                 "SELECT wr FROM " +
@@ -73,6 +75,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WebResource findByAuditAndUrl(Audit audit, String url) {
         Query query = entityManager.createQuery(
                 "SELECT wr FROM " +
@@ -102,6 +105,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WebResource read(Long key) {
         try {
             Query query = entityManager.createQuery("SELECT wr FROM "
@@ -118,6 +122,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WebResource findByUrlAndParentWebResource(String url, WebResource webResource) {
         Query query = entityManager.createQuery(
                 "SELECT wr FROM " +
@@ -142,6 +147,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<WebResource> findWebResourceFromItsParent (
             WebResource webResource,
             int start,
@@ -158,6 +164,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Long findNumberOfChildWebResource(WebResource webResource) {
         Query query = entityManager.createQuery(
                     "SELECT count(wr.id) FROM "
@@ -169,6 +176,7 @@ public class WebResourceDAOImpl extends AbstractJPADAO<WebResource, Long>
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public WebResource ligthRead(Long webResourceId) {
         try {
             Query query = entityManager.createQuery("SELECT wr FROM "

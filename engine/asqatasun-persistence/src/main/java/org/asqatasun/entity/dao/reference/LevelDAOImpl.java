@@ -24,6 +24,7 @@ package org.asqatasun.entity.dao.reference;
 import org.asqatasun.entity.reference.Level;
 import org.asqatasun.entity.reference.LevelImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -32,7 +33,7 @@ import javax.persistence.Query;
  * 
  * @author jkowalczyk
  */
-@Repository("levelDAO")
+@Component("levelDAO")
 public class LevelDAOImpl extends AbstractJPADAO<Level, Long> implements
         LevelDAO {
 

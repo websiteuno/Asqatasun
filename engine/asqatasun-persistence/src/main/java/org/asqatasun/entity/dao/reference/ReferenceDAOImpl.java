@@ -24,6 +24,7 @@ package org.asqatasun.entity.dao.reference;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.reference.ReferenceImpl;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ import javax.persistence.Query;
  * 
  * @author jkowalczyk
  */
-@Repository("referenceDAO")
+@Component("referenceDAO")
 public class ReferenceDAOImpl extends AbstractJPADAO<Reference, Long> implements
         ReferenceDAO {
 

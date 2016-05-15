@@ -39,13 +39,14 @@ import org.asqatasun.entity.reference.Test;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author jkowalczyk
  */
-@Repository("processResultDAO")
+@Component("processResultDAO")
 public class ProcessResultDAOImpl extends AbstractJPADAO<ProcessResult, Long>
         implements ProcessResultDAO {
 
