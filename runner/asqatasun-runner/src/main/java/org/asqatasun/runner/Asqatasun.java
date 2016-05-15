@@ -209,7 +209,6 @@ public class Asqatasun {
      */
     private static AsqatasunRunner initSpringContextAndGetRunner() {
         System.setProperty("exploitation.dir", ASQATASUN_HOME);
-        System.out.println(ASQATASUN_HOME);
         ApplicationContext context = new FileSystemXmlApplicationContext(ASQATASUN_HOME + "/" + APPLICATION_CONTEXT_FILE_PATH);
 
         AsqatasunRunner asqatasunRunner = new AsqatasunRunner();

@@ -51,6 +51,10 @@
         </dependency>
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
+            <artifactId>asqatasun-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${asqatasunGroupId}</groupId>
             <artifactId>asqatasun-nomenclatureloader</artifactId>
             <scope>runtime</scope>
         </dependency>
@@ -59,11 +63,11 @@
             <artifactId>asqatasun-rule-implementation-loader</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>asqatasun-crawler</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>${asqatasunGroupId}</groupId>-->
+            <!--<artifactId>asqatasun-crawler</artifactId>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
             <artifactId>asqatasun-contentloader</artifactId>
@@ -139,18 +143,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
