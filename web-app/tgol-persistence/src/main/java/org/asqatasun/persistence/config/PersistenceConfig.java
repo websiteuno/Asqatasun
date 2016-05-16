@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.entity.dao.config;
+package org.asqatasun.persistence.config;
 
 /**
  * Created by meskoj on 15/05/16.
@@ -31,7 +31,6 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -50,7 +49,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:hibernate.properties","classpath:flyway.properties"})
+@PropertySource({"classpath:webapp-hibernate.properties","classpath:flyway.properties"})
 public class PersistenceConfig {
 
     public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
@@ -156,7 +155,7 @@ public class PersistenceConfig {
         final HibernateJpaVendorAdapter hibernateAdapter = new HibernateJpaVendorAdapter();
         hibernateAdapter.setShowSql(hibernateShowSql);
         final Properties jpaProperties = new Properties();
-        jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
+//        jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_USE_QUERY_CACHE, hibernateUseQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
         jpaProperties.put(HIBERNATE_GENERATE_STATISTICS, false);
@@ -177,8 +176,4 @@ public class PersistenceConfig {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
-    @Bean
-    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 }
