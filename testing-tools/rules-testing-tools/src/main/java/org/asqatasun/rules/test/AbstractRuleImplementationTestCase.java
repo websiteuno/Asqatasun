@@ -86,7 +86,7 @@ public abstract class AbstractRuleImplementationTestCase extends DataSourceBased
         return DATA_SOURCE;
     }
 
-    private URLIdentifier urlIdentifier;
+    private static URLIdentifier URL_IDENTIFIER;
 
     // Collections to handle content during test
     protected final Map<WebResource, List<Content>> contentMap = new HashMap<>();
@@ -153,7 +153,7 @@ public abstract class AbstractRuleImplementationTestCase extends DataSourceBased
 
             DATA_SOURCE = (DataSource) APPLICATION_CONTEXT.getBean("dataSource");
 
-            urlIdentifier = ((URLIdentifierFactory) APPLICATION_CONTEXT.getBean("urlIdentifierFactory")).create();
+            URL_IDENTIFIER = ((URLIdentifierFactory) APPLICATION_CONTEXT.getBean("urlIdentifierFactory")).create();
 
             //the magic: auto-wire the instance with all its dependencies:
             APPLICATION_CONTEXT.getAutowireCapableBeanFactory().autowireBeanProperties(
@@ -230,13 +230,13 @@ public abstract class AbstractRuleImplementationTestCase extends DataSourceBased
                         SSP ssp = (SSP) contentMap.get(webResource).get(0);
                         try {
                             src = new URL(ssp.getURI());
-                            urlIdentifier.setUrl(src);
+                            URL_IDENTIFIER.setUrl(src);
                         } catch (MalformedURLException ex) {
                             LOGGER.error(ex);
                         }
-                        urlIdentifier.setUrl(src);
+                        URL_IDENTIFIER.setUrl(src);
                         String relatedContentUrl =
-                                urlIdentifier.resolve(contentUrl).toExternalForm();
+                                URL_IDENTIFIER.resolve(contentUrl).toExternalForm();
                         if (isContentCss(relatedContentUrl)) {
                             ssp.addRelatedContent(
                                     CONTENT_FACTORY.createStylesheetContent(
