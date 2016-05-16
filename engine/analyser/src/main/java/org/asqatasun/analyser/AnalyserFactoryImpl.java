@@ -39,6 +39,7 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -50,6 +51,7 @@ import org.springframework.stereotype.Component;
 public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javadoc
 
     @Autowired
+    @Qualifier("webResourceStatisticsDataService")
     private WebResourceStatisticsDataService webResourceStatisticsDataService;
 
     @Autowired
@@ -132,5 +134,12 @@ public class AnalyserFactoryImpl implements AnalyserFactory {// TODO Write javad
         }
         return testWeightParamSet;
     }
-    
+
+    /**
+     *
+     * @param testWeightParameterFamilyCodeList
+     */
+    public void setTestWeightParameterFamilyCodeList(String testWeightParameterFamilyCodeList) {
+        this.testWeightParameterFamilyCodeList = testWeightParameterFamilyCodeList;
+    }
 }
