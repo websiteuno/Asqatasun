@@ -11,7 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @ComponentScan("org.asqatasun")
-@PropertySource("classpath:conf/context/asqatasun.properties")
+@PropertySource("${ASQATASUN_PATH}/conf/context/asqatasun.properties")
 public class AsqatasunConfig {
 
     @Bean
