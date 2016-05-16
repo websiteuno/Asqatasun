@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.persistence.config;
+package org.asqatasun.webapp.config;
 
 /**
  * Created by meskoj on 15/05/16.
@@ -29,12 +29,12 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -49,7 +49,11 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"classpath:webapp-hibernate.properties","classpath:flyway.properties"})
+@PropertySources({
+    @PropertySource("classpath:webapp-hibernate.properties"),
+    @PropertySource("classpath:flyway.properties")
+})
+@Profile("webapp")
 public class PersistenceConfig {
 
     public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
@@ -114,7 +118,9 @@ public class PersistenceConfig {
 
     @Bean
     DataSource dataSource() {
-
+        System.out.println("#############################################");
+        System.out.println("DATA SOURCE");
+        System.out.println("#############################################");
         try {
             ComboPooledDataSource dataSource = new ComboPooledDataSource();
             dataSource.setDriverClass(driverClassName);
@@ -155,7 +161,7 @@ public class PersistenceConfig {
         final HibernateJpaVendorAdapter hibernateAdapter = new HibernateJpaVendorAdapter();
         hibernateAdapter.setShowSql(hibernateShowSql);
         final Properties jpaProperties = new Properties();
-//        jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
+        jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_USE_QUERY_CACHE, hibernateUseQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
         jpaProperties.put(HIBERNATE_GENERATE_STATISTICS, false);
@@ -174,6 +180,16 @@ public class PersistenceConfig {
     @Bean
     public PlatformTransactionManager transactionManager() {
         return new JpaTransactionManager(entityManagerFactory().getObject());
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor getPersistenceExceptionTranslationPostProcessor() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
+
+    @Bean
+    public PersistenceAnnotationBeanPostProcessor getPersistenceAnnotationBeanPostProcessor() {
+        return new PersistenceAnnotationBeanPostProcessor();
     }
 
 }
