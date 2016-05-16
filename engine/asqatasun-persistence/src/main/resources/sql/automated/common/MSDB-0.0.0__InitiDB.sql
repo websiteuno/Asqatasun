@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `AUDIT` (
   `Dt_Creation` datetime DEFAULT NULL,
   `Manual_Audit_Dt_Creation` datetime DEFAULT NULL,
   `Status` varchar(255) DEFAULT NULL, 
---   PRIMARY KEY (`Id_Audit`)
+   PRIMARY KEY (`Id_Audit`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 

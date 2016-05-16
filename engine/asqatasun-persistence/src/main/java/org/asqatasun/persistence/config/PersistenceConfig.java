@@ -46,20 +46,16 @@ import java.util.Properties;
  * Persistence configuration.
  *
  */
-@Configuration
-@EnableTransactionManagement
-@PropertySource({"classpath:hibernate.properties","classpath:flyway.properties"})
-@Profile("standAlone")
+//@Configuration
+//@EnableTransactionManagement
+//@PropertySource({"classpath:standalone-hibernate.properties","classpath:flyway.properties"})
+//@Profile("standAlone")
 public class PersistenceConfig {
 
     public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
     public static final String HIBERNATE_CACHE_USE_QUERY_CACHE = "hibernate.cache.use_query_cache";
     public static final String HIBERNATE_CACHE_REGION_FACTORY_CLASS = "hibernate.cache.region.factory_class";
     public static final String HIBERNATE_DIALECT = "hibernate.dialect";
-    public static final String PERSISTENCE_XML_LOCATION_KEY =  "persistenceXmlLocation";
-
-    @Value("${persistenceXmlLocation:classpath:/asqatasun-persistence.xml}")
-    private String persistenceXmlLocation;
 
     @Value("${jpa.showSql}")
     private boolean hibernateShowSql;
