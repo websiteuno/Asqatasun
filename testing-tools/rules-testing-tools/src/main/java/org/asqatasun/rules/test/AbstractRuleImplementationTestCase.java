@@ -29,28 +29,17 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Logger;
-import org.asqatasun.contentadapter.util.URLIdentifierFactoryImpl;
 import org.asqatasun.entity.audit.*;
-import org.asqatasun.entity.audit.factory.AuditFactory;
 import org.asqatasun.entity.audit.factory.ContentFactory;
 import org.asqatasun.entity.parameterization.*;
-import org.asqatasun.entity.parameterization.factory.ParameterElementFactory;
-import org.asqatasun.entity.parameterization.factory.ParameterFactory;
-import org.asqatasun.entity.parameterization.factory.ParameterFamilyFactory;
 import org.asqatasun.entity.reference.TestImpl;
-import org.asqatasun.entity.reference.factory.TestFactory;
-import org.asqatasun.entity.subject.PageImpl;
 import org.asqatasun.entity.subject.factory.WebResourceFactory;
-import org.asqatasun.rules.test.config.RuleTestConfig;
-import org.dbunit.DBTestCase;
 import org.dbunit.DataSourceBasedDBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -65,17 +54,9 @@ import org.asqatasun.service.ConsolidatorService;
 import org.asqatasun.service.ContentAdapterService;
 import org.asqatasun.service.ContentLoaderService;
 import org.asqatasun.service.ProcessorService;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
