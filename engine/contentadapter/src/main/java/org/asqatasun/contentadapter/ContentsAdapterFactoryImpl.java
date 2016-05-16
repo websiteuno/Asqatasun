@@ -21,7 +21,6 @@
  */
 package org.asqatasun.contentadapter;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.asqatasun.contentadapter.util.AdaptationActionVoter;
