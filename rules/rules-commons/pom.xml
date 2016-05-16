@@ -15,7 +15,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skipTests>false</skipTests>
-                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
