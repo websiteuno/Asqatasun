@@ -46,29 +46,21 @@ import org.asqatasun.webapp.entity.service.contract.ScopeDataService;
 import org.asqatasun.webapp.entity.service.scenario.ScenarioDataService;
 import org.asqatasun.webapp.exception.KrashAuditException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("asqatasunOrchestrator")
 public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
 
     private static final Logger LOGGER = Logger.getLogger(AsqatasunOrchestratorImpl.class);
-    private final AuditService auditService;
-    private final ActDataService actDataService;
-    private final AuditDataService auditDataService;
-    private final ScenarioDataService scenarioDataService;
-    private final ActFactory actFactory;
-    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
-    private final Map<ScopeEnum, Scope> scopeMap = new EnumMap<>(ScopeEnum.class);
-    private void initializeScopeMap(ScopeDataService ScopeDataService) {
-        for (Scope scope : ScopeDataService.findAll()) {
-            scopeMap.put(scope.getCode(), scope);
-        }
-    }
-    
-    private final EmailSender emailSender;
     /*
      * keys to send the user an email at the end of an audit.
      */
@@ -92,76 +84,61 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
     private static final String BUNDLE_NAME = "i18n/email-content-I18N";
     private static final int DEFAULT_AUDIT_DELAY = 30000;
 
-    private String webappUrl;
-    public String getWebappUrl() {
-        return webappUrl;
-    }
-
-    public void setWebappUrl(String webappUrl) {
-        this.webappUrl = webappUrl;
-    }
-    
-    private String pageResultUrlSuffix;
-    public String getPageResultUrlSuffix() {
-        return pageResultUrlSuffix;
-    }
-
-    public void setPageResultUrlSuffix(String pageResultUrlSuffix) {
-        this.pageResultUrlSuffix = pageResultUrlSuffix;
-    }
-    
-    private String contractUrlSuffix;
-    public String getContractUrlSuffix() {
-        return contractUrlSuffix;
-    }
-
-    public void setContractUrlSuffix(String contractUrlSuffix) {
-        this.contractUrlSuffix = contractUrlSuffix;
-    }
-    
-    private int delay = DEFAULT_AUDIT_DELAY;
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-    
-    private final List<String> emailSentToUserExclusionList = new ArrayList<>();
-    public void setEmailSentToUserExclusionRawList(String emailSentToUserExclusionRawList) {
-        this.emailSentToUserExclusionList.addAll(Arrays.asList(emailSentToUserExclusionRawList.split(";")));
-    }
-    
-    private final List<String> krashReportMailList = new ArrayList<>();
-    public void setKrashReportMailList(String krashReportMailList) {
-        this.krashReportMailList.addAll(Arrays.asList(krashReportMailList.split(";")));
-    }
-    
-    private boolean isAllowedToSendKrashReport = true;
-    public void setIsAllowedToSendKrashReport(boolean isAllowedToSendKrashReport) {
-        this.isAllowedToSendKrashReport = isAllowedToSendKrashReport;
-    }
-
     @Autowired
-    public AsqatasunOrchestratorImpl(
-            AuditService auditService,
-            AuditDataService auditDataService,
-            ActDataService actDataService,
-            ActFactory actFactory,
-            ScopeDataService scopeDataService,
-            ScenarioDataService scenarioDataService, 
-            ThreadPoolTaskExecutor threadPoolTaskExecutor,
-            EmailSender emailSender) {
-        this.auditService = auditService;
-        this.actDataService = actDataService;
-        this.auditDataService = auditDataService;
-        this.actFactory = actFactory;
-        this.scenarioDataService = scenarioDataService;
-        initializeScopeMap(scopeDataService);
-        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
-        this.emailSender = emailSender;
+    private AuditService auditService;
+    @Autowired
+    private ActDataService actDataService;
+    @Autowired
+    private AuditDataService auditDataService;
+    @Autowired
+    private ScenarioDataService scenarioDataService;
+    @Autowired
+    private ScopeDataService scopeDataService;
+    @Autowired
+    private ActFactory actFactory;
+    @Autowired
+    private EmailSender emailSender;
+
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    private final Map<ScopeEnum, Scope> scopeMap = new EnumMap<>(ScopeEnum.class);
+    private void initializeScopeMap(ScopeDataService ScopeDataService) {
+        for (Scope scope : ScopeDataService.findAll()) {
+            scopeMap.put(scope.getCode(), scope);
+        }
     }
+
+    @Value("${web-app-url}")
+    private String webappUrl;
+    @Value("${pageResultUrlSuffix:home/contract/audit-result.html?audit=}")
+    private String pageResultUrlSuffix;
+    @Value("${contractUrlSuffix:home/contract.html?cr=}")
+    private String contractUrlSuffix;
+    @Value("${synchronousAuditDelay:30000}")
+    private int delay;
+    @Value("#{'${emailSentToUserExclusionList}'.split(';')}")
+    private List<String> emailSentToUserExclusionList;
+    @Value("#{'${krashReportMailList}'.split(';')}")
+    private List<String> krashReportMailList;
+    @Value("${isAllowedToSendKrashReport}")
+    private boolean isAllowedToSendKrashReport;
+    @Value("${threadPoolTaskExecutor.corePoolSize:10}")
+    private int corePoolSize;
+    @Value("${threadPoolTaskExecutor.maxPoolSize:50}")
+    private int maxPoolSize;
+
+    @PostConstruct
+    public void init() {
+        initializeScopeMap(scopeDataService);
+        threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        threadPoolTaskExecutor.setCorePoolSize(corePoolSize);
+        threadPoolTaskExecutor.setDaemon(false);
+        threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(false);
+        threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
+        threadPoolTaskExecutor.setAllowCoreThreadTimeOut(false);
+    }
+
+    public AsqatasunOrchestratorImpl(){}
 
     @Override
     public Audit auditPage(
@@ -327,11 +304,11 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
                     break;
                 }
             }
-            if (null != auditTimeoutThread.getException()) {
+            if (null != auditTimeoutThread.exception) {
                 LOGGER.error("new KrashAuditException()");
-                throw new KrashAuditException(auditTimeoutThread.getException());
+                throw new KrashAuditException(auditTimeoutThread.exception);
             }
-            return auditTimeoutThread.getAudit();
+            return auditTimeoutThread.audit;
         }
     }
 
@@ -340,7 +317,6 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
      * 
      * @param act
      * @param locale
-     * @param exception 
      */
     private void sendAuditResultEmail(Act act, Locale locale) {
         String emailTo = act.getContract().getUser().getEmail1();
@@ -500,7 +476,7 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
     
     /**
      * 
-     * @param act
+     * @param contract
      * @return 
      */
     private String buildContractUrl (Contract contract) {
@@ -517,6 +493,7 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
      * @param scope
      * @return
      */
+    @Transactional
     private Act createAct(Contract contract, ScopeEnum scope, String clientIp) {
         Date beginDate = new Date();
         Act act = actFactory.createAct(beginDate, contract);
@@ -549,95 +526,16 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
      */
     private abstract class AuditThread implements Runnable, AuditServiceListener {
 
-        private AuditService auditService;
-        public AuditService getAuditService() {
-            return auditService;
-        }
-
-        public void setAuditService(AuditService auditService) {
-            this.auditService = auditService;
-        }
-        
-        private Set<Parameter> parameterSet = new HashSet<>();
-        public Set<Parameter> getParameterSet() {
-            return parameterSet;
-        }
-
-        public void setParameterSet(Set<Parameter> parameterSet) {
-            this.parameterSet = parameterSet;
-        }
-        
-        private Act currentAct;
-        public Act getCurrentAct() {
-            return currentAct;
-        }
-
-        public void setCurrentAct(Act currentAct) {
-            this.currentAct = currentAct;
-        }
-        
-        private Map<Audit, Long> auditExecutionList = new ConcurrentHashMap<>();
-        public Map<Audit, Long> getAuditExecutionList() {
-            return auditExecutionList;
-        }
-
-        public void setAuditExecutionList(Map<Audit, Long> auditExecutionList) {
-            this.auditExecutionList = auditExecutionList;
-        }
-        
-        private Map<Long, Audit> auditCompletedList = new ConcurrentHashMap<>();
-        public Map<Long, Audit> getAuditCompletedList() {
-            return auditCompletedList;
-        }
-
-        public void setAuditCompletedList(Map<Long, Audit> auditCompletedList) {
-            this.auditCompletedList = auditCompletedList;
-        }
-        
-        private Map<Long, AbstractMap.SimpleImmutableEntry<Audit, Exception>> auditCrashedList = new HashMap<>();
-        public Map<Long, SimpleImmutableEntry<Audit, Exception>> getAuditCrashedList() {
-            return auditCrashedList;
-        }
-
-        public void setAuditCrashedList(Map<Long, SimpleImmutableEntry<Audit, Exception>> auditCrashedList) {
-            this.auditCrashedList = auditCrashedList;
-        }
-
-        private Date startDate;
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-        
-        private Audit audit = null;
-        public Audit getAudit() {
-            return audit;
-        }
-
-        public void setAudit(Audit audit) {
-            this.audit = audit;
-        }
-        
-        private Locale locale = null;
-        public Locale getLocale() {
-            return locale;
-        }
-
-        public void setLocale(Locale locale) {
-            this.locale = locale;
-        }
-        
-        private Exception exception = null;
-        public Exception getException() {
-            return exception;
-        }
-
-        public void setException(Exception exception) {
-            this.exception = exception;
-        }
+        protected AuditService auditService;
+        protected Set<Parameter> parameterSet = new HashSet<>();
+        protected Act currentAct;
+        protected Map<Audit, Long> auditExecutionList = new ConcurrentHashMap<>();
+        protected Map<Long, Audit> auditCompletedList = new ConcurrentHashMap<>();
+        protected Map<Long, AbstractMap.SimpleImmutableEntry<Audit, Exception>> auditCrashedList = new HashMap<>();
+        protected Date startDate;
+        protected  Audit audit = null;
+        protected Locale locale = null;
+        protected Exception exception = null;
         
         public AuditThread(
                 AuditService auditService,
@@ -655,13 +553,13 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         
         @Override
         public void run() {
-            this.getAuditService().add(this);
+            auditService.add(this);
             Audit currentAudit = launchAudit();
-            this.getCurrentAct().setAudit(currentAudit);
-            actDataService.saveOrUpdate(this.getCurrentAct());
+            this.currentAct.setAudit(currentAudit);
+            actDataService.saveOrUpdate(this.currentAct);
             currentAudit = this.waitForAuditToComplete(currentAudit);
-            this.getAuditService().remove(this);
-            onActTerminated(this.getCurrentAct(), currentAudit);
+            auditService.remove(this);
+            onActTerminated(this.currentAct, currentAudit);
         }
         
         /**
@@ -714,21 +612,21 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         protected Audit waitForAuditToComplete(Audit audit) {
             LOGGER.debug("WAIT FOR AUDIT TO COMPLETE:" + audit + "," + (long) (audit.getDateOfCreation().getTime() / 1000));
             Long token = new Date().getTime();
-            this.getAuditExecutionList().put(audit, token);
+            this.auditExecutionList.put(audit, token);
             // while the audit is not seen as completed or crashed
-            while (!this.getAuditCompletedList().containsKey(token) && !this.getAuditCrashedList().containsKey(token)) {
+            while (!this.auditCompletedList.containsKey(token) && !this.auditCrashedList.containsKey(token)) {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     LOGGER.error("", ex);
                 }
             }
-            if ((audit = this.getAuditCompletedList().get(token)) != null) {
-                this.getAuditCompletedList().remove(token);
+            if ((audit = this.auditCompletedList.get(token)) != null) {
+                this.auditCompletedList.remove(token);
                 return audit;
             }
-            if ((audit = this.getAuditCrashedList().get(token).getKey()) != null) {
-                this.getAuditCrashedList().remove(token);
+            if ((audit = this.auditCrashedList.get(token).getKey()) != null) {
+                this.auditCrashedList.remove(token);
                 return audit;
             }
             return null;
@@ -774,17 +672,17 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
 
         @Override
         public Audit launchAudit() {
-            Audit audit = this.getAuditService().auditSite(
+            Audit audit = this.auditService.auditSite(
                         this.siteUrl,
-                        this.getParameterSet());
+                        this.parameterSet);
             return audit;
         }
         
         @Override
         protected void onActTerminated(Act act, Audit audit) {
             super.onActTerminated(act, audit);
-            if (getException() == null) {
-                sendAuditResultEmail(act, getLocale());
+            if (exception == null) {
+                sendAuditResultEmail(act, locale);
             }
             LOGGER.info("Audit site terminated on " + this.siteUrl);
         }
@@ -815,18 +713,18 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
 
         @Override
         public Audit launchAudit() {
-            Audit audit = this.getAuditService().auditScenario(
+            Audit audit = this.auditService.auditScenario(
                         this.scenarioName,
                         this.scenario,
-                        this.getParameterSet());
+                        this.parameterSet);
             return audit;
         }
         
         @Override
         protected void onActTerminated(Act act, Audit audit) {
             super.onActTerminated(act, audit);
-            if (getException() == null) {
-                sendAuditResultEmail(act, getLocale());
+            if (exception == null) {
+                sendAuditResultEmail(act, locale);
             }
             LOGGER.info("Audit scenario terminated on " + this.scenarioName);
         }
@@ -841,15 +739,7 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
      */
     private abstract class AuditTimeoutThread extends AuditThread {
         
-        private boolean isAuditTerminatedAfterTimeout = false;
-        public boolean isAuditTerminatedAfterTimeout() {
-            return isAuditTerminatedAfterTimeout;
-        }
-
-        public void setAuditTerminatedAfterTimeout(boolean isAuditTerminatedBeforeTimeout) {
-            this.isAuditTerminatedAfterTimeout = isAuditTerminatedBeforeTimeout;
-        }
-        
+        protected boolean isAuditTerminatedAfterTimeout = false;
         private int delay = DEFAULT_AUDIT_DELAY;
         
         public AuditTimeoutThread (
@@ -865,13 +755,13 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         @Override
         protected void onActTerminated(Act act, Audit audit) {
             super.onActTerminated(act, audit);
-            if (isAuditTerminatedAfterTimeout() && getException() == null) {
-                sendAuditResultEmail(act, getLocale());
+            if (isAuditTerminatedAfterTimeout && exception == null) {
+                sendAuditResultEmail(act, locale);
             }
         }
 
         public boolean isDurationExceedsDelay() {
-            long currentDuration = new Date().getTime() - getStartDate().getTime();
+            long currentDuration = new Date().getTime() - startDate.getTime();
             if (currentDuration > delay) {
                 LOGGER.info("Audit Duration has exceeded synchronous delay " + delay);
                 isAuditTerminatedAfterTimeout = true;
@@ -910,10 +800,10 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         public Audit launchAudit() {
             Audit audit = null;
             if (!this.pageUrlList.isEmpty()) {
-                audit = this.getAuditService().auditSite(
+                audit = this.auditService.auditSite(
                         this.siteUrl,
                         this.pageUrlList,
-                        this.getParameterSet());
+                        this.parameterSet);
             }
             return audit;
         }
@@ -949,9 +839,9 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         public Audit launchAudit() {
             Audit audit = null;
             if (this.pageUrl != null) {
-                audit = this.getAuditService().auditPage(
+                audit = this.auditService.auditPage(
                         this.pageUrl,
-                        this.getParameterSet());
+                        this.parameterSet);
             }
             return audit;
         }
@@ -989,9 +879,9 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
         public Audit launchAudit() {
             Audit audit = null;
             if (!pageMap.isEmpty()) {
-                audit = this.getAuditService().auditPageUpload(
+                audit = this.auditService.auditPageUpload(
                         this.pageMap,
-                        this.getParameterSet());
+                        this.parameterSet);
             }
             return audit;
         }
