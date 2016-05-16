@@ -24,6 +24,10 @@
             <artifactId>tgol-data-presentation</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <scope>test</scope>
@@ -46,13 +50,13 @@
         </dependency>
         <dependency>
             <groupId>${springGroupId}</groupId>
-            <artifactId>spring-context</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-test</artifactId>
+            <version>4.2.6.RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>${springGroupId}</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -61,16 +65,6 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${springGroupId}</groupId>
-            <artifactId>spring-orm</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${springGroupId}</groupId>
-            <artifactId>spring-tx</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
