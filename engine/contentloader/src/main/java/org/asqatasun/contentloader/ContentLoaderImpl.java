@@ -55,9 +55,9 @@ public class ContentLoaderImpl implements ContentLoader {
      * @param downloader
      * @param dateFactory 
      */
-    ContentLoaderImpl(
-            ContentDataService contentDataService, 
-            Downloader downloader, 
+    public ContentLoaderImpl(
+            ContentDataService contentDataService,
+            Downloader downloader,
             DateFactory dateFactory) {
         super();
         this.contentDataService = contentDataService;
