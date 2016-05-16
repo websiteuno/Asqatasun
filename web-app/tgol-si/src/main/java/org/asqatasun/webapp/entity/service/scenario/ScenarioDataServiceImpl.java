@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.service.scenario;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.scenario.Scenario;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("scenarioDataService")
 public class ScenarioDataServiceImpl extends AbstractGenericDataService<Scenario, Long>
         implements ScenarioDataService {
     

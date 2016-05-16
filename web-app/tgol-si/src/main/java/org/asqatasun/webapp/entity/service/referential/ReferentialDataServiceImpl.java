@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.service.referential;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.referential.Referential;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("referentialDataService")
 public class ReferentialDataServiceImpl extends AbstractGenericDataService<Referential, Long>
         implements ReferentialDataService {
     

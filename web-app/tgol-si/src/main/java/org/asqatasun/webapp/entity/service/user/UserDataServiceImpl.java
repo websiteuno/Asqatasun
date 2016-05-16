@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.service.user;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.dao.user.UserDAO;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("userDataService")
 public class UserDataServiceImpl extends AbstractGenericDataService<User, Long>
         implements UserDataService {
 

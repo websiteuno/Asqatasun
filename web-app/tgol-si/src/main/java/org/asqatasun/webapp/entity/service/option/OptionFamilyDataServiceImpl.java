@@ -23,10 +23,12 @@ package org.asqatasun.webapp.entity.service.option;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.option.OptionFamily;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("actFamilyService")
 public class OptionFamilyDataServiceImpl extends AbstractGenericDataService<OptionFamily, Long>
         implements OptionFamilyDataService {}

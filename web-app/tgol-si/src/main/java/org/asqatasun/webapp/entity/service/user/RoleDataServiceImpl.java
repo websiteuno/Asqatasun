@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.service.user;
 
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.user.Role;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("roleDataService")
 public class RoleDataServiceImpl extends AbstractGenericDataService<Role, Long>
         implements RoleDataService {
 

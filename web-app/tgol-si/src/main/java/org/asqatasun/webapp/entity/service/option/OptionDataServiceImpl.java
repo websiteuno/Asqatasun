@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.service.option;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.dao.option.OptionDAO;
 import org.asqatasun.webapp.entity.option.Option;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("optionDataService")
 public class OptionDataServiceImpl extends AbstractGenericDataService<Option, Long>
         implements OptionDataService {
     

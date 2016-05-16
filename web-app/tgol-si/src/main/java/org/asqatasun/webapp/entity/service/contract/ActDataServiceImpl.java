@@ -29,11 +29,13 @@ import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.dao.contract.ActDAO;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("actDataService")
 public class ActDataServiceImpl extends AbstractGenericDataService<Act, Long>
         implements ActDataService {
 

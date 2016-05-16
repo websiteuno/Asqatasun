@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.factory.user;
 
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.RoleImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("roleFactory")
 public class RoleFactoryImpl implements RoleFactory {
 
     @Override

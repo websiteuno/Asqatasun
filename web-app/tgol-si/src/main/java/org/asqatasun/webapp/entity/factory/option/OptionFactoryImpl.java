@@ -24,11 +24,14 @@ package org.asqatasun.webapp.entity.factory.option;
 import org.asqatasun.webapp.entity.option.Option;
 import org.asqatasun.webapp.entity.option.OptionFamily;
 import org.asqatasun.webapp.entity.option.OptionImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+
+@Component("optionFactory")
 public class OptionFactoryImpl implements OptionFactory {
 
     @Override

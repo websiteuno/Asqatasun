@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.factory.functionality;
 
 import org.asqatasun.webapp.entity.functionality.Functionality;
 import org.asqatasun.webapp.entity.functionality.FunctionalityImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("functionalityFactory")
 public class FunctionalityFactoryImpl implements FunctionalityFactory {
 
     @Override

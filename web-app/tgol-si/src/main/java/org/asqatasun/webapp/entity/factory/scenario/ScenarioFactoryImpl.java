@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.factory.scenario;
 
 import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.scenario.ScenarioImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("scenarioFactory")
 public class ScenarioFactoryImpl implements ScenarioFactory {
 
     @Override

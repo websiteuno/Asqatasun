@@ -29,11 +29,13 @@ import org.asqatasun.webapp.entity.dao.contract.ContractDAO;
 import org.asqatasun.webapp.entity.functionality.Functionality;
 import org.asqatasun.webapp.entity.option.OptionElement;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("contractDataService")
 public class ContractDataServiceImpl extends AbstractGenericDataService<Contract, Long>
         implements ContractDataService {
 

@@ -34,11 +34,13 @@ import org.asqatasun.webapp.presentation.data.FailedThemeInfo;
 import org.asqatasun.webapp.presentation.data.PageResult;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("statisticsDataService")
 public class StatisticsDataServiceImpl implements StatisticsDataService {
 
     private StatisticsDAO statisticsDAO;

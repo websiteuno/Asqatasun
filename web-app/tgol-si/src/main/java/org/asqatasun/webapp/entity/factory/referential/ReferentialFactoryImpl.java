@@ -23,11 +23,13 @@ package org.asqatasun.webapp.entity.factory.referential;
 
 import org.asqatasun.webapp.entity.referential.Referential;
 import org.asqatasun.webapp.entity.referential.ReferentialImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("referentialFactory")
 public class ReferentialFactoryImpl implements ReferentialFactory {
 
     @Override

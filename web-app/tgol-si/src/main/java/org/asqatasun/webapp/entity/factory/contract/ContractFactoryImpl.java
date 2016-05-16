@@ -30,11 +30,13 @@ import org.asqatasun.webapp.entity.option.OptionElement;
 import org.asqatasun.webapp.entity.referential.Referential;
 import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("contractFactory")
 public class ContractFactoryImpl implements ContractFactory {
 
     @Override

@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.factory.contract;
 import org.asqatasun.webapp.entity.contract.Scope;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.contract.TgsiScopeImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("tgolScopeFactory")
 public class ScopeFactoryImpl implements ScopeFactory {
 
     @Override

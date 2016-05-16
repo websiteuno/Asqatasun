@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.factory.user;
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.entity.user.UserImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("userFactory")
 public class UserFactoryImpl implements UserFactory {
 
     @Override
