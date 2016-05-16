@@ -23,6 +23,8 @@ package org.asqatasun.webapp.entity.dao.user;
 
 import org.asqatasun.webapp.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.webapp.entity.user.User;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -33,17 +35,21 @@ public class UserDAOImplTest extends AbstractDaoTestCase {
     /**
      * Nom du fichier xml contenant le jeu de données à importer
      */
-    private static final String INPUT_DATA_SET_FILENAME = "src/test/resources/dataSets/flatXmlDataSet.xml";
+    private static final String INPUT_DATA_SET_FILENAME = "flatXmlDataSet.xml";
 
+    @Autowired
     private UserDAO userDAO;
-    
-    public UserDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(INPUT_DATA_SET_FILENAME);
-        userDAO = (UserDAO)
-                springBeanFactory.getBean("userDAO");
+
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
     }
 
+    public UserDAOImplTest() {
+        super();
+    }
+
+    @Test
     public void testRead(){
         User user = userDAO.read(Long.valueOf(1));
         assertEquals("Test1", user.getName());
@@ -53,6 +59,7 @@ public class UserDAOImplTest extends AbstractDaoTestCase {
         assertEquals("Role2", user.getRole().getRoleName());
     }
 
+    @Test
     public void testFindUserFromEmail(){
         User user = userDAO.findUserFromEmail("test1@test.com");
         assertEquals(Long.valueOf(1), user.getId());
@@ -61,14 +68,16 @@ public class UserDAOImplTest extends AbstractDaoTestCase {
         assertNull(user);
     }
 
-   public void testFindUserFromName(){
+    @Test
+    public void testFindUserFromName(){
         User user = userDAO.findUserFromName("Test1");
         assertEquals(Long.valueOf(1), user.getId());
         user = userDAO.findUserFromName("test");
         assertNull(user);
     }
-   
-   public void testIsAccountActivated(){
+
+    @Test
+    public void testIsAccountActivated(){
         assertFalse(userDAO.isAccountActivated("test1@test.com"));
         assertTrue(userDAO.isAccountActivated("test2@test.com"));
         assertTrue(userDAO.isAccountActivated("test3@test.com"));

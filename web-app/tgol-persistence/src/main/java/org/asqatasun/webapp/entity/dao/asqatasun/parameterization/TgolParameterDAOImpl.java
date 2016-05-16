@@ -31,11 +31,13 @@ import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.dao.contract.ActDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("tgolParameterDAO")
 public class TgolParameterDAOImpl extends AbstractJPADAO<Parameter, Long>
         implements TgolParameterDAO {
 

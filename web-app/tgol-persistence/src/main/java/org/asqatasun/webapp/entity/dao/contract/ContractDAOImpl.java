@@ -28,11 +28,13 @@ import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ContractImpl;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("contractDAO")
 public class ContractDAOImpl extends AbstractJPADAO<Contract, Long>
         implements ContractDAO {
 

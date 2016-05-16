@@ -23,83 +23,89 @@ package org.asqatasun.webapp.entity.dao.test;
 
 import java.io.FileInputStream;
 import org.apache.log4j.Logger;
+import org.asqatasun.webapp.entity.dao.config.PersistenceConfigTest;
 import org.dbunit.DBTestCase;
+import org.dbunit.DataSourceBasedDBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ReplacementDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.transaction.AfterTransaction;
+import org.springframework.test.context.transaction.BeforeTransaction;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.sql.DataSource;
 
 /**
  *
  * @author jkowalczyk
  */
-public abstract class AbstractDaoTestCase extends DBTestCase {
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+@TestExecutionListeners({ TransactionalTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
+@ContextConfiguration(classes = {PersistenceConfigTest.class})
+public abstract class AbstractDaoTestCase extends DataSourceBasedDBTestCase {
 
     /**
      * Logger.
      */
     protected static final Logger LOGGER = Logger.getLogger(AbstractDaoTestCase.class);
-    /**
-     * driver JDBC
-     */
-    private static final String JDBC_DRIVER =
-            "org.hsqldb.jdbcDriver";
-    /**
-     * base de données HSQLDB nommée "database" qui fonctionne en mode mémoire
-     */
-    private static final String DATABASE =
-            "jdbc:hsqldb:file:src/test/resources/hsql-db";
-    /**
-     * utilisateur qui se connecte à la base de données
-     */
-    private static final String USER = "sa";
-    /**
-     * getDataSet mot de passe pour se connecter à la base de données
-     */
-    private static final String PASSWORD = "";
 
 
-    private static final String SPRING_FILE_PATH =
-            "src/test/resources/conf/context/application-context.xml";
-
-    private String inputDataFileName = "";
-    public String getInputDataFileName() {
-        return inputDataFileName;
+    private final String inputDataFilePath = "src/test/resources/dataSets/";
+    public String getInputDataFilePath() {
+        return inputDataFilePath;
     }
 
-    public void setInputDataFileName(String inputDataFileName) {
-        this.inputDataFileName = inputDataFileName;
+    @Autowired
+    private DataSource dataSource;
+
+    DatabaseOperation teardownOperationValue = DatabaseOperation.DELETE;
+    public void setTeardownOperationValue(DatabaseOperation teardownOperationValue) {
+        this.teardownOperationValue = teardownOperationValue;
     }
 
-    protected BeanFactory springBeanFactory;
+    @Override
+    @BeforeTransaction
+    public void setUp() throws Exception {
+        LOGGER.info("Loading dataset {} " +  getDataSetFilename());
+        super.setUp();
+    }
 
-    public AbstractDaoTestCase(String testName) {
-        super(testName);
-        ApplicationContext springApplicationContext =
-                new FileSystemXmlApplicationContext(SPRING_FILE_PATH);
-        springBeanFactory = springApplicationContext;
-        DriverManagerDataSource dmds =
-                (DriverManagerDataSource)springBeanFactory.getBean("dataSource");
-        System.setProperty(
-                PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
-                JDBC_DRIVER);
-        System.setProperty(
-                PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
-                dmds.getUrl());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,
-                dmds.getUsername());
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
-                dmds.getPassword());
+    @Override
+    @AfterTransaction
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    protected abstract String getDataSetFilename() throws Exception;
+
+    public AbstractDaoTestCase() {
+        super();
+    }
+
+    @Override
+    protected DataSource getDataSource() {
+        return this.dataSource;
     }
 
     /**
      * Override method to set custom properties/features {@inheritDoc}
+     * @param config
      */
     @Override
     protected void setUpDatabaseConfig(DatabaseConfig config) {
@@ -109,24 +115,21 @@ public abstract class AbstractDaoTestCase extends DBTestCase {
 
     /**
      * Charge le jeu de données à partir d'un fichier XML d'import
+     * @return
+     * @throws java.lang.Exception
      */
     @Override
     protected IDataSet getDataSet() throws Exception {
-        FlatXmlDataSetBuilder flatXmlDataSetBuilder = new FlatXmlDataSetBuilder();
-        FlatXmlDataSet loadedDataSet = flatXmlDataSetBuilder.build(new FileInputStream(
-                getInputDataFileName()));
-        return loadedDataSet;
-
-    }
-
-    @Override
-    protected DatabaseOperation getSetUpOperation() throws Exception {
-        return DatabaseOperation.CLEAN_INSERT;
+        FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
+        builder.setColumnSensing(true);
+        ReplacementDataSet dataSet = new ReplacementDataSet(builder.build(new FileInputStream(
+                getDataSetFilename())));
+        dataSet.addReplacementObject("[NULL]", null);
+        return dataSet;
     }
 
     @Override
     protected DatabaseOperation getTearDownOperation() throws Exception {
-        return DatabaseOperation.NONE;
+        return teardownOperationValue;
     }
-
 }

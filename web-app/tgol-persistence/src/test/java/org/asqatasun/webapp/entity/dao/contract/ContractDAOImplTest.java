@@ -21,10 +21,12 @@
  */
 package org.asqatasun.webapp.entity.dao.contract;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.asqatasun.webapp.entity.contract.Contract;
+import org.asqatasun.webapp.entity.contract.ContractImpl;
 import org.asqatasun.webapp.entity.dao.test.AbstractDaoTestCase;
 import org.asqatasun.webapp.entity.dao.user.UserDAO;
 import org.asqatasun.webapp.entity.factory.contract.ContractFactory;
@@ -35,6 +37,8 @@ import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.asqatasun.webapp.entity.service.contract.ContractDataServiceImpl;
 import org.asqatasun.webapp.entity.user.User;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -45,29 +49,26 @@ public class ContractDAOImplTest extends AbstractDaoTestCase {
     /**
      * Nom du fichier xml contenant le jeu de données à importer
      */
-    private static final String INPUT_DATA_SET_FILENAME = "src/test/resources/dataSets/flatXmlDataSet.xml";
+    private static final String INPUT_DATA_SET_FILENAME = "flatXmlDataSet.xml";
 
+    @Autowired
     private ContractDAO contractDAO;
+    @Autowired
     private UserDAO userDAO;
-    private ContractFactory contractFactory;
-    private ContractDataService contractDataService;
 
-    public ContractDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(INPUT_DATA_SET_FILENAME);
-        contractDAO = (ContractDAO)
-                springBeanFactory.getBean("contractDAO");
-        userDAO = (UserDAO)
-                springBeanFactory.getBean("userDAO");
-        contractFactory = (ContractFactory)
-                springBeanFactory.getBean("contractFactory");
-        contractDataService = new ContractDataServiceImpl();
-        contractDataService.setEntityDao(contractDAO);
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
+    }
+
+    public ContractDAOImplTest() {
+        super();
     }
     
     /**
      * Test of findAllContractsByUser method, of class ContractDAOImpl.
      */
+    @Test
     public void testFindAllContractsByUser() {
         System.out.println("findAllContractsByUser");
         User user = userDAO.read(Long.valueOf(1));
@@ -79,14 +80,14 @@ public class ContractDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of read method, of class ContractDAOImpl.
      */
+    @Test
     public void testRead() {
         System.out.println("read");
         
         Contract contract = contractDAO.read(Long.valueOf(1));
         assertNotNull(contract);
-        assertEquals("http://www.contract1.com/", contractDataService.getUrlFromContractOption(contract));
         assertEquals(Long.valueOf("1"), contract.getUser().getId());
-        Set<String> functionalityCodeSet = new HashSet<String>();
+        Set<String> functionalityCodeSet = new HashSet<>();
         for (Functionality functionality : contract.getFunctionalitySet()) {
             functionalityCodeSet.add(functionality.getCode());
         }
@@ -97,9 +98,8 @@ public class ContractDAOImplTest extends AbstractDaoTestCase {
         
         contract = contractDAO.read(Long.valueOf(2));
         assertNotNull(contract);
-        assertEquals("http://www.contract2.com/", contractDataService.getUrlFromContractOption(contract));
         assertEquals(Long.valueOf("1"), contract.getUser().getId());
-        functionalityCodeSet = new HashSet<String>();
+        functionalityCodeSet = new HashSet<>();
         for (Functionality functionality : contract.getFunctionalitySet()) {
             functionalityCodeSet.add(functionality.getCode());
         }
@@ -115,27 +115,19 @@ public class ContractDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of saveOrUpdate method, of class ContractDAOImpl.
      */
+    @Test
     public void testSaveOrUpdate() {
         System.out.println("saveOrUpdate");
         Date beginDate = new Date();
         Date endDate = new Date();
         Date renewalDate = new Date();
         int nbOfContract = contractDAO.findAll().size();
-        Set<Functionality> functionalitySet = new HashSet<Functionality>();
-        Set<OptionElement> optionElementSet = new HashSet<OptionElement>();
-        Set<Referential> referenceSet = new HashSet<Referential>();
-        Set<Scenario> scenarioSet = new HashSet<Scenario>();
-        Contract contract = contractFactory.createContract(
-                "Contract-test",
-                beginDate,
-                endDate,
-                renewalDate,
-                Float.valueOf(200),
-                functionalitySet,
-                optionElementSet,
-                referenceSet,
-                scenarioSet,
-                null);
+        Contract contract = new ContractImpl();
+        contract.setPrice(Float.valueOf(200));
+        contract.setLabel("Contract-test");
+        contract.setBeginDate(beginDate);
+        contract.setEndDate(endDate);
+        contract.setRenewalDate(renewalDate);
         contractDAO.saveOrUpdate(contract);
         assertEquals(nbOfContract+1, contractDAO.findAll().size());
     }
@@ -143,6 +135,7 @@ public class ContractDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of update method, of class ContractDAOImpl.
      */
+    @Test
     public void testUpdate() {
         System.out.println("update");
         Contract contract  = contractDAO.read((Long.valueOf(1)));

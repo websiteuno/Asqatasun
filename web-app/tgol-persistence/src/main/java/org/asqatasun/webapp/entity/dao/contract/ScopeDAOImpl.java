@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.dao.contract;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.contract.Scope;
 import org.asqatasun.webapp.entity.contract.TgsiScopeImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("contractScopeDAO")
 public class ScopeDAOImpl extends AbstractJPADAO<Scope, Long>
         implements ScopeDAO {
 

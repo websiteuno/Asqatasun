@@ -24,10 +24,12 @@ package org.asqatasun.webapp.entity.dao.scenario;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.scenario.ScenarioImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jkowalczyk
  */
+@Component("scenarioDAO")
 public class ScenarioDAOImpl extends AbstractJPADAO<Scenario, Long>
         implements ScenarioDAO {
 

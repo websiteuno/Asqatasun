@@ -27,6 +27,8 @@ import org.asqatasun.webapp.entity.dao.user.UserDAO;
 import org.asqatasun.webapp.entity.option.Option;
 import org.asqatasun.webapp.entity.option.OptionElement;
 import org.asqatasun.webapp.entity.user.User;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -37,33 +39,36 @@ public class OptionElementDAOImplTest extends AbstractDaoTestCase {
     /**
      * Nom du fichier xml contenant le jeu de données à importer
      */
-    private static final String INPUT_DATA_SET_FILENAME = "src/test/resources/dataSets/flatXmlDataSet.xml";
-    
+    private static final String INPUT_DATA_SET_FILENAME = "flatXmlDataSet.xml";
+
+    @Autowired
     private OptionElementDAO optionElementDAO;
+    @Autowired
     private UserDAO userDAO;
-    
-    public OptionElementDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(INPUT_DATA_SET_FILENAME);
-        optionElementDAO = (OptionElementDAO)
-                springBeanFactory.getBean("optionElementDAO");
-        userDAO = (UserDAO)
-                springBeanFactory.getBean("userDAO");
+
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
+    }
+
+    public OptionElementDAOImplTest() {
+        super();
     }
     
     @Override
-    protected void setUp() throws Exception {
+    public void setUp() throws Exception {
         super.setUp();
     }
     
     @Override
-    protected void tearDown() throws Exception {
+    public void tearDown() throws Exception {
         super.tearDown();
     }
 
     /**
      * Test of findOptionElementFromUserAndFamilyCode method, of class OptionElementDAOImpl.
      */
+    @Test
     public void testFindOptionElementFromUserAndFamilyCode() {
         User user1 = userDAO.findUserFromEmail("test1@test.com");
         User user2 = userDAO.findUserFromEmail("test2@test.com");

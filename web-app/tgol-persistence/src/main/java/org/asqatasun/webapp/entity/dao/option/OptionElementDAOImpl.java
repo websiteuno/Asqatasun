@@ -31,11 +31,13 @@ import org.asqatasun.webapp.entity.option.OptionElement;
 import org.asqatasun.webapp.entity.option.OptionElementImpl;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.entity.user.UserImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("optionElementDAO")
 public class OptionElementDAOImpl extends AbstractJPADAO<OptionElement, Long>
         implements OptionElementDAO {
 

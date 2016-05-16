@@ -41,11 +41,13 @@ import org.asqatasun.webapp.presentation.factory.FailedTestInfoFactory;
 import org.asqatasun.webapp.presentation.factory.FailedThemeInfoFactory;
 import org.asqatasun.webapp.presentation.factory.PageResultFactory;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("statisticsDAO")
 public class StatisticsDAOImpl extends AbstractJPADAO<WebResourceStatistics, Long>
         implements StatisticsDAO {
 

@@ -24,8 +24,6 @@ package org.asqatasun.webapp.entity.dao.contract;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.dao.test.AbstractDaoTestCase;
-import org.asqatasun.webapp.entity.factory.contract.ActFactory;
-import org.asqatasun.webapp.entity.factory.contract.ContractFactory;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +33,8 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.asqatasun.entity.dao.subject.WebResourceDAO;
-import org.asqatasun.entity.factory.subject.WebResourceFactory;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -46,33 +45,24 @@ public class ActDAOImplTest extends AbstractDaoTestCase {
     /**
      * Nom du fichier xml contenant le jeu de données à importer
      */
-    private static final String INPUT_DATA_SET_FILENAME = "src/test/resources/dataSets/flatXmlDataSet.xml";
+    private static final String INPUT_DATA_SET_FILENAME = "flatXmlDataSet.xml";
 
-    private final ActDAO actDAO;
-    private final ActFactory actFactory;
-    private final ContractFactory contractFactory;
-    private final ContractDAO contractDAO;
-    private final ScopeDAO scopeDAO;
-    private final WebResourceFactory wrFactory;
-    private final WebResourceDAO wrDAO;
+    @Autowired
+    private ActDAO actDAO;
+    @Autowired
+    private ContractDAO contractDAO;
+    @Autowired
+    private ScopeDAO scopeDAO;
+    @Autowired
+    private WebResourceDAO wrDAO;
 
-    public ActDAOImplTest(String testName) {
-        super(testName);
-        setInputDataFileName(INPUT_DATA_SET_FILENAME);
-        actDAO = (ActDAO)
-                springBeanFactory.getBean("actDAO");
-        contractDAO = (ContractDAO)
-                springBeanFactory.getBean("contractDAO");
-        scopeDAO = (ScopeDAO)
-                springBeanFactory.getBean("scopeDAO");
-        actFactory = (ActFactory)
-                springBeanFactory.getBean("actFactory");
-        contractFactory = (ContractFactory)
-                springBeanFactory.getBean("contractFactory");
-        wrDAO = (WebResourceDAO)
-                springBeanFactory.getBean("webResourceDAO");
-        wrFactory = (WebResourceFactory)
-                springBeanFactory.getBean("webResourceFactory");
+    @Override
+    protected String getDataSetFilename() throws Exception {
+        return getInputDataFilePath()+INPUT_DATA_SET_FILENAME;
+    }
+
+    public ActDAOImplTest() {
+        super();
     }
 
     /**
@@ -107,6 +97,7 @@ public class ActDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of findAllContractsByUser method, of class ContractDAOImpl.
      */
+    @Test
     public void testFindLastActsByContract() {
         System.out.println("findLastActsByContract");
         Contract contract  = contractDAO.read((Long.valueOf(1)));
@@ -129,6 +120,7 @@ public class ActDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of findAllContractsByUser method, of class ContractDAOImpl.
      */
+    @Test
     public void testFindAllActsByContract() {
         System.out.println("findAllActsByContract");
         Contract contract  = contractDAO.read((Long.valueOf(1)));
@@ -140,6 +132,7 @@ public class ActDAOImplTest extends AbstractDaoTestCase {
     /**
      * Test of findRunningActsByContract method, of class ContractDAOImpl.
      */
+    @Test
     public void testFindRunningActsByContract() {
         System.out.println("findRunningActsByContract");
         Contract contract  = contractDAO.read((Long.valueOf(1)));
@@ -149,6 +142,7 @@ public class ActDAOImplTest extends AbstractDaoTestCase {
         assertEquals(3, actDAO.findRunningActsByContract(contract).size());
     }
 
+    @Test
     public void testFindNumberOfActByPeriodAndIp() {
         Contract contract  = contractDAO.read((Long.valueOf(1)));
         DateFormat dfm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

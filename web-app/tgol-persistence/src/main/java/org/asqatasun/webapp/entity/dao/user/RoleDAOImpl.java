@@ -26,11 +26,13 @@ import javax.persistence.Query;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.RoleImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("roleDAO")
 public class RoleDAOImpl extends AbstractJPADAO<Role, Long> implements RoleDAO {
 
     public RoleDAOImpl() {

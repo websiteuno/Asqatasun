@@ -24,6 +24,8 @@ package org.asqatasun.webapp.entity.dao.user;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.entity.user.UserImpl;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -31,6 +33,7 @@ import javax.persistence.Query;
  *
  * @author jkowalczyk
  */
+@Component("userDAO")
 public class UserDAOImpl extends AbstractJPADAO<User, Long> implements UserDAO {
 
     public UserDAOImpl() {

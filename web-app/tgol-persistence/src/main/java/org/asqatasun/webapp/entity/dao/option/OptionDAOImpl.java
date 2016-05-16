@@ -27,11 +27,13 @@ import javax.persistence.Query;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.option.Option;
 import org.asqatasun.webapp.entity.option.OptionImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("optionDAO")
 public class OptionDAOImpl extends AbstractJPADAO<Option, Long>
         implements OptionDAO {
 

@@ -24,11 +24,13 @@ package org.asqatasun.webapp.entity.dao.option;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.option.OptionFamily;
 import org.asqatasun.webapp.entity.option.OptionFamilyImpl;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("optionFamilyDAO")
 public class OptionFamilyDAOImpl extends AbstractJPADAO<OptionFamily, Long>
         implements OptionFamilyDAO {
 

@@ -28,11 +28,13 @@ import javax.persistence.TemporalType;
 import org.asqatasun.entity.audit.AuditStatus;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.contract.*;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("actDAO")
 public class ActDAOImpl extends AbstractJPADAO<Act, Long> implements ActDAO {
 
     private static final String CACHEABLE_OPTION="org.hibernate.cacheable";

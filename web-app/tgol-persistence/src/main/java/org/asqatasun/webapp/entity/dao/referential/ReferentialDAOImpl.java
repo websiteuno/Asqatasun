@@ -24,10 +24,12 @@ package org.asqatasun.webapp.entity.dao.referential;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
 import org.asqatasun.webapp.entity.referential.Referential;
 import org.asqatasun.webapp.entity.referential.ReferentialImpl;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jkowalczyk
  */
+@Component("referentialDAO")
 public class ReferentialDAOImpl extends AbstractJPADAO<Referential, Long>
         implements ReferentialDAO {
 
