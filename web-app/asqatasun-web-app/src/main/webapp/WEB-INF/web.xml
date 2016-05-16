@@ -15,6 +15,19 @@
         </param-value>
     </context-param>
 
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>webapp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>webapp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>spring.liveBeansView.mbeanDomain</param-name>
+        <param-value>webapp</param-value>
+    </context-param>
+
     <!-- listener classes -->
     <listener>
         <listener-class>

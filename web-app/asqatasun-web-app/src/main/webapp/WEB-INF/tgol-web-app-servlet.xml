@@ -18,7 +18,7 @@
     <security:global-method-security 
             access-decision-manager-ref="accessDecisionManager"/>
 
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
 
     <!-- spring mvc imports -->
     <import resource="conf/mvc/tgol-beans-command-factories.xml"/>
