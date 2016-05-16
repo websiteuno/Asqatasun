@@ -13,6 +13,9 @@
         <log4jGroupId>log4j</log4jGroupId>
         <log4jVersion>1.2.15</log4jVersion>
 
+        <springGroupId>org.springframework</springGroupId>
+        <springVersion>4.2.6.RELEASE</springVersion>
+
     </properties>
     <build>
         <plugins>
@@ -81,6 +84,11 @@
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>${springGroupId}</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springVersion}</version>
         </dependency>
     </dependencies>
 </project>
