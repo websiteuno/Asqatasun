@@ -24,6 +24,8 @@ package org.asqatasun.webapp.presentation.highlighter;
 import com.uwyn.jhighlight.highlighter.ExplicitStateHighlighter;
 import com.uwyn.jhighlight.renderer.XmlXhtmlRenderer;
 import com.uwyn.jhighlight.tools.StringUtils;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -34,6 +36,7 @@ import java.io.StringReader;
  *
  * @author jkowalczyk
  */
+@Service("htmlHighlighterService")
 public class HtmlHighlighterImpl implements HtmlHighlighter {
 
     @Override
