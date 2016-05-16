@@ -49,10 +49,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@PropertySources({
-    @PropertySource("classpath:webapp-hibernate.properties"),
-    @PropertySource("classpath:flyway.properties")
-})
+@PropertySource({"classpath:webapp-hibernate.properties","classpath:flyway.properties","${confDir}/asqatasun.properties",})
 @Profile("webapp")
 public class PersistenceConfig {
 
@@ -84,14 +81,14 @@ public class PersistenceConfig {
     @Value("${hibernate.cache.use_second_level_cache}")
     private boolean hibernateUse2ndLevelQueryCache;
 
-    @Value("${hibernate.cache.use_query_cache}")
+    @Value("${hibernateCacheUseQueryCache}")
     private boolean hibernateUseQueryCache;
 
-    @Value("${hibernate.cache.region.factory_class}")
+    @Value("${hibernateCacheRegionFactoryClass}")
     private String hibernateRegionFactory;
 
-    @Value("${hibernate.dialect:org.asqatasun.dialect.AsqatasunMySQL5InnoDBDialect}")
-    private String hibernateDialect;
+//    @Value("${hibernate.dialect:org.asqatasun.dialect.AsqatasunMySQL5InnoDBDialect}")
+    private String hibernateDialect = "org.asqatasun.dialect.AsqatasunMySQL5InnoDBDialect";
 
     @Value("${flyway.migrationPrefix}")
     private String flywayMigrationPrefix;
@@ -163,7 +160,7 @@ public class PersistenceConfig {
         final Properties jpaProperties = new Properties();
         jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_USE_QUERY_CACHE, hibernateUseQueryCache);
-        jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
+//        jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
         jpaProperties.put(HIBERNATE_GENERATE_STATISTICS, false);
         jpaProperties.put(HIBERNATE_JDBC_BATCH_SIZE, hibernateJdbcBatchSize);
         jpaProperties.put(HIBERNATE_MAX_FETCH_DEPTH, hibernateMaxFetchDepth);
@@ -192,4 +189,8 @@ public class PersistenceConfig {
         return new PersistenceAnnotationBeanPostProcessor();
     }
 
+    @Bean
+    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 }
