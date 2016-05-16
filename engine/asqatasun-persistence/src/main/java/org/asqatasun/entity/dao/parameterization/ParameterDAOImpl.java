@@ -63,8 +63,8 @@ public class ParameterDAOImpl extends AbstractJPADAO<Parameter, Long> implements
      */
     @Override
     public Set<Parameter> findDefaultParameterSet() {
-        Set<Parameter> paramSet = new LinkedHashSet<Parameter>();
-        Set<String> paramElementSet = new HashSet<String>();
+        Set<Parameter> paramSet = new LinkedHashSet<>();
+        Set<String> paramElementSet = new HashSet<>();
         Query query = entityManager.createQuery("SELECT p FROM "
                 + getEntityClass().getName() + " p"
                 + " WHERE p.isDefaultParameterValue = :isDefault");
@@ -163,7 +163,7 @@ public class ParameterDAOImpl extends AbstractJPADAO<Parameter, Long> implements
     public Set<Parameter> findParametersFromParameterFamily(
             ParameterFamily parameterFamily, 
             Collection<Parameter> globalParamSet) {
-        Set<Parameter> paramSet = new HashSet<Parameter>();
+        Set<Parameter> paramSet = new HashSet<>();
         for (Parameter param : globalParamSet) {
             if (param.getParameterElement().getParameterFamily().equals(parameterFamily)) {
                 paramSet.add(param);

@@ -30,7 +30,12 @@ import org.asqatasun.entity.parameterization.factory.ParameterFactory;
 import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterFamily;
+import org.asqatasun.entity.statistics.WebResourceStatistics;
+import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -46,16 +51,23 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
     private static int LEVEL_INDEX_IN_PARAM = 1;
     
     private Parameter defaultLevelParameter;
-    
-    private String levelAndRefParameterKey = DEFAULT_LEVEL_AND_REF_PARAM_KEY;
-    public String getLevelAndRefParameterKey() {
-        return levelAndRefParameterKey;
+
+    @Value("${levelAndRefParameterKey:LEVEL}")
+    private String levelAndRefParameterKey;
+
+
+    /**
+     *
+     * @param entityDao
+     *            the entity DAO to set
+     */
+    @Override
+    @Autowired
+    @Qualifier("parameterDAO")
+    public void setEntityDao(GenericDAO<Parameter, Long> entityDao) {
+        this.entityDao = entityDao;
     }
 
-    public void setLevelAndRefParameterKey(String levelAndRefParameterKey) {
-        this.levelAndRefParameterKey = levelAndRefParameterKey;
-    }
-    
     @Override
     public Parameter create(ParameterElement parameterElement, String value, Audit audit) {
         return ((ParameterFactory) entityFactory).createParameter(parameterElement, value, audit);

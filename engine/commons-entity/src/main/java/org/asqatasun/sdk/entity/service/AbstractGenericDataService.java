@@ -38,7 +38,6 @@ import org.springframework.stereotype.Service;
 public abstract class AbstractGenericDataService<E extends Entity, K extends Serializable>
         implements GenericDataService<E, K> {
 
-    @Autowired
     protected GenericDAO<E, K> entityDao;
     @Autowired
     protected GenericFactory<E> entityFactory;
@@ -128,6 +127,7 @@ public abstract class AbstractGenericDataService<E extends Entity, K extends Ser
      *            the entity DAO to set
      */
     @Override
+    @Autowired
     public void setEntityDao(GenericDAO<E, K> entityDao) {
         this.entityDao = entityDao;
     }

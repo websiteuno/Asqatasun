@@ -44,8 +44,10 @@ import org.asqatasun.entity.statistics.ThemeStatistics;
 import org.asqatasun.entity.statistics.ThemeStatisticsImpl;
 import org.asqatasun.entity.statistics.WebResourceStatistics;
 import org.asqatasun.entity.subject.WebResource;
+import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -63,7 +65,17 @@ public class WebResourceStatisticsDataServiceImpl extends
     private CriterionStatisticsDataService criterionStatisticsDataService;
     @Autowired
     private ThemeStatisticsDataService themeStatisticsDataService;
-
+    /**
+     *
+     * @param entityDao
+     *            the entity DAO to set
+     */
+    @Override
+    @Autowired
+    @Qualifier("webResourceStatisticsDAO")
+    public void setEntityDao(GenericDAO<WebResourceStatistics, Long> entityDao) {
+        this.entityDao = entityDao;
+    }
 
     @Override
     public Long getResultCountByResultType(Long webresourceId,
