@@ -53,7 +53,7 @@
                 </executions>
             </plugin>-->
         </plugins>
-        <finalName>rulescreationdemo-${rulesVersion}</finalName>
+        <finalName>rulescreationdemo-${project.version}</finalName>
     </build>
     <dependencies>
         <dependency>

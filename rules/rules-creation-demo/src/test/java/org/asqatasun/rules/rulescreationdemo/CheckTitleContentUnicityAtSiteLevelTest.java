@@ -21,7 +21,6 @@ package org.asqatasun.rules.rulescreationdemo;
 
 import java.util.Collection;
 import java.util.List;
-import static junit.framework.Assert.assertEquals;
 import org.asqatasun.entity.audit.ProcessRemark;
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.entity.audit.TestSolution;
