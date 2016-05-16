@@ -30,29 +30,42 @@ import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.parameterization.ParameterFamily;
 import org.asqatasun.entity.service.parameterization.ParameterDataService;
 import org.asqatasun.entity.service.parameterization.ParameterElementDataService;
+import org.asqatasun.entity.statistics.WebResourceStatistics;
+import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.service.AbstractGenericDataService;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.dao.asqatasun.parameterization.TgolParameterDAO;
 import org.asqatasun.webapp.entity.option.OptionElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("parameterDataServiceDecorator")
 public class ParameterDataServiceDecoratorImpl extends AbstractGenericDataService<Parameter, Long>
         implements ParameterDataServiceDecorator{
 
-    private final ParameterDataService decoratedParameterDataService; // the ParameterDataService instance being decorated
-    private final ParameterElementDataService parameterElementDataService; 
-
     @Autowired
-    public ParameterDataServiceDecoratorImpl (
-            ParameterDataService decoratedParameterDataService,
-            ParameterElementDataService parameterElementDataService) {
-        this.decoratedParameterDataService = decoratedParameterDataService;
-        this.parameterElementDataService = parameterElementDataService;
+    private ParameterDataService decoratedParameterDataService; // the ParameterDataService instance being decorated
+    @Autowired
+    private ParameterElementDataService parameterElementDataService;
+
+    /**
+     *
+     * @param entityDao
+     *            the entity DAO to set
+     */
+    @Override
+    @Autowired
+    @Qualifier("tgolParameterDAO")
+    public void setEntityDao(GenericDAO<Parameter, Long> entityDao) {
+        this.entityDao = entityDao;
     }
+
+    public ParameterDataServiceDecoratorImpl () {}
 
     @Override
     public String getLastParameterValueFromUser(Long idContract, ParameterElement parameterElement, ScopeEnum scope) {
