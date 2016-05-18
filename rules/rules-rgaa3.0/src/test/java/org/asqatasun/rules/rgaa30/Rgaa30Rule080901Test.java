@@ -49,8 +49,6 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
     protected void setUpWebResourceMap() {
         addWebResource("Rgaa30.Test.08.09.01-2Failed-01");
         addWebResource("Rgaa30.Test.08.09.01-2Failed-02");
-        addWebResource("Rgaa30.Test.08.09.01-2Failed-03");
-        addWebResource("Rgaa30.Test.08.09.01-2Failed-04");
         addWebResource("Rgaa30.Test.08.09.01-3NMI-01");
         addWebResource("Rgaa30.Test.08.09.01-3NMI-02");
         addWebResource("Rgaa30.Test.08.09.01-3NMI-03");
@@ -85,30 +83,6 @@ public class Rgaa30Rule080901Test extends Rgaa30RuleImplementationTestCase {
                 TestSolution.FAILED,
                 RemarkMessageStore.LINK_WITHOUT_TARGET_MSG,
                 HtmlElementStore.A_ELEMENT,
-                1);        
-        
-        //----------------------------------------------------------------------
-        //---------------------------2Failed-03---------------------------------
-        //----------------------------------------------------------------------
-        processResult = processPageTest("Rgaa30.Test.08.09.01-2Failed-03");
-        checkResultIsPreQualified(processResult, 4, 1);
-        checkRemarkIsPresent(
-                processResult,
-                TestSolution.NEED_MORE_INFO,
-                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
-                HtmlElementStore.FIELDSET_ELEMENT,
-                1);        
-        
-        //----------------------------------------------------------------------
-        //---------------------------2Failed-04---------------------------------
-        //----------------------------------------------------------------------
-        processResult = processPageTest("Rgaa30.Test.08.09.01-2Failed-04");
-        checkResultIsPreQualified(processResult, 4, 1);
-        checkRemarkIsPresent(
-                processResult,
-                TestSolution.NEED_MORE_INFO,
-                getMessageKey(RemarkMessageStore.NO_PATTERN_DETECTED_MSG),
-                HtmlElementStore.FIELDSET_ELEMENT,
                 1);        
         
         //----------------------------------------------------------------------
