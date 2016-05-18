@@ -29,6 +29,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.asqatasun.webapp.command.CreateContractCommand;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -36,6 +37,7 @@ import org.springframework.validation.Validator;
  *
  * @author jkowalczyk
  */
+@Component("createContractFormValidator")
 public class CreateContractFormValidator implements Validator {
 
     private static final String GENERAL_ERROR_MSG_KEY = "generalErrorMsg";

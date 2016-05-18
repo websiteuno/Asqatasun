@@ -33,45 +33,26 @@ import org.asqatasun.webapp.entity.service.option.OptionDataService;
 import org.asqatasun.webapp.entity.service.option.OptionElementDataService;
 import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public class ChangeTestWeightCommandFactory  implements Serializable {
 
+    @Value("${optionFamilyCodeStr:TEST_WEIGHT_MANAGEMENT}")
     private String optionFamilyCodeStr = "TEST_WEIGHT_MANAGEMENT";
-    public void setOptionFamilyCodeStr(String optionFamilyCodeStr) {
-        this.optionFamilyCodeStr = optionFamilyCodeStr;
-    }
-    
+    @Autowired
     private OptionElementDataService optionElementDataService;
-    public OptionElementDataService getOptionElementDataService() {
-        return optionElementDataService;
-    }
-
-    public void setOptionElementDataService(OptionElementDataService optionElementDataService) {
-        this.optionElementDataService = optionElementDataService;
-    }
-    
+    @Autowired
     private OptionDataService optionDataService;
-    public OptionDataService getOptionDataService() {
-        return optionDataService;
-    }
-
-    public void setOptionDataService(OptionDataService optionDataService) {
-        this.optionDataService = optionDataService;
-    }
-    
+    @Autowired
     private UserDataService userDataService;
-    public UserDataService getUserDataService() {
-        return userDataService;
-    }
 
-    public void setUserDataService(UserDataService userDataService) {
-        this.userDataService = userDataService;
-    }
-    
     /**
      * The holder that handles the unique instance of ChangeTestWeightCommandFactory
      */

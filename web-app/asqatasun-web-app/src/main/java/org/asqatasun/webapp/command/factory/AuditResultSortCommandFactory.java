@@ -29,21 +29,18 @@ import org.asqatasun.webapp.command.AuditResultSortCommand;
 import org.asqatasun.webapp.form.*;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.form.parameterization.helper.FormFieldHelper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public final class AuditResultSortCommandFactory {
 
+    @Value("${themeKey:result.theme}")
     private String themeKey;
-    public String getThemeKey() {
-        return themeKey;
-    }
-
-    public void setThemeKey(String themeKey) {
-        this.themeKey = themeKey;
-    }
 
     /**
      * The holder that handles the unique instance of AuditResultSortCommandFactory

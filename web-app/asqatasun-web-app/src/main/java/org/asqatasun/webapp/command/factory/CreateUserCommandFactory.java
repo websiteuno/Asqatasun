@@ -26,38 +26,42 @@ import org.asqatasun.webapp.command.CreateUserCommand;
 import org.asqatasun.webapp.entity.service.user.RoleDataService;
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public class CreateUserCommandFactory  implements Serializable {
 
     private Long userRoleId = Long.valueOf("2");
-    public void setUserRole(Role userRole) {
-        this.userRole = userRole;
-    }
-    
     private Long adminRoleId = Long.valueOf("3");
-    public void setAdminRoleId(Long adminRoleId) {
-        this.adminRoleId = adminRoleId;
-    }
-    
+
     private Role userRole;
     public Role getUserRole() {
         return userRole;
     }
-    
     private Role adminRole;
     public Role getAdminRole() {
         return adminRole;
     }
-    
-    public final void setRoleDataService (RoleDataService roleDataService){
+
+    @Autowired
+    private RoleDataService roleDataService;
+    public void setRoleDataService(RoleDataService roleDataService) {
+        this.roleDataService = roleDataService;
+    }
+
+    @PostConstruct
+    public void initRoles() {
         userRole = roleDataService.read(userRoleId);
         adminRole = roleDataService.read(adminRoleId);
     }
-    
+
     /**
      * The holder that handles the unique instance of CreateUserCommandFactory
      */

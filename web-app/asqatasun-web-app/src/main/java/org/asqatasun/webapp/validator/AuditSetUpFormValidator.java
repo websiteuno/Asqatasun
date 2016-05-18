@@ -27,6 +27,7 @@ import org.asqatasun.webapp.command.AuditSetUpCommand;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.asqatasun.webapp.form.parameterization.AuditSetUpFormField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -34,6 +35,7 @@ import org.springframework.validation.Validator;
  *
  * @author jkowalczyk
  */
+@Component("auditSiteSetUpFormValidator")
 public class AuditSetUpFormValidator implements Validator {
 
     protected static final Logger LOGGER = Logger.getLogger(AuditSetUpFormValidator.class);

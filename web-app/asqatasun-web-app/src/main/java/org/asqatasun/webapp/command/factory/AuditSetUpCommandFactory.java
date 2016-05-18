@@ -56,58 +56,24 @@ public final class AuditSetUpCommandFactory {
     public ParameterElement getLevelParameterElement() {
         return parameterElementDataService.getParameterElement(TgolKeyStore.LEVEL_PARAM_KEY);
     }
-    /**
-     *
-     */
-    private ParameterDataServiceDecorator parameterDataService;
-
-    public ParameterDataServiceDecorator getParameterDataService() {
-        return parameterDataService;
-    }
 
     @Autowired
+    private ParameterDataServiceDecorator parameterDataService;
     public void setParameterDataService(ParameterDataServiceDecorator parameterDataService) {
         this.parameterDataService = parameterDataService;
     }
-    /**
-     *
-     */
-    private ParameterElementDataService parameterElementDataService;
-
-    public ParameterElementDataService getParameterElementDataService() {
-        return parameterElementDataService;
-    }
-
     @Autowired
+    private ParameterElementDataService parameterElementDataService;
     public void setParameterElementDataService(ParameterElementDataService parameterElementDataService) {
         this.parameterElementDataService = parameterElementDataService;
     }
-    /**
-     *
-     */
-    private ContractDataService contractDataService;
-
-    public ContractDataService getContractDataService() {
-        return contractDataService;
-    }
-
     @Autowired
+    private ContractDataService contractDataService;
     public void setContractDataService(ContractDataService contractDataService) {
         this.contractDataService = contractDataService;
     }
-    /**
-     *
-     */
-    private ScenarioDataService scenarioDataService;
-
-    public ScenarioDataService getScenarioDataService() {
-        return scenarioDataService;
-    }
-
     @Autowired
-    public void setScenarioDataService(ScenarioDataService scenarioDataService) {
-        this.scenarioDataService = scenarioDataService;
-    }
+    private ScenarioDataService scenarioDataService;
 
     /**
      * The holder that handles the unique instance of AuditSetUpCommandFactory
@@ -265,9 +231,11 @@ public final class AuditSetUpCommandFactory {
      * object contains a map that associates a Parameter and a value (handled by
      * the AuditSetUpFormField). Each value is preset regarding the
      *
+     * @param auditSetUpCommand
      * @param contract
-     * @param auditSetUpFormFieldList
-     * @param auditSite
+     * @param levelFormFieldList
+     * @param optionalFormFieldMap
+     * @param scope
      * @return
      */
     private synchronized void setUpAuditSetUpCommand(
@@ -340,7 +308,8 @@ public final class AuditSetUpCommandFactory {
      * URL filled-in by the user. Depending the status of the user
      * (authenticated or guest), the table is pre-populated.
      *
-     * @param contractId
+     * @param contract
+     * @param isSiteAudit
      * @return
      */
     private List<String> getGroupOfPagesUrl(Contract contract, boolean isSiteAudit) {
@@ -381,7 +350,7 @@ public final class AuditSetUpCommandFactory {
 
         // We retrieve the default value of the Parameter associated 
         // with the level ParameterElement
-        String defaultValue = getParameterDataService().getDefaultLevelParameter().getValue();
+        String defaultValue = parameterDataService.getDefaultLevelParameter().getValue();
         
         Logger.getLogger(this.getClass()).debug("default level value " + defaultValue);
         ScopeEnum scope = auditSetUpCommand.getScope();
@@ -442,7 +411,7 @@ public final class AuditSetUpCommandFactory {
      */
     private String getDefaultParameterValue(AuditSetUpFormField ap) {
 
-        String defaultValue = getParameterDataService().
+        String defaultValue = parameterDataService.
                 getDefaultParameter(ap.getParameterElement()).getValue();
         Logger.getLogger(this.getClass()).debug(
                 "defaultValue  " + defaultValue + "for param " + ap.getParameterElement().getParameterElementCode());
@@ -463,7 +432,7 @@ public final class AuditSetUpCommandFactory {
      *
      * @param contract
      * @param parameterElement
-     * @param scope
+     * @param auditSetUpCommand
      * @return
      */
     private String retrieveParameterValueFromLastAudit(

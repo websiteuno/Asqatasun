@@ -2,30 +2,43 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="org.asqatasun.entity,
-                                          org.asqatasun.entity.dao,
-                                          org.asqatasun.entity.service,
-                                          org.asqatasun.service,
-                                          org.asqatasun.webapp.entity.factory,
-                                          org.asqatasun.webapp.entity.service,
-                                          org.asqatasun.webapp.entity.dao
-                                          org.asqatasun.contentadapter,
-                                          org.asqatasun.contentloader,
-                                          org.asqatasun.scenarioloader,
-                                          org.asqatasun.processor,
-                                          org.asqatasun.consolidator,
-                                          org.asqatasun.analyser,
-                                          org.asqatasun.nomenclatureloader,
-                                          org.asqatasun.ruleimplementationloader,
-                                          org.asqatasun.emailsender,
-                                          org.asqatasun.webapp.config" />
+    <context:component-scan base-package="org.asqatasun.webapp.config"/>
+
+    <!--&lt;!&ndash; SEO imports &ndash;&gt;-->
+    <!--<import resource="classpath:context/seo/engine/seo-beans-engine.xml"/>-->
+
+
+    <!--<mvc:annotation-driven />-->
+
+    <!-- spring mvc imports -->
+    <import resource="mvc/tgol-beans-controller.xml"/>
+    <import resource="mvc/tgol-beans-form.xml"/>
+    <import resource="mvc/tgol-beans-handler.xml"/>
+    <import resource="mvc/tgol-beans-i18n.xml"/>
+    <import resource="mvc/tgol-beans-locale.xml"/>
+    <import resource="mvc/tgol-beans-presentation.xml"/>
+    <import resource="mvc/tgol-beans-resolver.xml"/>
+    <import resource="mvc/tgol-beans-utils.xml"/>
+
+    <!-- export function imports -->
+    <import resource="export/tgol-beans-color.xml"/>
+    <import resource="export/tgol-beans-columns.xml"/>
+    <import resource="export/tgol-beans-expression.xml"/>
+    <import resource="export/tgol-beans-format.xml"/>
+    <import resource="export/tgol-beans-layout.xml"/>
+    <import resource="export/tgol-beans-service.xml"/>
+    <import resource="export/tgol-beans-style.xml"/>
 
     <!-- SEO imports -->
-    <import resource="classpath:conf/context/seo/engine/seo-beans-engine.xml"/>
-    
+    <!--<import resource="classpath:context/seo/web-app/seo-beans-webapp.xml"/>-->
 </beans>

@@ -23,10 +23,8 @@ package org.asqatasun.webapp.config;
 
 import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -34,11 +32,40 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
+@ComponentScan({
+        "org.asqatasun.webapp.persistence.config",
+        "org.asqatasun.entity",
+        "org.asqatasun.entity.dao",
+        "org.asqatasun.entity.service",
+        "org.asqatasun.service",
+        "org.asqatasun.webapp.entity.factory",
+        "org.asqatasun.webapp.entity.service",
+        "org.asqatasun.webapp.entity.dao",
+        "org.asqatasun.webapp.entity.decorator",
+        "org.asqatasun.webapp.orchestrator",
+        "org.asqatasun.webapp.validator",
+        "org.asqatasun.contentadapter",
+        "org.asqatasun.contentloader",
+        "org.asqatasun.scenarioloader",
+        "org.asqatasun.processor",
+        "org.asqatasun.consolidator",
+        "org.asqatasun.analyser",
+        "org.asqatasun.nomenclatureloader",
+        "org.asqatasun.ruleimplementationloader",
+        "org.asqatasun.webapp.security",
+        "org.asqatasun.emailsender",
+        "org.asqatasun.webapp.presentation.highlighter"
+})
 @PropertySources({
     @PropertySource("${confDir}/asqatasun.properties"),
     @PropertySource("${confDir}/ESAPI.properties")
 })
 public class WebappConfig {
+
+    @Bean
+    static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     public PropertyPlaceholderConfigurer placeHolderConfigurer() {

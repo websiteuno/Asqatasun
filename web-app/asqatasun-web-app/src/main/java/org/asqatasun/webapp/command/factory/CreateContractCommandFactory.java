@@ -34,44 +34,46 @@ import org.asqatasun.webapp.entity.service.functionality.FunctionalityDataServic
 import org.asqatasun.webapp.entity.service.option.OptionDataService;
 import org.asqatasun.webapp.entity.service.option.OptionElementDataService;
 import org.asqatasun.webapp.entity.service.referential.ReferentialDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component
 public class CreateContractCommandFactory implements Serializable {
 
     private static final String DOMAIN_OPTION_CODE = "DOMAIN";
     
     private Collection<Referential> referentialList;
     private Collection<Functionality> functionalityList;
-    private Collection<Option> optionList = new HashSet<Option>();
-    
-    public void setReferentialDataService (ReferentialDataService referentialDataService) {
-        referentialList = referentialDataService.findAll();
-    }
-    
-    public void setFunctionalityDataService (FunctionalityDataService funcitonalityDataService) {
-        functionalityList = funcitonalityDataService.findAll();
-    }
+    private Collection<Option> optionList = new HashSet<>();
 
     private Option contractUrlOption;
-    
-    public void setOptionDataService (OptionDataService optionDataService) {
+    @Autowired
+    private ReferentialDataService referentialDataService;
+    @Autowired
+    FunctionalityDataService funcitonalityDataService;
+    @Autowired
+    private OptionDataService optionDataService;
+    @Autowired
+    private OptionElementDataService optionElementDataService;
+
+    @PostConstruct
+    public void init() {
         for (Option option : optionDataService.findAll()) {
             if (option.getCode().equals(DOMAIN_OPTION_CODE)){
                 contractUrlOption = option;
             } else {
-                optionList.add(option);    
+                optionList.add(option);
             }
         }
+        functionalityList = funcitonalityDataService.findAll();
+        referentialList = referentialDataService.findAll();
     }
-
-    private OptionElementDataService optionElementDataService;
-    public void setOptionElementDataService (OptionElementDataService optionElementDataService) {
-        this.optionElementDataService = optionElementDataService;
-    }
-
     /**
      * The holder that handles the unique instance of CreateContractCommandFactory
      */
@@ -219,7 +221,7 @@ public class CreateContractCommandFactory implements Serializable {
     /**
      * 
      * @param ccc
-     * @param contract 
+
      */
     private void addReferentialToExistingCommand(CreateContractCommand ccc) {
         Map<String,Boolean> refMap = new LinkedHashMap<String,Boolean>();
@@ -279,10 +281,10 @@ public class CreateContractCommandFactory implements Serializable {
     /**
      * 
      * @param ccc
-     * @param contract 
+
      */
     private void addNewOptionsToCommand(CreateContractCommand ccc) {
-        Map<String,String> optionMap = new LinkedHashMap<String,String>();
+        Map<String,String> optionMap = new LinkedHashMap<>();
         for (Option option : optionList) {
             if (!option.getCode().equals(DOMAIN_OPTION_CODE)) {
                 optionMap.put(option.getCode(),"");
@@ -319,10 +321,10 @@ public class CreateContractCommandFactory implements Serializable {
             CreateContractCommand ccc, 
             Contract contract) {
         
-        Set<Functionality> functSet = new HashSet<Functionality>();
-        Set<Referential> refSet = new HashSet<Referential>();
-        Set<OptionElement> optionElementSet = new HashSet<OptionElement>();
-        
+        Set<Functionality> functSet = new HashSet<>();
+        Set<Referential> refSet = new HashSet<>();
+        Set<OptionElement> optionElementSet = new HashSet<>();
+
         for (Map.Entry<String,Boolean> entry : ccc.getFunctionalityMap().entrySet()) {
             if (entry.getValue() != null && entry.getValue()) {
                 functSet.add(getFunctionalityFromCode(entry.getKey()));

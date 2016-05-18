@@ -31,6 +31,8 @@ import org.apache.tika.mime.MimeTypes;
 import org.asqatasun.webapp.command.AuditSetUpCommand;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -38,6 +40,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  *
  * @author jkowalczyk
  */
+@Component("auditUploadSetUpFormValidator")
 public class UploadAuditSetUpFormValidator extends AuditSetUpFormValidator {
 
     private static final String NO_FILE_UPLOADED_MSG_BUNDLE_KEY =
@@ -49,23 +52,14 @@ public class UploadAuditSetUpFormValidator extends AuditSetUpFormValidator {
     private static final String ID_INPUT_FILE_PREFIX = "fileInputList";
 
     // Default = 2MB
-    private long maxFileSize=2097152;
-    public void setMaxFileSize(long maxFileSize) {
-        this.maxFileSize = maxFileSize;
-    }
+    @Value("${maxFileSize:2097152}")
+    private long maxFileSize;
+    @Value("${uploadAuthorizedMimeType:application/xhtml+xml,text/html }")
+    public List<String> authorizedMimeType;
 
     @Autowired
     public UploadAuditSetUpFormValidator(ContractDataService contractDataService) {
         super(contractDataService);
-    }
-
-    public List<String> authorizedMimeType = new ArrayList<String>();
-    public List<String> getAuthorizedMimeType() {
-        return authorizedMimeType;
-    }
-
-    public void setAuthorizedMimeType(List<String> authorizedMimeType) {
-        this.authorizedMimeType = authorizedMimeType;
     }
 
     @Override

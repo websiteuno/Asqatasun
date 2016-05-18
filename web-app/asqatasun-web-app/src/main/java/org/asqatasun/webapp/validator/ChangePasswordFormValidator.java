@@ -29,6 +29,7 @@ import org.asqatasun.util.MD5Encoder;
 import org.asqatasun.webapp.command.ChangePasswordCommand;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.util.TgolPasswordChecker;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -36,6 +37,7 @@ import org.springframework.validation.Validator;
  *
  * @author jkowalczyk
  */
+@Component("changePasswordFormValidator")
 public class ChangePasswordFormValidator implements Validator {
 
     private static final String MISSING_PASSWORD_KEY =

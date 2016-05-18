@@ -33,8 +33,12 @@
         </session-management>
     </http>
 
+    <!-- This annotation needs to be defined in the servlet context to be applied
+    at the controller level -->
+    <global-method-security access-decision-manager-ref="accessDecisionManager"/>
+
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="tgolAuthenticationProvider">
+        <authentication-provider user-service-ref="authenticationProvider">
             <password-encoder hash="md5"/>
         </authentication-provider>
     </authentication-manager>

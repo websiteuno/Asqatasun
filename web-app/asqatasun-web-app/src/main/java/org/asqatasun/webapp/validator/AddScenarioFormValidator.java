@@ -42,6 +42,8 @@ import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -50,6 +52,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
  *
  * @author jkowalczyk
  */
+@Component("addScenarioFormValidator")
 public class AddScenarioFormValidator implements Validator {
 
     protected static final Logger LOGGER = Logger.getLogger(AddScenarioFormValidator.class);
@@ -71,30 +74,16 @@ public class AddScenarioFormValidator implements Validator {
     private static final String INVALID_SCENARIO_MSG_BUNDLE_KEY = 
             "scenarioManagement.invalidScenario";
             
-    public List<String> authorizedMimeType = new ArrayList();
-    public List<String> getAuthorizedMimeType() {
-        return authorizedMimeType;
-    }
-
-    public void setAuthorizedMimeType(List<String> authorizedMimeType) {
-        this.authorizedMimeType = authorizedMimeType;
-    }
-    
     // Default = 2MB
-    private long maxFileSize=2097152;
-    public void setMaxFileSize(long maxFileSize) {
-        this.maxFileSize = maxFileSize;
-    }
-    
-    private final ContractDataService contractDataService;
-    public ContractDataService getContractDataService() {
-        return contractDataService;
-    }
+    @Value("${maxFileSize:2097152}")
+    private long maxFileSize;
+    @Value("${scenarioAuthorizedMimeType:application/xhtml+xml,text/plain}")
+    public List<String> authorizedMimeType;
 
     @Autowired
-    public AddScenarioFormValidator(ContractDataService contractDataService) {
-        this.contractDataService = contractDataService;
-    }
+    private ContractDataService contractDataService;
+
+    public AddScenarioFormValidator() {}
 
     /**
      * The AuditSetUpFormValidator checks whether the options values are 
