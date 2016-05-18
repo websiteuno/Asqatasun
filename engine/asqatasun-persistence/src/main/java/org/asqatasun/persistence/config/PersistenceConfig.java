@@ -63,11 +63,6 @@ public class PersistenceConfig extends PersistenceCommonConfig{
     @Value("${packages.to.scan}")
     private String packagesToScan;
 
-    @Bean
-    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
     @Bean(name = "dataSource")
     DataSource dataSource() {
         if (useComboPool) {

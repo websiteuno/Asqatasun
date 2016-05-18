@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.entity.dao.config;
+package org.asqatasun.webapp.entity.dao.config;
 
 import org.asqatasun.persistence.config.PersistenceConfig;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"${packages.to.scan}"})
+@ComponentScan({"org.asqatasun.webapp.entity.dao", "org.asqatasun.entity.dao"})
 @PropertySource(value = {"classpath:datasource-test.properties"})
 public class PersistenceConfigTest extends PersistenceConfig {
 

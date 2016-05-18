@@ -23,7 +23,7 @@ package org.asqatasun.webapp.entity.dao.test;
 
 import java.io.FileInputStream;
 import org.apache.log4j.Logger;
-import org.asqatasun.persistence.config.PersistenceConfigTest;
+import org.asqatasun.webapp.entity.dao.config.PersistenceConfigTest;
 import org.dbunit.DataSourceBasedDBTestCase;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
