@@ -32,8 +32,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
+@PropertySources({
+        @PropertySource("classpath:asqatasun-private.properties"),
+        @PropertySource("${confDir}/asqatasun.properties"),
+        @PropertySource("${confDir}/ESAPI.properties")
+})
 @ComponentScan({
-        "org.asqatasun.webapp.persistence.config",
+        "org.asqatasun.persistence.config",
         "org.asqatasun.entity",
         "org.asqatasun.entity.dao",
         "org.asqatasun.entity.service",
@@ -55,10 +60,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.asqatasun.webapp.security",
         "org.asqatasun.emailsender",
         "org.asqatasun.webapp.presentation.highlighter"
-})
-@PropertySources({
-    @PropertySource("${confDir}/asqatasun.properties"),
-    @PropertySource("${confDir}/ESAPI.properties")
 })
 public class WebappConfig {
 
