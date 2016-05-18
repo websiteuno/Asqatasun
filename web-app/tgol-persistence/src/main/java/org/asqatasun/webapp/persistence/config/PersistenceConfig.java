@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.config;
+package org.asqatasun.webapp.persistence.config;
 
 /**
  * Created by meskoj on 15/05/16.
@@ -28,15 +28,12 @@ package org.asqatasun.webapp.config;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -51,6 +48,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource({"classpath:webapp-hibernate.properties","classpath:flyway.properties","${confDir}/asqatasun.properties",})
 @Profile("webapp")
+@EnableAspectJAutoProxy(proxyTargetClass=true)
 public class PersistenceConfig {
 
     public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
@@ -115,34 +113,38 @@ public class PersistenceConfig {
 
     @Bean
     DataSource dataSource() {
-        System.out.println("#############################################");
-        System.out.println("DATA SOURCE");
-        System.out.println("#############################################");
-        try {
-            ComboPooledDataSource dataSource = new ComboPooledDataSource();
-            dataSource.setDriverClass(driverClassName);
-            dataSource.setUser(databaseUser);
-            dataSource.setPassword(databasePassword);
-            dataSource.setJdbcUrl(databaseURL + "?autoReconnect=true");
-            dataSource.setIdleConnectionTestPeriod(3600);
-            dataSource.setInitialPoolSize(5);
-            dataSource.setMaxPoolSize(1000);
-            dataSource.setMinPoolSize(5);
-            dataSource.setAcquireIncrement(10);
-            dataSource.setDebugUnreturnedConnectionStackTraces(true);
-            return dataSource;
-        } catch (PropertyVetoException e) {
+//        try {
+//            ComboPooledDataSource dataSource = new ComboPooledDataSource();
+//            dataSource.setDriverClass(driverClassName);
+//            dataSource.setUser(databaseUser);
+//            dataSource.setPassword(databasePassword);
+//            dataSource.setJdbcUrl(databaseURL + "?autoReconnect=true");
+//            dataSource.setIdleConnectionTestPeriod(3600);
+//            dataSource.setInitialPoolSize(5);
+//            dataSource.setMaxPoolSize(1000);
+//            dataSource.setMinPoolSize(5);
+//            dataSource.setAcquireIncrement(10);
+//            dataSource.setDebugUnreturnedConnectionStackTraces(true);
+//            return dataSource;
+//        } catch (PropertyVetoException e) {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName(driverClassName);
             dataSource.setUsername(databaseUser);
             dataSource.setPassword(databasePassword);
             dataSource.setUrl(databaseURL + "?autoReconnect=true");
             return dataSource;
-        }
+//        }
     }
 
     @Bean(initMethod = "migrate")
     public Flyway dbInitialization() {
+        System.out.println("#############################################");
+        System.out.println("dbInitialization");
+        System.out.println("#############################################");
+        System.out.println(driverClassName);
+        System.out.println(databaseURL);
+        System.out.println(databasePassword);
+        final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         final Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource());
         flyway.setSqlMigrationPrefix(flywayMigrationPrefix);
@@ -152,6 +154,12 @@ public class PersistenceConfig {
 
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        System.out.println("#############################################");
+        System.out.println("entityManagerFactory");
+        System.out.println("#############################################");
+        System.out.println(driverClassName);
+        System.out.println(databaseURL);
+        System.out.println(databasePassword);
         final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource());
         emf.setPackagesToScan("org.asqatasun.webapp.entity", "org.asqatasun.entity");
@@ -160,7 +168,7 @@ public class PersistenceConfig {
         final Properties jpaProperties = new Properties();
         jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
         jpaProperties.put(HIBERNATE_CACHE_USE_QUERY_CACHE, hibernateUseQueryCache);
-//        jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
+        jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
         jpaProperties.put(HIBERNATE_GENERATE_STATISTICS, false);
         jpaProperties.put(HIBERNATE_JDBC_BATCH_SIZE, hibernateJdbcBatchSize);
         jpaProperties.put(HIBERNATE_MAX_FETCH_DEPTH, hibernateMaxFetchDepth);
@@ -179,18 +187,14 @@ public class PersistenceConfig {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor getPersistenceExceptionTranslationPostProcessor() {
-        return new PersistenceExceptionTranslationPostProcessor();
-    }
+//    @Bean
+//    public PersistenceExceptionTranslationPostProcessor getPersistenceExceptionTranslationPostProcessor() {
+//        return new PersistenceExceptionTranslationPostProcessor();
+//    }
+//
+//    @Bean
+//    public PersistenceAnnotationBeanPostProcessor getPersistenceAnnotationBeanPostProcessor() {
+//        return new PersistenceAnnotationBeanPostProcessor();
+//    }
 
-    @Bean
-    public PersistenceAnnotationBeanPostProcessor getPersistenceAnnotationBeanPostProcessor() {
-        return new PersistenceAnnotationBeanPostProcessor();
-    }
-
-    @Bean
-    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 }

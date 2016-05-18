@@ -21,10 +21,9 @@
  */
 package org.asqatasun.entity.dao.config;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.asqatasun.persistence.config.PersistenceCommonConfig;
+import org.asqatasun.persistence.config.PersistenceConfig;
 import org.flywaydb.core.Flyway;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,12 +32,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
+import java.beans.PropertyVetoException;
 
 /**
  * Persistence configuration.
@@ -46,43 +45,48 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan("org.asqatasun.entity.dao")
-@PropertySource("datasource.properties")
-public class PersistenceConfigTest {
+@ComponentScan({"${packages.to.scan}"})
+@PropertySource(value = {
+        "classpath:default-hibernate.properties",
+        "classpath:flyway.properties",
+        "classpath:datasource.properties"},
+        ignoreResourceNotFound = true)
+public class PersistenceConfigTest extends PersistenceCommonConfig {
 
-    @Value("${db.test.config.driver}")
-    String dbDriver;
-
-    @Value("${db.test.config.url}")
-    String dbUrl;
-
-    @Value("${db.test.config.username}")
-    String dbUserName;
-
-    @Value("${db.test.config.password}")
-    String dbPassword;
+    @Value("${jdbc.user:sa}")
+    private String username;
+    @Value("${jdbc.password:}")
+    private String password;
+    @Value("${jdbc.url:jdbc:hsqldb:mem:mytestdb}")
+    private String url;
+    @Value("${useComboPool}")
+    private boolean useComboPool;
+    @Value("${packages.to.scan}")
+    private String packagesToScan;
 
     @Bean
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(this.dbDriver);
-        dataSource.setUrl(this.dbUrl);
-        dataSource.setUsername(this.dbUserName);
-        dataSource.setPassword(this.dbPassword);
-        return dataSource;
+    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
+    @Bean(name = "dataSource")
+    DataSource dataSource() {
+        System.out.println(packagesToScan);
+        if (useComboPool) {
+            try {
+                return setUpComboPooledDataSource(url, username, password);
+            } catch (PropertyVetoException ex) {
+                return setUpBasicDataSource(url, username, password);
+            }
+        }
+        return setUpBasicDataSource(url, username, password);
+    }
+
+    @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource());
-        emf.setPackagesToScan("org.asqatasun.entity");
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        final Properties jpaProperties = new Properties();
-        jpaProperties.put("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-        jpaProperties.put("javax.persistence.schema-generation.database.action", "drop-and-create");
-        emf.setJpaProperties(jpaProperties);
-        return emf;
+        System.out.println(packagesToScan);
+        System.out.println(packagesToScan.split(","));
+        return entityManagerFactory(dataSource(), url, packagesToScan.split(","));
     }
 
     @Bean
@@ -90,8 +94,4 @@ public class PersistenceConfigTest {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
-    @Bean
-    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 }

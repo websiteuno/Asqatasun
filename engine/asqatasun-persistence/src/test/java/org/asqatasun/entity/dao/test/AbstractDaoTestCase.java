@@ -21,10 +21,9 @@
  */
 package org.asqatasun.entity.dao.test;
 
-import java.io.FileInputStream;
-
 import org.apache.log4j.Logger;
 import org.asqatasun.entity.dao.config.PersistenceConfigTest;
+import org.asqatasun.persistence.config.PersistenceConfig;
 import org.dbunit.DataSourceBasedDBTestCase;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
@@ -43,10 +42,11 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
+import java.io.FileInputStream;
 
 /**
  *
- * @author lralambomanana
+ * @author koj
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional

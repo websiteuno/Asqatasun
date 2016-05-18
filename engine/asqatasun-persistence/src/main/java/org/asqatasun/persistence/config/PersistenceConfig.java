@@ -25,113 +25,69 @@ package org.asqatasun.persistence.config;
  * Created by meskoj on 15/05/16.
  */
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Properties;
+import java.beans.PropertyVetoException;
 
 /**
  * Persistence configuration.
  *
  */
-//@Configuration
-//@EnableTransactionManagement
-//@PropertySource({"classpath:standalone-hibernate.properties","classpath:flyway.properties"})
-//@Profile("standAlone")
-public class PersistenceConfig {
-
-    public static final String HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = "hibernate.cache.use_second_level_cache";
-    public static final String HIBERNATE_CACHE_USE_QUERY_CACHE = "hibernate.cache.use_query_cache";
-    public static final String HIBERNATE_CACHE_REGION_FACTORY_CLASS = "hibernate.cache.region.factory_class";
-    public static final String HIBERNATE_DIALECT = "hibernate.dialect";
-
-    @Value("${jpa.showSql}")
-    private boolean hibernateShowSql;
-
-    @Value("${hibernate.cache.use_second_level_cache}")
-    private boolean hibernateUse2ndLevelQueryCache;
-
-    @Value("${hibernate.cache.use_query_cache}")
-    private boolean hibernateUseQueryCache;
-
-    @Value("${hibernate.cache.region.factory_class}")
-    private String hibernateRegionFactory;
-
-    @Value("${hibernate.dialect:org.asqatasun.dialect.AsqatasunMySQL5InnoDBDialect}")
-    private String hibernateDialect;
-
-    @Value("${flyway.migrationPrefix}")
-    private String flywayMigrationPrefix;
-
-    @Value("${flyway.locationAutomatedCommon}")
-    private String flywayLocationAutomatedCommon;
-
-    @Value("${flyway.locationAutomatedMainOnly}")
-    private String flywayLocationAutomatedMainOnly;
+@Configuration
+@EnableTransactionManagement
+@PropertySource(value = {
+                    "classpath:default-hibernate.properties",
+                    "classpath:flyway.properties"},
+                ignoreResourceNotFound = true)
+public class PersistenceConfig extends PersistenceCommonConfig{
 
     @Value("${jdbc.user:asqatasun}")
-    private String databaseUser;
-
+    private String username;
     @Value("${jdbc.password:asqatasun}")
-    private String databasePassword;
-
-//    @Value("${database.url:jdbc:postgresql://localhost:5432/asqatasun}")
+    private String password;
     @Value("${jdbc.url:jdbc:mysql://localhost:3306/asqatasun}")
-    private String databaseURL;
-
-//    @Value("${jdbc.driverClassName:org.postgresql.Driver}")
-    @Value("${jdbc.driverClassName:com.mysql.jdbc.Driver}")
-    private String driverClassName;
+    private String url;
+    @Value("${useComboPool}")
+    private boolean useComboPool;
+    @Value("${packages.to.scan}")
+    private String packagesToScan;
 
     @Bean
+    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean(name = "dataSource")
     DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUsername(databaseUser);
-        dataSource.setPassword(databasePassword);
-        dataSource.setUrl(databaseURL + "?autoReconnect=true");
-        return dataSource;
+        if (useComboPool) {
+            try {
+                return setUpComboPooledDataSource(url, username, password);
+            } catch (PropertyVetoException ex) {
+                return setUpBasicDataSource(url, username, password);
+            }
+        }
+        return setUpBasicDataSource(url, username, password);
     }
 
     @Bean(initMethod = "migrate")
     public Flyway dbInitialization() {
-        final Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource());
-        flyway.setSqlMigrationPrefix(flywayMigrationPrefix);
-        flyway.setLocations(flywayLocationAutomatedCommon, flywayLocationAutomatedMainOnly);
-        return flyway;
+        return setUpFlyway(dataSource(), url);
     }
 
     @Bean(name = "entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource());
-        emf.setPackagesToScan("org.asqatasun.entity");
-        final HibernateJpaVendorAdapter hibernateAdapter = new HibernateJpaVendorAdapter();
-        hibernateAdapter.setShowSql(hibernateShowSql);
-        final Properties jpaProperties = new Properties();
-        jpaProperties.put(HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE, hibernateUse2ndLevelQueryCache);
-        jpaProperties.put(HIBERNATE_CACHE_USE_QUERY_CACHE, hibernateUseQueryCache);
-        jpaProperties.put(HIBERNATE_CACHE_REGION_FACTORY_CLASS, hibernateRegionFactory);
-        jpaProperties.put(HIBERNATE_DIALECT, hibernateDialect);
-//        jpaProperties.put(PERSISTENCE_XML_LOCATION_KEY, persistenceXmlLocation);
-
-        emf.setJpaProperties(jpaProperties);
-        emf.setJpaVendorAdapter(hibernateAdapter);
-
-        return emf;
+        return entityManagerFactory(dataSource(), url, packagesToScan.split(","));
     }
 
     @Bean
@@ -139,8 +95,4 @@ public class PersistenceConfig {
         return new JpaTransactionManager(entityManagerFactory().getObject());
     }
 
-    @Bean
-    static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 }
