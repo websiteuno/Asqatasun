@@ -27,7 +27,7 @@ import org.asqatasun.sdk.entity.Entity;
 import org.asqatasun.sdk.entity.dao.GenericDAO;
 import org.asqatasun.sdk.entity.factory.GenericFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -35,6 +35,7 @@ import org.springframework.stereotype.Service;
  * @param <K>
  * @author jkowalczyk
  */
+@Transactional
 public abstract class AbstractGenericDataService<E extends Entity, K extends Serializable>
         implements GenericDataService<E, K> {
 
