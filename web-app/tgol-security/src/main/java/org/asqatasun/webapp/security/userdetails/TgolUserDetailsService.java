@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -37,6 +38,7 @@ import javax.sql.DataSource;
  *
  * @author jkowalczyk
  */
+@Service("authenticationProvider")
 public class TgolUserDetailsService extends JdbcDaoImpl {
 
     @Autowired
