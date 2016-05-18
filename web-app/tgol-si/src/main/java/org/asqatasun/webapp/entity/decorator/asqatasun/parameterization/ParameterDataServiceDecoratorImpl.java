@@ -44,7 +44,7 @@ import org.springframework.stereotype.Service;
  *
  * @author jkowalczyk
  */
-@Service("parameterDataServiceDecorator")
+@Service(value = "parameterDataServiceDecorator")
 public class ParameterDataServiceDecoratorImpl extends AbstractGenericDataService<Parameter, Long>
         implements ParameterDataServiceDecorator{
 
