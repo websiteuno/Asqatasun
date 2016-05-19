@@ -22,7 +22,7 @@
 package org.asqatasun.webapp.report.layout.builder;
 
 import java.util.Locale;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
 
 /**
  *

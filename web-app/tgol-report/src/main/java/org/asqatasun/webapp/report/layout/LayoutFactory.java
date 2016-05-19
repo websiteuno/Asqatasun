@@ -24,7 +24,7 @@ package org.asqatasun.webapp.report.layout;
 import ar.com.fdvs.dj.domain.DynamicReport;
 import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
 import java.util.Locale;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
 import org.asqatasun.webapp.report.layout.builder.LayoutBuilder;
 
 /**

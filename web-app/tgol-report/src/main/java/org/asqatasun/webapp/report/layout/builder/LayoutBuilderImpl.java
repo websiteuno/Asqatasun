@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
 import org.asqatasun.webapp.report.layout.column.builder.ElementColumnBuilder;
 
 /**

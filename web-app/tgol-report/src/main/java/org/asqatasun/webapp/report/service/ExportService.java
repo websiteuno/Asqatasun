@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.apache.log4j.Logger;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
 import org.asqatasun.webapp.report.format.ExportFormat;
 import org.asqatasun.webapp.report.layout.LayoutFactory;
 import org.asqatasun.webapp.report.service.exception.NotSupportedExportFormatException;

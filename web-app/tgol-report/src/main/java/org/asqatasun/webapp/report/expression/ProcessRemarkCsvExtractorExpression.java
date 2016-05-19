@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.asqatasun.webapp.presentation.data.RemarkInfos;
+import org.asqatasun.webapp.dto.data.RemarkInfos;
 
 /**
  *

@@ -27,10 +27,10 @@ import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
-import org.asqatasun.webapp.presentation.data.FailedPageInfo;
-import org.asqatasun.webapp.presentation.data.FailedTestInfo;
-import org.asqatasun.webapp.presentation.data.FailedThemeInfo;
-import org.asqatasun.webapp.presentation.data.PageResult;
+import org.asqatasun.webapp.dto.data.FailedPageInfo;
+import org.asqatasun.webapp.dto.data.FailedTestInfo;
+import org.asqatasun.webapp.dto.data.FailedThemeInfo;
+import org.asqatasun.webapp.dto.data.PageResult;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 
 /**

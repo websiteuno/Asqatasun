@@ -21,7 +21,7 @@
  */
 package org.asqatasun.webapp.report.layout.builder;
 
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
 import java.text.DateFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;

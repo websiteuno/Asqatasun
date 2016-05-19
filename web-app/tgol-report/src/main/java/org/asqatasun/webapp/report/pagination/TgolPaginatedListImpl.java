@@ -21,7 +21,7 @@
  */
 package org.asqatasun.webapp.report.pagination;
 
-import org.asqatasun.webapp.presentation.data.PageResult;
+import org.asqatasun.webapp.dto.data.PageResult;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
