@@ -32,10 +32,6 @@
         </dependency>
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>tgol-data-presentation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${asqatasunGroupId}</groupId>
             <artifactId>tgol-voter</artifactId>
         </dependency>
         <dependency>

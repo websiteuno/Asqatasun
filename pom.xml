@@ -343,11 +343,6 @@
             </dependency>
             <dependency>
                 <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>tgol-data-presentation</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
                 <artifactId>tgol-si</artifactId>
                 <version>${asqatasunVersion}</version>
                 <exclusions>
