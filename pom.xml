@@ -266,11 +266,6 @@
             </dependency>
             <dependency>
                 <groupId>${asqatasunGroupId}</groupId>
-                <artifactId>asqatasun-sebuilder-interpreter-tools</artifactId>
-                <version>${asqatasunVersion}</version>
-            </dependency>
-            <dependency>
-                <groupId>${asqatasunGroupId}</groupId>
                 <artifactId>asqatasun-contentloader</artifactId>
                 <version>${asqatasunVersion}</version>
             </dependency>

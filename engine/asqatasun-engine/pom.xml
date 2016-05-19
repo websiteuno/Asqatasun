@@ -16,10 +16,6 @@
             <artifactId>asqatasun-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>asqatasun-sebuilder-interpreter-tools</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>

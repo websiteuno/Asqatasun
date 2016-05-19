@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>${asqatasunGroupId}</groupId>
-            <artifactId>asqatasun-sebuilder-interpreter-tools</artifactId>
+            <artifactId>asqatasun-scenarioloader</artifactId>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
