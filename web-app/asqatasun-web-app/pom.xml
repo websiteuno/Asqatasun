@@ -193,6 +193,10 @@
             <artifactId>htmlcompressor</artifactId>
             <version>1.5.2</version>
         </dependency>
+	<dependency>
+            <groupId>com.uwyn</groupId>
+            <artifactId>jhighlight</artifactId>
+        </dependency>
 
         <!-- web dependencies -->
         <dependency>
