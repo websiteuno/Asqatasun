@@ -20,10 +20,10 @@
         <profile>
             <id>dev</id>
             <modules>
-<!--                <module>engine</module>
+                <module>engine</module>
                 <module>rules</module>
                 <module>web-app</module>
-                <module>runner</module>-->
+                <module>runner</module>
             </modules>
         </profile>
     </profiles>
