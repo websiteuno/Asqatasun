@@ -38,7 +38,7 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.form.NumericalFormField;
 import org.asqatasun.webapp.form.SelectFormField;
 import org.asqatasun.webapp.form.parameterization.AuditSetUpFormField;
-import org.asqatasun.webapp.form.parameterization.helper.AuditSetUpFormFieldHelper;
+import org.asqatasun.webapp.ui.form.parameterization.helper.AuditSetUpFormFieldHelper;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;

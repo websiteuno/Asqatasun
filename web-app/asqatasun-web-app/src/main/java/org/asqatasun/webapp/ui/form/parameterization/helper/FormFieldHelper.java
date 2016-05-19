@@ -21,11 +21,10 @@
  */
 package org.asqatasun.webapp.ui.form.parameterization.helper;
 
+import java.util.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.asqatasun.webapp.form.*;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
-
-import java.util.*;
 
 /**
  * 

@@ -34,7 +34,7 @@ import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
-import org.asqatasun.webapp.form.parameterization.helper.ContractOptionFormFieldHelper;
+import org.asqatasun.webapp.ui.form.parameterization.helper.ContractOptionFormFieldHelper;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.security.access.annotation.Secured;

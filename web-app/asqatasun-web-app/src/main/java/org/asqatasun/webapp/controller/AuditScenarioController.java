@@ -40,7 +40,7 @@ import org.asqatasun.webapp.entity.scenario.Scenario;
 import org.asqatasun.webapp.entity.service.scenario.ScenarioDataService;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.form.parameterization.AuditSetUpFormField;
-import org.asqatasun.webapp.form.parameterization.builder.AuditSetUpFormFieldBuilderImpl;
+import org.asqatasun.webapp.ui.form.parameterization.builder.AuditSetUpFormFieldBuilderImpl;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.AddScenarioFormValidator;
 import org.asqatasun.webapp.validator.AuditSetUpFormValidator;

@@ -36,7 +36,7 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
-import org.asqatasun.webapp.form.parameterization.helper.ContractOptionFormFieldHelper;
+import org.asqatasun.webapp.ui.form.parameterization.helper.ContractOptionFormFieldHelper;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;

@@ -46,7 +46,7 @@ import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.exception.LostInSpaceException;
 import org.asqatasun.webapp.form.CheckboxElement;
-import org.asqatasun.webapp.form.CheckboxFormFieldImpl;
+import org.asqatasun.webapp.ui.form.CheckboxFormFieldImpl;
 import org.asqatasun.webapp.form.FormField;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.dto.data.AuditStatistics;

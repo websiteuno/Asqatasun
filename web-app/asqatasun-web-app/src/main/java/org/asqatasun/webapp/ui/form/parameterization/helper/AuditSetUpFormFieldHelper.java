@@ -21,6 +21,7 @@
  */
 package org.asqatasun.webapp.ui.form.parameterization.helper;
 
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.service.reference.ReferenceDataService;
@@ -30,11 +31,6 @@ import org.asqatasun.webapp.form.SelectElement;
 import org.asqatasun.webapp.form.SelectFormField;
 import org.asqatasun.webapp.form.TextualFormField;
 import org.asqatasun.webapp.form.parameterization.AuditSetUpFormField;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.util.*;
 
 /**
  * That class handles utility methods (activation/desactivation, restriction application)
@@ -43,16 +39,14 @@ import java.util.*;
  * 
  * @author jkowalczyk
  */
-@Component("auditSetUpFormFieldHelper")
 public final class AuditSetUpFormFieldHelper {
 
-    private static Map<String, String> DEFAULT_LEVEL_BY_REF_MAP = Collections.emptyMap();
-
-    @Autowired
-    private ReferenceDataService referenceDataService;
-
-    @PostConstruct
-    public void setDefaultLevelByRefMap() {
+    private static Map<String, String> DEFAULT_LEVEL_BY_REF_MAP = Collections.EMPTY_MAP;
+    public static void setDefaultLevelByRefMap(Map<String, String> defaultLevelByRef) {
+        DEFAULT_LEVEL_BY_REF_MAP = defaultLevelByRef;
+    }
+     
+    public static void setReferenceDataService(ReferenceDataService referenceDataService) {
         DEFAULT_LEVEL_BY_REF_MAP = new HashMap();
         for (Reference reference : referenceDataService.findAll()) {
             DEFAULT_LEVEL_BY_REF_MAP.put(reference.getCode(), reference.getDefaultLevel().getCode());
@@ -186,7 +180,7 @@ public final class AuditSetUpFormFieldHelper {
      * When no SelectElement is defined as default from a list whole list, we
      * set the first element of the list as default.
      *
-     * @param selElementMap
+     * @param sel
      */
     private static void setFirstSelectElementAsDefault(Map<String, List<SelectElement>> selElementMap) {
         boolean firstEnabledElementEncountered = false;

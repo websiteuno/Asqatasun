@@ -28,7 +28,7 @@ import java.util.Map;
 import org.asqatasun.webapp.command.AuditResultSortCommand;
 import org.asqatasun.webapp.form.*;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
-import org.asqatasun.webapp.form.parameterization.helper.FormFieldHelper;
+import org.asqatasun.webapp.ui.form.parameterization.helper.FormFieldHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

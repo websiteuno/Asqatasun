@@ -30,7 +30,7 @@ import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.form.FormField;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
-import org.asqatasun.webapp.form.parameterization.helper.FormFieldHelper;
+import org.asqatasun.webapp.ui.form.parameterization.helper.FormFieldHelper;
 import org.asqatasun.webapp.dto.data.ContractInfo;
 import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
 import org.asqatasun.webapp.util.TgolKeyStore;

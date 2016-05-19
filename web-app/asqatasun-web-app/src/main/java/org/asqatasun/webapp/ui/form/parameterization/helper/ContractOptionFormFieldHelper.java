@@ -21,10 +21,9 @@
  */
 package org.asqatasun.webapp.ui.form.parameterization.helper;
 
+import java.util.*;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
 import org.asqatasun.webapp.form.parameterization.builder.ContractOptionFormFieldBuilder;
-
-import java.util.*;
 
 /**
  * That class handles utility methods to deal with ContractOptionFormFields. 
