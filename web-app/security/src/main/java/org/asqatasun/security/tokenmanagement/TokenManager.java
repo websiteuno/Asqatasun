@@ -29,31 +29,26 @@ import org.apache.log4j.Logger;
 import org.owasp.esapi.crypto.CryptoToken;
 import org.owasp.esapi.errors.EncryptionException;
 import org.owasp.esapi.errors.ValidationException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
 
 /**
  *
  * @author jkowalczyk
  */
+@Service("tokenManager")
 public final class TokenManager {
 
-    private String esapiPropertyName = null;
+    @Value("${esapiPropertyName:org.owasp.esapi.resources}")
+    private String esapiPropertyName;
+    @Value("${esapiPropertyValue:/etc/asqatasun}")
+    private String esapiPropertyValue;
+    @Value("${tokenDurationValidity:3600}")
+    private int tokenDurationValidity;
 
-    public void setEsapiPropertyName(String esapiPropertyName) {
-        this.esapiPropertyName = esapiPropertyName;
-        setSystemProperty();
-    }
-    private String esapiPropertyValue = null;
-
-    public void setEsapiPropertyValue(String esapiPropertyValue) {
-        this.esapiPropertyValue = esapiPropertyValue;
-        setSystemProperty();
-    }
-    private int tokenDurationValidity = 3600;
-
-    public void setTokenDurationValidity(int tokenDurationValidity) {
-        this.tokenDurationValidity = tokenDurationValidity;
-    }
-    private Map<String, Boolean> tokenUsage = new HashMap<String, Boolean>();
+    private Map<String, Boolean> tokenUsage = new HashMap<>();
 
     /**
      * Default constructor
@@ -64,6 +59,7 @@ public final class TokenManager {
     /**
      *
      */
+    @PostConstruct
     private void setSystemProperty() {
         if (esapiPropertyName != null && esapiPropertyValue != null) {
             System.setProperty(esapiPropertyName, esapiPropertyValue);

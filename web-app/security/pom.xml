@@ -108,5 +108,10 @@
             <artifactId>commons-lang3</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>${springGroupId}</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
     </dependencies>
 </project>
