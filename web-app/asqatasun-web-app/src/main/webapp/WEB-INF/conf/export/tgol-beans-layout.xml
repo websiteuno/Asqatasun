@@ -31,7 +31,7 @@
         <property name="fieldMap">
             <map>
                 <entry key="resultCounter">
-                    <value>org.asqatasun.webapp.presentation.data.ResultCounter</value>
+                    <value>org.asqatasun.webapp.dto.data.ResultCounter</value>
                 </entry>
                 <entry key="test">
                     <value>org.asqatasun.entity.reference.Test</value>

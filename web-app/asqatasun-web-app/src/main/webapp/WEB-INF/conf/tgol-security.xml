@@ -35,7 +35,7 @@
 
     <!-- This annotation needs to be defined in the servlet context to be applied
     at the controller level -->
-    <global-method-security access-decision-manager-ref="accessDecisionManager"/>
+    <!--<global-method-security access-decision-manager-ref="accessDecisionManager"/>-->
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="authenticationProvider">

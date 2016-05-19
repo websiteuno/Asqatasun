@@ -28,10 +28,10 @@ import java.util.Map;
 import junit.framework.TestCase;
 import org.displaytag.properties.SortOrderEnum;
 import org.asqatasun.webapp.command.ContractSortCommand;
-import org.asqatasun.webapp.presentation.data.ActInfo;
-import org.asqatasun.webapp.presentation.data.ActInfoImpl;
-import org.asqatasun.webapp.presentation.data.ContractInfo;
-import org.asqatasun.webapp.presentation.data.ContractInfoImpl;
+import org.asqatasun.webapp.dto.data.ActInfo;
+import org.asqatasun.webapp.dto.ActInfoImpl;
+import org.asqatasun.webapp.dto.data.ContractInfo;
+import org.asqatasun.webapp.dto.ContractInfoImpl;
 
 /**
  *

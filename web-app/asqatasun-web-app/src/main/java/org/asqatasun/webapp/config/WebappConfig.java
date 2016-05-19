@@ -59,7 +59,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.asqatasun.ruleimplementationloader",
         "org.asqatasun.webapp.security",
         "org.asqatasun.emailsender",
-        "org.asqatasun.webapp.presentation.highlighter"
+        "org.asqatasun.webapp.highlighter"
 })
 public class WebappConfig {
 

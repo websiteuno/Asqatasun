@@ -31,75 +31,53 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.form.FormField;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.form.parameterization.helper.FormFieldHelper;
-import org.asqatasun.webapp.presentation.data.ContractInfo;
-import org.asqatasun.webapp.presentation.factory.ContractInfoFactory;
+import org.asqatasun.webapp.dto.data.ContractInfo;
+import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
 import org.asqatasun.webapp.util.TgolKeyStore;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 /**
  *
  * @author jkowalczyk
  */
+@Component("contractSortCommandHelper")
 public final class ContractSortCommandHelper  {
 
-    private static String lastAuditMarkSortValue;
-
-    private ContractSortCommandHelper() {
-    }
-
-    public static String getLastAuditMarkSortValue() {
-        return lastAuditMarkSortValue;
-    }
-
-    public static void setLastAuditMarkSortValue(String lastAuditMarkSortValue) {
-        ContractSortCommandHelper.lastAuditMarkSortValue = lastAuditMarkSortValue;
-    }
-    
+    @Value("${lastAuditDateSortValue:date}")
     private static String lastAuditDateSortValue;
-    public static String getLastAuditDateSortValue() {
-        return lastAuditDateSortValue;
-    }
-
     public static void setLastAuditDateSortValue(String lastAuditDateSortValue) {
         ContractSortCommandHelper.lastAuditDateSortValue = lastAuditDateSortValue;
     }
-
+    @Value("${sortByKey:sort-by-choice}")
     private static String sortByKey;
-    public static String getSortByKey() {
-        return sortByKey;
-    }
-
     public static void setSortByKey(String sortByKey) {
         ContractSortCommandHelper.sortByKey = sortByKey;
     }
-    
+    @Value("${sortOrderKey:order-choice}")
     private static String sortOrderKey;
-    public static String getSortOrderKey() {
-        return sortOrderKey;
-    }
-
     public static void setSortOrderKey(String sortOrderKey) {
         ContractSortCommandHelper.sortOrderKey = sortOrderKey;
     }
-
+    @Value("${exclusionContractSortKey:label-exclusion-choice}")
     private static String exclusionContractSortKey;
-    public static String getExclusionContractSortKey() {
-        return exclusionContractSortKey;
-    }
-
     public static void setExclusionContractSortKey(String exclusionContractSortKey) {
         ContractSortCommandHelper.exclusionContractSortKey = exclusionContractSortKey;
     }
-    
+    @Value("${inclusionContractSortKey:label-inclusion-choice}")
     private static String inclusionContractSortKey;
-    public static String getInclusionContractSortKey() {
-        return inclusionContractSortKey;
-    }
-
     public static void setInclusionContractSortKey(String inclusionContractSortKey) {
         ContractSortCommandHelper.inclusionContractSortKey = inclusionContractSortKey;
     }
-    
+    @Value("${lastAuditMarkSortValue:mark}")
+    private static String lastAuditMarkSortValue;
+    public static void setLastAuditMarkSortValue(String lastAuditMarkSortValue) {
+        ContractSortCommandHelper.lastAuditMarkSortValue = lastAuditMarkSortValue;
+    }
+    private ContractSortCommandHelper() {
+    }
+
     /**
      * This methods retrieves and prepare contract info
      * 
@@ -350,8 +328,8 @@ public final class ContractSortCommandHelper  {
     
     /**
      * 
-     * @param contractInfoSet
-     * @param contractSortCommand 
+     * @param contractSet
+     * @param csc
      */
     private static void sortContractSetRegardingCommand(
             List<Contract> contractSet, 

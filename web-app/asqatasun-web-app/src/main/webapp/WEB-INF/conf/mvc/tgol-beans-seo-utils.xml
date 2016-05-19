@@ -8,18 +8,18 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
     
-    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-        <property name="targetObject">
-            <ref bean="secondaryLevelMenuDisplayer"/>
-        </property>
-        <property name="targetMethod">
-            <value>setReferentialWithModifiableTestWeight</value>
-        </property>
-        <property name="arguments">
-             <list>
-                <value>Seo</value>
-            </list>
-        </property>
-    </bean>
+    <!--<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">-->
+        <!--<property name="targetObject">-->
+            <!--<ref bean="secondaryLevelMenuDisplayer"/>-->
+        <!--</property>-->
+        <!--<property name="targetMethod">-->
+            <!--<value>setReferentialWithModifiableTestWeight</value>-->
+        <!--</property>-->
+        <!--<property name="arguments">-->
+             <!--<list>-->
+                <!--<value>Seo</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
     
 </beans>

@@ -30,8 +30,8 @@ import java.util.Map;
 
 import org.asqatasun.entity.audit.ProcessResult;
 import org.asqatasun.webapp.entity.user.User;
-import org.asqatasun.webapp.presentation.data.ManualResult;
-import org.asqatasun.webapp.presentation.data.TestResult;
+import org.asqatasun.webapp.dto.data.ManualResult;
+import org.asqatasun.webapp.dto.data.TestResult;
 
 /**
  * 
