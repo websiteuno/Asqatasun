@@ -61,8 +61,8 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
 
     @Autowired
     private ExportService exportService;
-    @Value("${auditExportParametersToDisplay}")
-    private Map<String, String> parametersToDisplay;
+//    @Value("${auditExportParametersToDisplay}")
+//    private Map<String, String> parametersToDisplay;
 
     public AuditExportResultController() {
         super();

@@ -102,6 +102,7 @@ public abstract class AbstractAuditDataHandlerController extends AbstractControl
      * Authorized elements depending on the context.
      */
     @Value("${authorizedPageSize:10,25,50,100,250,1000,-1}")
+    private String authorizedPageSizeStr;
     private List<Integer> authorizedPageSize = new ArrayList<>();
 
 
@@ -113,13 +114,15 @@ public abstract class AbstractAuditDataHandlerController extends AbstractControl
     /**
      * This method initializes the siteScope and the pageScope instances through
      * their persistence Id.
-     * @param scopeDataService
      */
     @PostConstruct
-    public final void init(ScopeDataService scopeDataService) {
+    public final void init() {
         siteScope = scopeDataService.read(Long.valueOf(siteScopeId));
         pageScope = scopeDataService.read(Long.valueOf(pageScopeId));
         this.defaultParamSet = parameterDataService.getDefaultParameterSet();
+        for (String size :authorizedPageSizeStr.split(",")) {
+            authorizedPageSize.add(Integer.valueOf(size));
+        }
     }
     @Autowired
     private ScopeDataService scopeDataService;
@@ -145,8 +148,11 @@ public abstract class AbstractAuditDataHandlerController extends AbstractControl
         return ((Set) ((HashSet) defaultParamSet).clone());
     }
 
-    @Value("${defaultParametersToDisplay}")
+    //    @Value("${defaultParametersToDisplay}")
     private Map<String, String> parametersToDisplay;
+    public void setParametersToDisplay(Map<String, String> parametersToDisplay) {
+        this.parametersToDisplay = parametersToDisplay;
+    }
     @Value("${authorizedScopeForPageList:SCENARIO,DOMAIN}")
     private List<String> authorizedScopeForPageList;
     public void setAuthorizedScopeForPageList(List<String> authorizedScopeForPageList) {

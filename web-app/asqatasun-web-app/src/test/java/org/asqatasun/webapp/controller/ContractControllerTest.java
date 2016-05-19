@@ -66,7 +66,6 @@ public class ContractControllerTest extends TestCase {
     private Authentication mockAuthentication;
     private Contract mockContract;
     private User mockUser;
-    
            
     public ContractControllerTest(String testName) {
         super(testName);
@@ -206,7 +205,7 @@ public class ContractControllerTest extends TestCase {
         replay(mockUserDataService);
 
         // the HomeController needs a UserDataService instance
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
     }
     
     private void setUpContractDataService(int getUrlFromContractOption) {
@@ -220,7 +219,7 @@ public class ContractControllerTest extends TestCase {
         expect(mockContractDataService.read(Long.valueOf(1))).andReturn(mockContract).anyTimes();
         replay(mockContractDataService);
         
-        instance.setContractDataService(mockContractDataService);
+        ReflectionTestUtils.setField(instance, "contractDataService", mockContractDataService);
         ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);
         ReflectionTestUtils.setField(DetailedContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);
     }

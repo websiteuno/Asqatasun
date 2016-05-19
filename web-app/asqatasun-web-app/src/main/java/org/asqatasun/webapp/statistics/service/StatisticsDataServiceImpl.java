@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.service.statistics;
+package org.asqatasun.webapp.statistics.service;
 
 import java.util.Collection;
 

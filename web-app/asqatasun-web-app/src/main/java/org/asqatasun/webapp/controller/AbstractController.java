@@ -50,25 +50,17 @@ public abstract class AbstractController {
     
     private static final String ANONYMOUS_USER = "anonymousUser";
 
+    @Autowired
     private UserDataService userDataService;
     public UserDataService getUserDataService() {
         return userDataService;
     }
-
     @Autowired
-    public final void setUserDataService(UserDataService userDataService) {
-        this.userDataService = userDataService;
-    }
-
     private ContractDataService contractDataService;
     public ContractDataService getContractDataService() {
         return contractDataService;
     }
 
-    @Autowired
-    public final void setContractDataService(ContractDataService contractDataService) {
-        this.contractDataService = contractDataService;
-    }
 
     public AbstractController() {}
 

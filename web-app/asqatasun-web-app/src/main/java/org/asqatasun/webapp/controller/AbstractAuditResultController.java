@@ -67,7 +67,7 @@ import org.springframework.ui.Model;
 public class AbstractAuditResultController extends AbstractAuditDataHandlerController {
 
     private final List<FormFieldBuilder> sortFormFieldBuilderList = new ArrayList<>();
-    @Autowired
+//    @Autowired
     public final void setFormFieldBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
         this.sortFormFieldBuilderList.addAll(formFieldBuilderList);
     }
@@ -76,7 +76,7 @@ public class AbstractAuditResultController extends AbstractAuditDataHandlerContr
      *
      * @param formFieldBuilder
      */
-    @Autowired
+//    @Autowired
     public final void addFormFieldBuilder(final FormFieldBuilder formFieldBuilder) {
         this.sortFormFieldBuilderList.add(formFieldBuilder);
     }

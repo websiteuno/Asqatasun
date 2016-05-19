@@ -99,8 +99,9 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
-        
+
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
+
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         Model model = new ExtendedModelMap();
@@ -118,7 +119,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -142,7 +143,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         
         String userId = "";
         HttpServletResponse response = new MockHttpServletResponse();
@@ -195,7 +196,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, true, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -236,7 +237,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, true);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -277,7 +278,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -314,7 +315,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -348,7 +349,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, true, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -381,7 +382,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, true, true, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -416,7 +417,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
         ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
@@ -498,7 +499,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(false, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -539,7 +540,7 @@ public class UserManagementControllerTest extends TestCase {
         setUpMockRoleDataService();
         setUpMockUserDataService(true, false, false, false, false);
         setUpMockAuthenticationContext();
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
         
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();

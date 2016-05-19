@@ -80,22 +80,12 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
     @Autowired
     private ParameterElementDataService parameterElementDataService;
 
-    @PostConstruct
-    public void init() {
-        setParameterElementMap(parameterElementDataService);
-    }
-    
     private final Map<String, ParameterElement> parameterElementMap = new HashMap();
     private void setParameterElementMap(ParameterElementDataService peds) {
         for (ParameterElement pe : peds.findAll()) {
             parameterElementMap.put(pe.getParameterElementCode(), pe);
         }
     }
-    
-    public final void setExposablePropertyPlaceholderConfigurer(ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer) {
-        this.exposablePropertyPlaceholderConfigurer = exposablePropertyPlaceholderConfigurer;
-    }
-
     /**
      * default audit page parameter set.
      */
@@ -126,17 +116,22 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
      * The user options that have to be converted as audit parameters
      */
 
-            @Value("${userOption:}")
+    @Value("${userOption:}")
     private List<String> userOption;
     /**
      * The user options that have to be converted as audit parameters and that
      * depend on the selected referential
      */
-    @Value("${userOptionDependingOnReferential=TEST_WEIGHT_MANAGEMENT}")
+    @Value("${userOptionDependingOnReferential:TEST_WEIGHT_MANAGEMENT}")
     private List<String> userOptionDependingOnReferential;
 
     public AuditLauncherController() {
         super();
+    }
+
+    @PostConstruct
+    public void initialize() {
+        setParameterElementMap(parameterElementDataService);
     }
 
     /**

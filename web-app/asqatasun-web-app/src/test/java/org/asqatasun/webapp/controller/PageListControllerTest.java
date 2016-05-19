@@ -426,7 +426,7 @@ public class PageListControllerTest extends TestCase {
         replay(mockUserDataService);
 
         // the HomeController needs a UserDataService instance
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
     }
     
     /**

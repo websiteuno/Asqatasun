@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.dao.statistics;
+package org.asqatasun.webapp.statistics.dao;
 
 import java.math.BigInteger;
 import java.util.*;

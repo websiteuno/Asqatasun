@@ -365,7 +365,7 @@ public class AuditSetUpControllerTest extends TestCase {
 
         replay(mockUser);
         replay(mockUserDataService);
-        instance.setUserDataService(mockUserDataService);
+        ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
     }
     
     /**
@@ -391,7 +391,7 @@ public class AuditSetUpControllerTest extends TestCase {
         expect(mockContractDataService.getUrlFromContractOption(mockContract)).andReturn("http://www.test1.com").anyTimes();
         replay(mockContract);
         replay(mockContractDataService);
-        instance.setContractDataService(mockContractDataService);
+        ReflectionTestUtils.setField(instance, "contractDataService", mockContractDataService);
     }
     
     private Set<Functionality> setUpMockFunctionalitySet() {

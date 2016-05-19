@@ -220,8 +220,8 @@ public class SignUpControllerTest extends TestCase {
        
        replay(mockUser);
        replay(mockUserDataService);
-       
-       instance.setUserDataService(mockUserDataService);
+
+       ReflectionTestUtils.setField(instance, "userDataService", mockUserDataService);
    }
 
    private void setUpValidatorAndBindingResult() {

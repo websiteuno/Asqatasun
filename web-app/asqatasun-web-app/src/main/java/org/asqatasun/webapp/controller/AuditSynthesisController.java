@@ -62,7 +62,7 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
 
     @Value("${nbOfDisplayedFailedTest:5}")
     private int nbOfDisplayedFailedTest;
-    @Value("${nbOfDisplayedFailedPages=10}")
+    @Value("${nbOfDisplayedFailedPages:10}")
     private int nbOfDisplayedFailedPages;
     @Value("${authorizedScopeForSynthesis:DOMAIN,SCENARIO}")
     private List<String> authorizedScopeForSynthesis;

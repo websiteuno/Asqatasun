@@ -63,8 +63,9 @@ public class AccountSettingsController extends AbstractUserAndContractsControlle
     private ReferenceDataService referenceDataService;
 
     private final Map<String, Reference> refMap = new HashMap<>();
+
     @PostConstruct
-    public void init(ReferenceDataService referenceDataService) {
+    public void init() {
         for (Reference ref : referenceDataService.findAll()) {
             refMap.put(ref.getCode(), ref);
         }

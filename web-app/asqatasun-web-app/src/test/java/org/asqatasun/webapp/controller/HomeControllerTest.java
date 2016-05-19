@@ -157,8 +157,8 @@ public class HomeControllerTest extends TestCase {
         expect(mockActionHandler.getActionList(mockContract)).andReturn(actionList).once();
         
         replay(mockActionHandler);
-        
-        instance.setContractDataService(mockContractDataService);
+
+        ReflectionTestUtils.setField(instance, "contractDataService", mockContractDataService);
         ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);
         ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "actionHandler", mockActionHandler);
         ReflectionTestUtils.setField(DetailedContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);

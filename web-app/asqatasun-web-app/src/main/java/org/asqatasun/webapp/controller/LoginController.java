@@ -67,8 +67,8 @@ public class LoginController extends AbstractUserAndContractsController{
     TgolUserDetailsService tgolUserDetailsService;
     @Autowired
     private LocaleResolver localeResolver;
-    @Value("#{${guestListByLang:}}")
-    private Map<String, String> guestListByLang = new LinkedHashMap<>();
+//    @Value("#{${guestListByLang:}}")
+//    private Map<String, String> guestListByLang = new LinkedHashMap<>();
     @Value("${forbiddenLangForOnlineDemo:}")
     private final List<String> forbiddenLangForOnlineDemo = new ArrayList<>();
 
@@ -81,8 +81,8 @@ public class LoginController extends AbstractUserAndContractsController{
         if (isAuthenticated()) {
             if (StringUtils.isNotBlank(email)){
                 logoutCurrentUser(request);
-            } else if (guestListByLang.containsValue(getCurrentUser().getEmail1())) {
-                logoutCurrentUser(request);
+//            } else if (guestListByLang.containsValue(getCurrentUser().getEmail1())) {
+//                logoutCurrentUser(request);
             } else {
                 return TgolKeyStore.HOME_VIEW_REDIRECT_NAME;
             }
@@ -104,11 +104,11 @@ public class LoginController extends AbstractUserAndContractsController{
         String languageKey = locale.getLanguage().toLowerCase();
         String lGuestUser=null;
 
-        if (guestListByLang.containsKey(languageKey)) {
-            lGuestUser = guestListByLang.get(languageKey);
-        } else if (guestListByLang.containsKey("default")) {
-            lGuestUser = guestListByLang.get("default");
-        }
+//        if (guestListByLang.containsKey(languageKey)) {
+//            lGuestUser = guestListByLang.get(languageKey);
+//        } else if (guestListByLang.containsKey("default")) {
+//            lGuestUser = guestListByLang.get("default");
+//        }
 
         if (StringUtils.isBlank(lGuestUser) || StringUtils.isBlank(guestPassword)) {
             return TgolKeyStore.NO_DEMO_AVAILABLE_VIEW_NAME;
