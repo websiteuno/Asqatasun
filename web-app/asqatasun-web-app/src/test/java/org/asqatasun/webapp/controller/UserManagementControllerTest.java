@@ -44,6 +44,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -197,7 +198,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // Finally the form is conform and the admin page is returned
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();
@@ -238,7 +239,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // Finally the form is conform and the admin page is returned
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();
@@ -279,7 +280,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // Finally the form is conform and the admin page is returned
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();
@@ -350,7 +351,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // Finally the form is conform and the admin page is returned
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();
@@ -383,7 +384,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // Finally the form is conform and the admin page is returned
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();
@@ -418,7 +419,7 @@ public class UserManagementControllerTest extends TestCase {
         instance.setUserDataService(mockUserDataService);
         CreateUserFormValidator createUserFormValidator = new CreateUserFormValidator();
         createUserFormValidator.setUserDataService(mockUserDataService);
-        instance.setCreateUserFormValidator(createUserFormValidator);
+        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
         
         // First the form is sent back empty
         CreateUserCommand createUserCommand = CreateUserCommandFactory.getInstance().getNewCreateUserCommand();

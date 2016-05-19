@@ -45,8 +45,11 @@ import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.voter.restriction.RestrictionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import javax.annotation.PostConstruct;
 
 /**
  *
@@ -61,28 +64,24 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
     /**
      * The AsqatasunOrchestrator instance needed to launch the audit process
      */
-    private AsqatasunOrchestrator asqatasunExecutor;
-
     @Autowired
-    public final void setAsqatasunExecutor(AsqatasunOrchestrator asqatasunExecutor) {
-        this.asqatasunExecutor = asqatasunExecutor;
-    }
+    private AsqatasunOrchestrator asqatasunExecutor;
     /**
      * The RestrictionHandler instance needed to decide
      */
-    private RestrictionHandler restrictionHandler;
     @Autowired
-    public final void setRestrictionHandler(RestrictionHandler restrictionHandler) {
-        this.restrictionHandler = restrictionHandler;
-    }
-    
+    private RestrictionHandler restrictionHandler;
+
+    @Autowired
+    private OptionElementDataService optionElementDataService;
     /**
      * The ParameterElementDataService instance
      */
-    private ParameterElementDataService parameterElementDataService;
     @Autowired
-    public void setParameterElementDataService(ParameterElementDataService parameterElementDataService) {
-        this.parameterElementDataService = parameterElementDataService;
+    private ParameterElementDataService parameterElementDataService;
+
+    @PostConstruct
+    public void init() {
         setParameterElementMap(parameterElementDataService);
     }
     
@@ -92,16 +91,17 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
             parameterElementMap.put(pe.getParameterElementCode(), pe);
         }
     }
+    
+    public final void setExposablePropertyPlaceholderConfigurer(ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer) {
+        this.exposablePropertyPlaceholderConfigurer = exposablePropertyPlaceholderConfigurer;
+    }
+
     /**
      * default audit page parameter set.
      */
     Set<Parameter> auditPageParamSet = null;
-    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
-
     @Autowired
-    public final void setExposablePropertyPlaceholderConfigurer(ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer) {
-        this.exposablePropertyPlaceholderConfigurer = exposablePropertyPlaceholderConfigurer;
-    }
+    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
 
     /**
      *
@@ -125,38 +125,15 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
     /**
      * The user options that have to be converted as audit parameters
      */
+
+            @Value("${userOption:}")
     private List<String> userOption;
-
-    public List<String> getUserOption() {
-        return userOption;
-    }
-
-    public void setUserOption(List<String> userOption) {
-        this.userOption = userOption;
-    }
     /**
      * The user options that have to be converted as audit parameters and that
      * depend on the selected referential
      */
+    @Value("${userOptionDependingOnReferential=TEST_WEIGHT_MANAGEMENT}")
     private List<String> userOptionDependingOnReferential;
-
-    public List<String> getUserOptionDependingOnReferential() {
-        return userOptionDependingOnReferential;
-    }
-
-    public void setUserOptionDependingOnReferential(List<String> userOptionDependingOnReferential) {
-        this.userOptionDependingOnReferential = userOptionDependingOnReferential;
-    }
-    private OptionElementDataService optionElementDataService;
-
-    public OptionElementDataService getOptionElementDataService() {
-        return optionElementDataService;
-    }
-
-    @Autowired
-    public void setOptionElementDataService(OptionElementDataService optionElementDataService) {
-        this.optionElementDataService = optionElementDataService;
-    }
 
     public AuditLauncherController() {
         super();
@@ -219,7 +196,7 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
      * values populated by the user. In case of audit failure, an appropriate
      * message is displayed
      *
-     * @param pageAuditSetUpCommand
+     * @param auditSetUpCommand
      * @param contract
      * @param locale
      * @param auditScope
@@ -393,10 +370,10 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
                 paramSet = getDefaultParamSet();
             }
             for (Map.Entry<String, String> entry : auditSetUpCommand.getAuditParameter().entrySet()) {
-                Parameter param = getParameterDataService().getParameter(parameterElementMap.get(entry.getKey()), entry.getValue());
+                Parameter param = parameterDataService.getParameter(parameterElementMap.get(entry.getKey()), entry.getValue());
                 userParamSet.add(param);
             }
-            paramSet = getParameterDataService().updateParameterSet(paramSet, userParamSet);
+            paramSet = parameterDataService.updateParameterSet(paramSet, userParamSet);
             paramSet = setLevelParameter(paramSet, auditSetUpCommand.getLevel());
         } else {
             paramSet = getDefaultParamSet();
@@ -406,13 +383,13 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
                 for (OptionElement optionElement : optionElementSet) {
                     if (optionElement.getOption().getCode().
                             equalsIgnoreCase(param.getParameterElement().getParameterElementCode())) {
-                        param = getParameterDataService().getParameter(param.getParameterElement(), optionElement.getValue());
+                        param = parameterDataService.getParameter(param.getParameterElement(), optionElement.getValue());
                         break;
                     }
                 }
                 userParamSet.add(param);
             }
-            paramSet = getParameterDataService().updateParameterSet(paramSet, userParamSet);
+            paramSet = parameterDataService.updateParameterSet(paramSet, userParamSet);
         }
         return (auditSetUpCommand.getLevel() != null )? setUserParameters(paramSet, auditSetUpCommand.getLevel().split(";")[0]) : paramSet;
     }
@@ -420,12 +397,12 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
     /**
      *
      * @param paramSet
-     * @param url
+     * @param level
      * @return
      */
     private Set<Parameter> setLevelParameter(Set<Parameter> paramSet, String level) {
-        Parameter levelParameter = getParameterDataService().getLevelParameter(level);
-        paramSet = getParameterDataService().updateParameter(paramSet, levelParameter);
+        Parameter levelParameter = parameterDataService.getLevelParameter(level);
+        paramSet = parameterDataService.updateParameter(paramSet, levelParameter);
         return paramSet;
     }
 
@@ -449,16 +426,16 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
                             .getParameterElement(TgolKeyStore.MAX_DOCUMENT_PARAM_KEY);
             
             Parameter depthParameter = 
-                    getParameterDataService()
+                    parameterDataService
                             .getParameter(depthParameterElement, TgolKeyStore.DEPTH_PAGE_PARAM_VALUE);
             
             Parameter maxDocParameter = 
-                    getParameterDataService()
+                    parameterDataService
                             .getParameter(maxDocParameterElement, String.valueOf(nbOfPages));
             
             paramSet.add(depthParameter);
             paramSet.add(maxDocParameter);
-            auditPageParamSet = getParameterDataService().updateParameterSet(getDefaultParamSet(), paramSet);
+            auditPageParamSet = parameterDataService.updateParameterSet(getDefaultParamSet(), paramSet);
         }
         return auditPageParamSet;
     }
@@ -502,7 +479,7 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
         for (String optionFamily : userOption) {
             optionElementSet.addAll(optionElementDataService.getOptionElementFromUserAndFamilyCode(user, optionFamily));
         }
-        paramSet.addAll(getParameterDataService().getParameterSetFromOptionElementSet(optionElementSet));
+        paramSet.addAll(parameterDataService.getParameterSetFromOptionElementSet(optionElementSet));
         return paramSet;
     }
 }

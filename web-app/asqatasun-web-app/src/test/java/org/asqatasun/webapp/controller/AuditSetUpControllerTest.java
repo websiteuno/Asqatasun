@@ -50,6 +50,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
@@ -345,7 +346,7 @@ public class AuditSetUpControllerTest extends TestCase {
     
     private void setUpMockActDataService(){
         mockActDataService = createMock(ActDataService.class);
-        instance.setActDataService(mockActDataService);
+        ReflectionTestUtils.setField(instance, "actDataService", mockActDataService);
         replay(mockActDataService);
     }
     
@@ -554,7 +555,7 @@ public class AuditSetUpControllerTest extends TestCase {
                     mockParameterElementTextualFormField, 
                     ScopeEnum.DOMAIN)).andReturn("PARAMETER2").anyTimes();
             replay(mockParameterDataService);
-            instance.setParameterDataService(mockParameterDataService);
+            ReflectionTestUtils.setField(instance, "parameterDataService", mockParameterDataService);
         }
         return mockParameterDataService;
     }

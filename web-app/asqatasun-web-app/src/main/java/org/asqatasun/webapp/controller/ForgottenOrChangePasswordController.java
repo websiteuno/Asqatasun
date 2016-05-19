@@ -36,12 +36,13 @@ import org.asqatasun.webapp.command.ForgottenPasswordCommand;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
-import org.asqatasun.webapp.presentation.menu.SecondaryLevelMenuDisplayer;
+import org.asqatasun.webapp.ui.form.menu.SecondaryLevelMenuDisplayer;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.validator.ChangePasswordFormValidator;
 import org.asqatasun.webapp.validator.ForgottenPasswordFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,53 +60,23 @@ import org.springframework.web.servlet.LocaleResolver;
 @Controller
 public class ForgottenOrChangePasswordController extends AbstractController {
 
+    @Autowired
     private ChangePasswordFormValidator changePasswordFormValidator;
     @Autowired
-    public final void setChangePasswordFormValidator(ChangePasswordFormValidator changePasswordFormValidator) {
-        this.changePasswordFormValidator = changePasswordFormValidator;
-    }
-
     private ForgottenPasswordFormValidator forgottenPasswordFormValidator;
     @Autowired
-    public final void setForgottenPasswordFormValidator(ForgottenPasswordFormValidator forgottenPasswordFormValidator) {
-        this.forgottenPasswordFormValidator = forgottenPasswordFormValidator;
-    }
-
     private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
     @Autowired
-    public final void setExposablePropertyPlaceholderConfigurer(ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer) {
-        this.exposablePropertyPlaceholderConfigurer = exposablePropertyPlaceholderConfigurer;
-    }
-
     private EmailSender emailSender;
     @Autowired
-    public final void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
-    }
-
     private LocaleResolver localeResolver;
+    @Value("${forbiddenUserList:guest}")
+    List<String> forbiddenUserList;
     @Autowired
-    public final void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-
-    List<String> forbiddenUserList = new ArrayList();
-    public void setForbiddenUserList(List<String> forbiddenUserList) {
-        this.forbiddenUserList = forbiddenUserList;
-    }
-    
     private SecondaryLevelMenuDisplayer secondaryLevelMenuDisplayer;
     @Autowired
-    public void setSecondaryLevelMenuDisplayer(SecondaryLevelMenuDisplayer secondaryLevelMenuDisplayer) {
-        this.secondaryLevelMenuDisplayer = secondaryLevelMenuDisplayer;
-    }
-    
     private TokenManager tokenManager;
-    @Autowired
-    public void setTokenManager(TokenManager tokenManager) {
-        this.tokenManager = tokenManager;
-    }
-    
+
     public ForgottenOrChangePasswordController() {
         super();
     }
@@ -150,7 +121,7 @@ public class ForgottenOrChangePasswordController extends AbstractController {
     
     /**
      * 
-     * @param email
+     * @param id
      * @param token
      * @param model
      * @param request
@@ -376,7 +347,7 @@ public class ForgottenOrChangePasswordController extends AbstractController {
     /**
      * 
      * @param model
-     * @param launchAuditFromContractCommand
+     * @param forgottenPasswordCommand
      * @return
      */
     private String displayFormWithErrors(
@@ -390,8 +361,8 @@ public class ForgottenOrChangePasswordController extends AbstractController {
     /**
      *
      * @param model
-     * @param contract
-     * @param launchAuditFromContractCommand
+     * @param changePasswordCommand
+     * @param isrequestFromAdmin
      * @return
      */
     private String displayChangePasswordFormWithErrors(
@@ -416,7 +387,7 @@ public class ForgottenOrChangePasswordController extends AbstractController {
     private void sendResetEmail(User user, Locale locale) {
         ResourceBundle resourceBundle = ResourceBundle.getBundle(TgolKeyStore.FORGOTTEN_PASSWD_BUNDLE_NAME, locale);
         String emailFrom = resourceBundle.getString(TgolKeyStore.FORGOTTEN_PASSWD_EMAIL_FROM_KEY);
-        Set<String> emailToSet = new HashSet();
+        Set<String> emailToSet = new HashSet<>();
         emailToSet.add(user.getEmail1());
         String emailSubject = resourceBundle.getString(TgolKeyStore.FORGOTTEN_PASSWD_EMAIL_SUBJECT_KEY);
         String emailContentPattern = resourceBundle.getString(TgolKeyStore.FORGOTTEN_PASSWD_EMAIL_CONTENT_KEY);
@@ -453,7 +424,8 @@ public class ForgottenOrChangePasswordController extends AbstractController {
 
     /**
      *
-     * @param userSignUpCommand
+     * @param user
+     * @param changePasswordCommand
      * @return
      * @throws Exception
      */

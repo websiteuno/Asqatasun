@@ -59,16 +59,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 @Controller
 public class AbstractUserAndContractsController extends AbstractController{
 
-//    public static final String EMAIL_FROM_KEY="emailFrom";
-//    public static final String EMAIL_TO_KEY="emailTo";
-//    public static final String EMAIL_SUBJECT_KEY="emailSubject";
-//    public static final String EMAIL_CONTENT_KEY="emailContent";
-//    private static final String URL_KEY="#urlToTest";
-//    private static final String EMAIL_KEY="#email";
-//    private static final String FIRST_NAME_KEY="#firstName";
-//    private static final String LAST_NAME_KEY="#lastName";
-//    private static final String PHONE_NUMBER_KEY="#phoneNumber";
-
     List<FormFieldBuilder> displayOptionFieldsBuilderList;
     public final void setDisplayOptionFieldsBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
         this.displayOptionFieldsBuilderList = formFieldBuilderList;
@@ -90,56 +80,25 @@ public class AbstractUserAndContractsController extends AbstractController{
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, false));
     }
-    
+
+    @Autowired
     private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
     @Autowired
-    public final void setExposablePropertyPlaceholderConfigurer(ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer) {
-        this.exposablePropertyPlaceholderConfigurer = exposablePropertyPlaceholderConfigurer;
-    }
-
     private EmailSender emailSender;
     @Autowired
-    public final void setEmailSender(EmailSender emailSender) {
-        this.emailSender = emailSender;
-    }
-    
     private CreateUserFormValidator createUserFormValidator;
-    public CreateUserFormValidator getCreateUserFormValidator() {
-        return createUserFormValidator;
-    }
-
-    public final void setCreateUserFormValidator(CreateUserFormValidator createUserFormValidator) {
-        this.createUserFormValidator = createUserFormValidator;
-    }
-    
+    @Autowired
     private CreateContractFormValidator createContractFormValidator;
     public CreateContractFormValidator getCreateContractFormValidator() {
         return createContractFormValidator;
     }
-
-    public final void setCreateContractFormValidator(CreateContractFormValidator createContractFormValidator) {
-        this.createContractFormValidator = createContractFormValidator;
-    }
-    
+    @Autowired
     private ActDataService actDataService;
     public ActDataService getActDataService() {
         return actDataService;
     }
-
     @Autowired
-    public void setActDataService(ActDataService actDataService) {
-        this.actDataService = actDataService;
-    }
-    
     private AuditDataService auditDataService;
-    public AuditDataService getAuditDataService() {
-        return auditDataService;
-    }
-
-    @Autowired
-    public void setAuditDataService(AuditDataService auditDataService) {
-        this.auditDataService = auditDataService;
-    }
 
     /**
      * 
@@ -487,7 +446,7 @@ public class AbstractUserAndContractsController extends AbstractController{
         Collection<Act> actsByContract = getActDataService().getAllActsByContract(contract);
         for (Act act : actsByContract) {
             if (act.getAudit() != null) {
-                getAuditDataService().delete(act.getAudit().getId());
+                auditDataService.delete(act.getAudit().getId());
             }
             getActDataService().delete(act.getId());
         }

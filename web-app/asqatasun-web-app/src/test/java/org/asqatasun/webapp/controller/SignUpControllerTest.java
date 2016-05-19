@@ -35,6 +35,7 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.validator.CreateUserFormValidator;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -239,8 +240,8 @@ public class SignUpControllerTest extends TestCase {
        
        replay(mockValidBindingResult);
        replay(mockInvalidBindingResult);
-       
-       instance.setCreateUserFormValidator(createUserFormValidator);
+
+       ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
    }
  
    private void setUpMockExposablePropertyPlaceholderConfigurer() {
@@ -253,8 +254,8 @@ public class SignUpControllerTest extends TestCase {
        
        expect(mockExposablePropertyPlaceholderConfigurer.getResolvedProps()).andReturn(props).times(4);
        replay(mockExposablePropertyPlaceholderConfigurer);
-       
-       instance.setExposablePropertyPlaceholderConfigurer(mockExposablePropertyPlaceholderConfigurer);
+
+       ReflectionTestUtils.setField(instance, "exposablePropertyPlaceholderConfigurer", mockExposablePropertyPlaceholderConfigurer);
    }
    
    private void setUpMockEmailSender() {
@@ -270,8 +271,7 @@ public class SignUpControllerTest extends TestCase {
                "content");
        expectLastCall();
        replay(mockEmailSender);
-       
-       instance.setEmailSender(mockEmailSender);
+       ReflectionTestUtils.setField(instance, "emailSender", mockEmailSender);
    }
  
    private void setUpMockRoleDataService() {

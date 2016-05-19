@@ -29,7 +29,7 @@ import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
-import org.asqatasun.webapp.presentation.factory.DetailedContractInfoFactory;
+import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
 import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;

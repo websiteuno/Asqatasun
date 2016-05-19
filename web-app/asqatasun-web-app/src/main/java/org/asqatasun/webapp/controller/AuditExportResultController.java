@@ -25,6 +25,7 @@ import ar.com.fdvs.dj.domain.builders.ColumnBuilderException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
@@ -33,13 +34,14 @@ import org.asqatasun.entity.reference.Scope;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
-import org.asqatasun.webapp.presentation.data.TestResult;
-import org.asqatasun.webapp.presentation.factory.TestResultFactory;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.TestResult;
+import org.asqatasun.webapp.dto.factory.TestResultFactory;
 import org.asqatasun.webapp.report.service.ExportService;
 import org.asqatasun.webapp.report.service.exception.NotSupportedExportFormatException;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,14 +59,10 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
 
     private static final Logger LOGGER = Logger.getLogger(AuditExportResultController.class);
 
-    private ExportService exportService;
-    public ExportService getExportService() {
-        return exportService;
-    }
     @Autowired
-    public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-    }
+    private ExportService exportService;
+    @Value("${auditExportParametersToDisplay}")
+    private Map<String, String> parametersToDisplay;
 
     public AuditExportResultController() {
         super();
@@ -101,7 +99,7 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
             throw new ForbiddenPageException();
         }
 
-        WebResource webResource = getWebResourceDataService().ligthRead(webResourceIdValue);
+        WebResource webResource = webResourceDataService.ligthRead(webResourceIdValue);
         // if the id of the webresource corresponds to a Site webResource
         if (isUserAllowedToDisplayResult(getAuditFromWebResource(webResource))) {
             // If the Id given in argument correspond to a webResource,
@@ -110,7 +108,7 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
                 prepareSuccessfullAuditDataToExport(
                         webResource,
                         model,
-                        getLocaleResolver().resolveLocale(request),
+                        localeResolver.resolveLocale(request),
                         format,
                         request,
                         response);
@@ -127,7 +125,7 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
 
     /**
      * 
-     * @param page
+     * @param webResource
      * @param model
      * @param locale
      * @param exportFormat
@@ -152,7 +150,7 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
         List<TestResult> testResultList = TestResultFactory.getInstance().getTestResultList(
                     webResource,
                     scope,
-                    getLocaleResolver().resolveLocale(request));
+                    localeResolver.resolveLocale(request));
         
         AuditStatistics auditStatistics = getAuditStatistics(
                     webResource, 

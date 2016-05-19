@@ -49,11 +49,13 @@ import org.asqatasun.webapp.form.CheckboxElement;
 import org.asqatasun.webapp.form.CheckboxFormFieldImpl;
 import org.asqatasun.webapp.form.FormField;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
-import org.asqatasun.webapp.presentation.data.AuditStatistics;
-import org.asqatasun.webapp.presentation.factory.CriterionResultFactory;
-import org.asqatasun.webapp.presentation.factory.TestResultFactory;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
+import org.asqatasun.webapp.dto.factory.CriterionResultFactory;
+import org.asqatasun.webapp.dto.factory.TestResultFactory;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -64,7 +66,8 @@ import org.springframework.ui.Model;
 @Controller
 public class AbstractAuditResultController extends AbstractAuditDataHandlerController {
 
-    private final List<FormFieldBuilder> sortFormFieldBuilderList = new ArrayList();
+    private final List<FormFieldBuilder> sortFormFieldBuilderList = new ArrayList<>();
+    @Autowired
     public final void setFormFieldBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
         this.sortFormFieldBuilderList.addAll(formFieldBuilderList);
     }
@@ -73,55 +76,23 @@ public class AbstractAuditResultController extends AbstractAuditDataHandlerContr
      *
      * @param formFieldBuilder
      */
+    @Autowired
     public final void addFormFieldBuilder(final FormFieldBuilder formFieldBuilder) {
         this.sortFormFieldBuilderList.add(formFieldBuilder);
     }
 
-    private ActionHandler actionHandler;
-    public ActionHandler getActionHandler() {
-        return actionHandler;
-    }
-
-    public void setActionHandler(ActionHandler contractActionHandler) {
-        this.actionHandler = contractActionHandler;
-    }
-
+    @Value("${themeSortKey:theme}")
     private String themeSortKey;
-    public String getThemeSortKey() {
-        return themeSortKey;
-    }
-
-    public void setThemeSortKey(String themeSortKey) {
-        this.themeSortKey = themeSortKey;
-    }
-
+    @Value("${testResultSortKey:test-result}")
     private String testResultSortKey;
-    public String getTestResultSortKey() {
-        return testResultSortKey;
-    }
-
-    public void setTestResultSortKey(String testResultSortKey) {
-        this.testResultSortKey = testResultSortKey;
-    }
-
+    @Value("${authorizedRefForCriterionViewList:Aw22,Rgaa30}")
     private List<String> authorizedRefForCriterionViewList;
-    public List<String> getAuthorizedRefForCriterionViewList() {
-        return authorizedRefForCriterionViewList;
-    }
-
-    public void setAuthorizedRefForCriterionViewList(List<String> authorizedRefForCriterionViewList) {
-        this.authorizedRefForCriterionViewList = authorizedRefForCriterionViewList;
-    }
-
-    private CriterionStatisticsDataService criterionStatisticsDataService;
-    public CriterionStatisticsDataService getCriterionStatisticsDataService() {
-        return criterionStatisticsDataService;
-    }
 
     @Autowired
-    public void setCriterionStatisticsDataService(CriterionStatisticsDataService criterionStatisticsDataService) {
-        this.criterionStatisticsDataService = criterionStatisticsDataService;
-    }
+    @Qualifier("resultActionHandler")
+    private ActionHandler actionHandler;
+    @Autowired
+    private CriterionStatisticsDataService criterionStatisticsDataService;
 
     /**
      * Regarding the page type, this method collects data, set them up and
@@ -145,7 +116,7 @@ public class AbstractAuditResultController extends AbstractAuditDataHandlerContr
         // We first check that the current user is allowed to display the result
         // of this audit
 
-        WebResource webResource = getWebResourceDataService().ligthRead(
+        WebResource webResource = webResourceDataService.ligthRead(
                 webResourceId);
         if (webResource == null) {
             throw new ForbiddenPageException();
@@ -179,7 +150,7 @@ public class AbstractAuditResultController extends AbstractAuditDataHandlerContr
                     audit,
                     model,
                     displayScope,
-                    getLocaleResolver().resolveLocale(request),
+                    localeResolver.resolveLocale(request),
                     isManualAudit,
                     manualAuditCommand);
         } else {
@@ -365,8 +336,7 @@ public class AbstractAuditResultController extends AbstractAuditDataHandlerContr
                 .getPageAuditSetUpCommand(
                         contract,
                         page.getURL(),
-                        getParameterDataService()
-                        .getParameterSetFromAudit(audit)));
+                        parameterDataService.getParameterSetFromAudit(audit)));
 
         if (StringUtils.equalsIgnoreCase(displayScope,
                 TgolKeyStore.TEST_DISPLAY_SCOPE_VALUE)) {

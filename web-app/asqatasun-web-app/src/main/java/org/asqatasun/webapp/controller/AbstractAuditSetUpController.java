@@ -41,6 +41,7 @@ import org.asqatasun.webapp.form.parameterization.helper.AuditSetUpFormFieldHelp
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.AuditSetUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -52,15 +53,8 @@ import org.springframework.validation.BindingResult;
 @Controller
 public abstract class AbstractAuditSetUpController extends AbstractAuditDataHandlerController{
 
-    private String defaultReferential = "Aw22";
-    public String getDefaultReferential() {
-        return defaultReferential;
-    }
-
-    public void setDefaultReferential(String defaultReferential) {
-        this.defaultReferential = defaultReferential;
-    }
-    
+    @Value("${defaultReferential:Rgaa30}")
+    private String defaultReferential;
     /**
      * The list of FormField builders that handles the audit site options
      */
@@ -70,6 +64,10 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
     }
     
     public final void setSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
+        this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
+    }
+    @Autowired
+    public final void addSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
         this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
     }
     
@@ -155,16 +153,9 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
     public void setViewFunctionalityBindingMap(Map<String, String> viewFunctionalityBindingMap) {
         this.viewFunctionalityBindingMap = viewFunctionalityBindingMap;
     }
-    
-    private AuditLauncherController auditLauncherController;
-    public AuditLauncherController getAuditLauncherController() {
-        return auditLauncherController;
-    }
-    
+
     @Autowired
-    public void setAuditLauncherController(AuditLauncherController auditLauncherController) {
-        this.auditLauncherController = auditLauncherController;
-    }
+    private AuditLauncherController auditLauncherController;
     
     public AbstractAuditSetUpController() {
         super();
@@ -331,9 +322,9 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
 
         model.addAttribute(TgolKeyStore.AUDIT_SET_UP_COMMAND_KEY, auditSetUpCommand);
 
-        return getAuditLauncherController().launchAudit(
+        return auditLauncherController.launchAudit(
                 auditSetUpCommand, 
-                getLocaleResolver().resolveLocale(request), 
+                localeResolver.resolveLocale(request),
                 model);
     }
     
@@ -419,14 +410,14 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
         }
         return true;
     }
-    
+
     /**
      * This method prepares the data to display in the set-up form.
      *
      * @param model
-     * @param contractId
-     * @param parametersMap
-     * @param auditSite
+     * @param contract
+     * @param refAndLevelFormFieldList
+     * @param optionFormFieldMap
      */
     private void prepareFormModel(
             Model model,

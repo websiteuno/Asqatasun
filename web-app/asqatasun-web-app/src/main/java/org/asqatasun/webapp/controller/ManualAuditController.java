@@ -37,7 +37,7 @@ import org.asqatasun.webapp.command.ManualAuditCommand;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
-import org.asqatasun.webapp.presentation.factory.TestResultFactory;
+import org.asqatasun.webapp.dto.factory.TestResultFactory;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.ManualAuditValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,22 +64,10 @@ public class ManualAuditController extends AbstractAuditResultController {
     
     @Autowired
     private WebResourceStatisticsDataService webResourceStatisticsDataService;
-    public void setWebResourceStatisticsDataService(WebResourceStatisticsDataService webResourceStatisticsDataService) {
-        this.webResourceStatisticsDataService = webResourceStatisticsDataService;
-    }
-    
     @Autowired
     private ProcessResultDataService processResultDataService;
-    public void setProcessResultDataService(ProcessResultDataService processResultDataService) {
-        this.processResultDataService = processResultDataService;
-    }
-   
     @Autowired
     ManualAuditValidator manualAuditValidator;
-    public void setManualAuditValidator(ManualAuditValidator manualAuditValidator) {
-        this.manualAuditValidator = manualAuditValidator;
-    }
-    
     private String manualAuditFunctionalityKey = TgolKeyStore.MANUAL_AUDIT_FUNCTIONALITY_KEY;
     public void setManualAuditFunctionalityKey(String manualAuditFunctionalityKey) {
         this.manualAuditFunctionalityKey = manualAuditFunctionalityKey;
@@ -105,8 +93,8 @@ public class ManualAuditController extends AbstractAuditResultController {
             HttpServletRequest request,
             Model model) {
         try {
-            Audit audit = getAuditDataService().read(Long.valueOf(auditId));
-            Act act = getActDataService().getActFromAudit(audit);
+            Audit audit = auditDataService.read(Long.valueOf(auditId));
+            Act act = actDataService.getActFromAudit(audit);
             switch (act.getScope().getCode()) {
                 case FILE:
                 case PAGE:
@@ -189,7 +177,7 @@ public class ManualAuditController extends AbstractAuditResultController {
     private String getFinishActionNameFromLocale(HttpServletRequest request) {
         return ResourceBundle.getBundle(
                   FINISH_ACTION_BUNDLE_NAME, 
-                  getLocaleResolver().resolveLocale(request))
+                  localeResolver.resolveLocale(request))
                       .getString(FINISH_ACTION_NAME_KEY);
     }
     
@@ -238,7 +226,7 @@ public class ManualAuditController extends AbstractAuditResultController {
 
         WebResource webResource;
         try {
-            webResource = getWebResourceDataService().ligthRead(
+            webResource = webResourceDataService.ligthRead(
                     Long.valueOf(webresourceId));
         } catch (NumberFormatException nfe) {
             throw new ForbiddenPageException();
@@ -263,7 +251,7 @@ public class ManualAuditController extends AbstractAuditResultController {
                 audit.setManualAuditDateOfCreation(Calendar.getInstance()
                         .getTime());
                 audit.setStatus(AuditStatus.MANUAL_INITIALIZING);
-                getAuditDataService().update(audit);
+                auditDataService.update(audit);
             }
 
             List<ProcessResult> allProcessResultList = TestResultFactory
@@ -288,7 +276,7 @@ public class ManualAuditController extends AbstractAuditResultController {
                 } else {
                     // mettre à jour le statut
                     audit.setStatus(AuditStatus.MANUAL_COMPLETED);
-                    getAuditDataService().update(audit);
+                    auditDataService.update(audit);
 
                     webResourceStatisticsDataService.createWebResourceStatisticsForManualAudit(
                             audit,

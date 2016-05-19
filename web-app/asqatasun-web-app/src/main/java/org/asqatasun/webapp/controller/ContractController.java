@@ -33,6 +33,7 @@ import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,20 +50,11 @@ import org.springframework.web.servlet.LocaleResolver;
 @Controller
 public class ContractController extends AbstractController {
 
-    private LocaleResolver localeResolver;
     @Autowired
-    public final void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
+    private LocaleResolver localeResolver;
+    @Value("${authorizedFunctionalityForTrend:DOMAIN,SCENARIO}")
+    private List<String> authorizedFunctionalityForTrend;
 
-    private List<String> authorizedFunctionalityForTrend = new ArrayList();
-    public List<String> getAuthorizedFunctionalityForTrend() {
-        return authorizedFunctionalityForTrend;
-    }
-
-    public void setAuthorizedFunctionalityForTrend(List<String> authorizedFunctionalityForTrend) {
-        this.authorizedFunctionalityForTrend = authorizedFunctionalityForTrend;
-    }
 
     public ContractController() {
         super();

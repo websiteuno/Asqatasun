@@ -50,7 +50,7 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.AuditParameterMissingException;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenScopeException;
-import org.asqatasun.webapp.presentation.factory.AuditStatisticsFactory;
+import org.asqatasun.webapp.dto.factory.AuditStatisticsFactory;
 import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
 import org.asqatasun.webapp.entity.service.statistics.StatisticsDataService;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
@@ -61,6 +61,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 
 /**
@@ -288,10 +289,8 @@ public class PageListControllerTest extends TestCase {
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter(TgolKeyStore.AUDIT_ID_KEY, String.valueOf(UNAUTHORIZED_SCOPE_AUDIT_ID));
-        
-        List<String> authorizedScopeForPageList = new ArrayList();
-        authorizedScopeForPageList.add("DOMAIN");
-        instance.setAuthorizedScopeForPageList(authorizedScopeForPageList);        
+
+        ReflectionTestUtils.setField(instance, "authorizedScopeForPageList", Arrays.asList("DOMAIN"));
 
         try {
             instance.displayPageList(request, response, new ExtendedModelMap());
@@ -317,11 +316,9 @@ public class PageListControllerTest extends TestCase {
         setUpActDataService(true);
         setUpMockAuthenticationContext();
         setUpAuditStatisticsFactory();
-        
-        List<String> authorizedScopeForPageList = new ArrayList();
-        authorizedScopeForPageList.add("DOMAIN");
-        instance.setAuthorizedScopeForPageList(authorizedScopeForPageList);
-        
+
+        ReflectionTestUtils.setField(instance, "authorizedScopeForPageList", Arrays.asList("DOMAIN"));
+
         HttpServletResponse response = new MockHttpServletResponse();
         MockHttpServletRequest request = new MockHttpServletRequest();
         String expResult = TgolKeyStore.PAGE_LIST_VIEW_NAME;
@@ -378,11 +375,12 @@ public class PageListControllerTest extends TestCase {
      *
      */
     private void setUpAuditStatisticsFactory() {
-        AuditStatisticsFactory.getInstance().setActDataService(mockActDataService);
-        AuditStatisticsFactory.getInstance().setWebResourceDataService(mockWebResourceDataService);
-        AuditStatisticsFactory.getInstance().setParameterDataService(mockParameterDataService);
-        AuditStatisticsFactory.getInstance().setThemeDataService(mockThemeDataService);
-        AuditStatisticsFactory.getInstance().setStatisticsDataService(mockStatisticsDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "actDataService", mockActDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "webResourceDataService", mockWebResourceDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "parameterDataService", mockParameterDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "themeDataService", mockThemeDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "statisticsDataService", mockStatisticsDataService);
+        AuditStatisticsFactory.getInstance().init();
     }
     
     /**
@@ -486,9 +484,8 @@ public class PageListControllerTest extends TestCase {
         replay(mockContract);
         replay(mockSiteScope);
         replay(mockGroupOfPagesScope);
-        
-        instance.setActDataService(mockActDataService);
-        AuditStatisticsFactory.getInstance().setActDataService(mockActDataService);
+        ReflectionTestUtils.setField(AuditStatisticsFactory.getInstance(), "actDataService", mockActDataService);
+        ReflectionTestUtils.setField(instance, "actDataService", mockActDataService);
     }
     
     /**
@@ -556,7 +553,7 @@ public class PageListControllerTest extends TestCase {
 
         replay(mockAudit);
         replay(mockAuditDataService);
-        instance.setAuditDataService(mockAuditDataService);
+        ReflectionTestUtils.setField(instance, "auditDataService", mockAuditDataService);
     }
     
     /**
@@ -634,9 +631,8 @@ public class PageListControllerTest extends TestCase {
         replay(mockStatisticsDataService);
         replay(mockParameterDataService);
         replay(mockParameterElement);
-        
-        instance.setWebResourceDataService(mockWebResourceDataService);
-        instance.setStatisticsDataService(mockStatisticsDataService);
+        ReflectionTestUtils.setField(instance, "webResourceDataService", mockWebResourceDataService);
+        ReflectionTestUtils.setField(instance, "statisticsDataService", mockStatisticsDataService);
     }
     
     /**

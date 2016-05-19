@@ -62,26 +62,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuditScenarioController extends AbstractAuditSetUpController {
 
     private JRStyledTextParser j;
+    @Autowired
     private AddScenarioFormValidator addScenarioFormValidator;
-    public AddScenarioFormValidator getAddScenarioFormValidator() {
-        return addScenarioFormValidator;
-    }
-
     @Autowired
-    public void setAddScenarioFormValidator(AddScenarioFormValidator addScenarioFormValidator) {
-        this.addScenarioFormValidator = addScenarioFormValidator;
-    }
-    
     private ScenarioDataService scenarioDataService;
-    public ScenarioDataService getScenarioDataService() {
-        return scenarioDataService;
-    }
-
-    @Autowired
-    public void setScenarioDataService(ScenarioDataService scenarioDataService) {
-        this.scenarioDataService = scenarioDataService;
-    }
-    
     private Map<String, List<AuditSetUpFormFieldBuilderImpl>> scenarioOptionFormFieldBuilderMap;
     public Map<String, List<AuditSetUpFormFieldBuilderImpl>> getScenarioOptionFormFieldBuilderMap() {
         return scenarioOptionFormFieldBuilderMap;
@@ -289,16 +273,17 @@ public class AuditScenarioController extends AbstractAuditSetUpController {
 
     /**
      * Delete a scenario and the associated audits.
-     * @param scenarioId 
+     * @param scenario
+     * @param contract
      */
     private void deleteScenario(Scenario scenario, Contract contract) {
         scenarioDataService.delete(scenario.getId());
         Collection<Act> actCollection = retrieveActCollection(scenario, contract);
         for (Act act : actCollection) {
-            getAuditDataService().delete(act.getAudit().getId());
+            auditDataService.delete(act.getAudit().getId());
             act.setStatus(ActStatus.DELETED);
             act.setAudit(null);
-            getActDataService().saveOrUpdate(act);
+            actDataService.saveOrUpdate(act);
         }
     }
     
@@ -335,7 +320,7 @@ public class AuditScenarioController extends AbstractAuditSetUpController {
      */
     private Collection<Act> retrieveActCollection(Scenario scenario, Contract contract) {
         Collection<Act> actCollectionFromScenarioAndContract = new HashSet();
-        for (Act act : getActDataService().getActsByContract(contract, -1, 2, ScopeEnum.SCENARIO, true)) {
+        for (Act act : actDataService.getActsByContract(contract, -1, 2, ScopeEnum.SCENARIO, true)) {
             if (StringUtils.equals(scenario.getLabel(), act.getAudit().getSubject().getURL())) {
                 actCollectionFromScenarioAndContract.add(act);
             }

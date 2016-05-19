@@ -22,6 +22,7 @@
 package org.asqatasun.webapp.controller;
 
 import java.util.*;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.asqatasun.entity.reference.Reference;
 import org.asqatasun.entity.reference.Test;
@@ -32,10 +33,11 @@ import org.asqatasun.webapp.command.CreateUserCommand;
 import org.asqatasun.webapp.command.factory.ChangeTestWeightCommandFactory;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
-import org.asqatasun.webapp.presentation.menu.SecondaryLevelMenuDisplayer;
+import org.asqatasun.webapp.ui.form.menu.SecondaryLevelMenuDisplayer;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.ChangeTestWeightFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,46 +55,28 @@ import org.springframework.web.servlet.LocaleResolver;
 @Controller
 public class AccountSettingsController extends AbstractUserAndContractsController {
 
-    List<String> forbiddenUserList = new ArrayList();
-    public void setForbiddenUserList(List<String> forbiddenUserList) {
-        this.forbiddenUserList = forbiddenUserList;
-    }
-    
+    @Value("${forbiddenUserList:guest}")
+    List<String> forbiddenUserList;
+    @Autowired
     private TestDataService testDataService;
     @Autowired
-    public void setTestDataService(TestDataService testDataService) {
-        this.testDataService = testDataService;
-    }
-    
-    private final Map<String, Reference> refMap = new HashMap();
-    @Autowired
-    public void setReferenceDataService(ReferenceDataService referenceDataService) {
+    private ReferenceDataService referenceDataService;
+
+    private final Map<String, Reference> refMap = new HashMap<>();
+    @PostConstruct
+    public void init(ReferenceDataService referenceDataService) {
         for (Reference ref : referenceDataService.findAll()) {
             refMap.put(ref.getCode(), ref);
         }
     }
 
+    @Autowired
     private LocaleResolver localeResolver;
-    public LocaleResolver getLocaleResolver() {
-        return localeResolver;
-    }
-    
     @Autowired
-    public final void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-    
     private ChangeTestWeightFormValidator changeTestWeightFormValidator;
-
-    public final void setChangeTestWeightFormValidator(ChangeTestWeightFormValidator changeTestWeightFormValidator) {
-        this.changeTestWeightFormValidator = changeTestWeightFormValidator;
-    }
-    
-    private SecondaryLevelMenuDisplayer secondaryLevelMenuDisplayer;
     @Autowired
-    public void setSecondaryLevelMenuDisplayer(SecondaryLevelMenuDisplayer secondaryLevelMenuDisplayer) {
-        this.secondaryLevelMenuDisplayer = secondaryLevelMenuDisplayer;
-    }
+    private SecondaryLevelMenuDisplayer secondaryLevelMenuDisplayer;
+
     
     /**
      * Constructor
@@ -190,7 +174,7 @@ public class AccountSettingsController extends AbstractUserAndContractsControlle
         model.addAttribute(TgolKeyStore.CHANGE_TEST_WEIGHT_COMMAND_KEY, 
                 ChangeTestWeightCommandFactory.getInstance().getChangeTestWeightCommand(
                     getCurrentUser(), 
-                    getLocaleResolver().resolveLocale(request),
+                    localeResolver.resolveLocale(request),
                     testList, 
                     refCode));
         return TgolKeyStore.TEST_WEIGHT_VIEW_NAME;
@@ -260,7 +244,7 @@ public class AccountSettingsController extends AbstractUserAndContractsControlle
     /**
      * This method sorts the test list elements regarding their code
      * 
-     * @param processResultList
+     * @param testList
      */
     private void sortTestListByCode(List<Test> testList) {
         Collections.sort(testList, new Comparator<Test>() {

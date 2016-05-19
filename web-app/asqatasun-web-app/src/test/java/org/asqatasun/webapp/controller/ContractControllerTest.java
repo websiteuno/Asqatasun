@@ -38,15 +38,15 @@ import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
-import org.asqatasun.webapp.presentation.factory.ContractInfoFactory;
-import org.asqatasun.webapp.presentation.factory.DetailedContractInfoFactory;
+import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
+import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
 import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.LocaleResolver;
@@ -221,8 +221,8 @@ public class ContractControllerTest extends TestCase {
         replay(mockContractDataService);
         
         instance.setContractDataService(mockContractDataService);
-        ContractInfoFactory.getInstance().setContractDataService(mockContractDataService);
-        DetailedContractInfoFactory.getInstance().setContractDataService(mockContractDataService);
+        ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);
+        ReflectionTestUtils.setField(DetailedContractInfoFactory.getInstance(), "contractDataService", mockContractDataService);
     }
     
     private void setUpActDataService(
@@ -253,12 +253,11 @@ public class ContractControllerTest extends TestCase {
         // the HomeController uses a ContractInfoFactory to prepare the data
         // to display. This factory needs a ActDataService instance to retrieve
         // the acts related with the current contract.
-        ContractInfoFactory.getInstance().setActDataService(mockActDataService);
-        
+        ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "actDataService", mockActDataService);
         // the HomeController uses a DetailedContractInfoFactory to prepare the data
         // to display. This factory needs a ActDataService instance to retrieve
         // the acts related with the current contract.
-        DetailedContractInfoFactory.getInstance().setActDataService(mockActDataService);
+        ReflectionTestUtils.setField(DetailedContractInfoFactory.getInstance(), "actDataService", mockActDataService);
     }
 
     private void setUpMockAuthenticationContext(){
@@ -286,7 +285,7 @@ public class ContractControllerTest extends TestCase {
         expect(mockLocaleResolver.resolveLocale(null)).andReturn(Locale.FRANCE).anyTimes();
         replay(mockLocaleResolver);
 
-        instance.setLocaleResolver(mockLocaleResolver);
+        ReflectionTestUtils.setField(instance, "localeResolver", mockLocaleResolver);
     }
     
     private void setUpActionHandler(int getActionListCounter) {
@@ -296,7 +295,7 @@ public class ContractControllerTest extends TestCase {
             expect(mockActionHandler.getActionList(mockContract)).andReturn(new ArrayList<Action>()).times(getActionListCounter);
         }
         replay(mockActionHandler);
-        ContractInfoFactory.getInstance().setActionHandler(mockActionHandler);
-        DetailedContractInfoFactory.getInstance().setActionHandler(mockActionHandler);
+        ReflectionTestUtils.setField(ContractInfoFactory.getInstance(), "actionHandler", mockActionHandler);
+        ReflectionTestUtils.setField(DetailedContractInfoFactory.getInstance(), "actionHandler", mockActionHandler);
     }
 }

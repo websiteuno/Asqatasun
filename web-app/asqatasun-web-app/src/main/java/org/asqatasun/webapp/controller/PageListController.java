@@ -73,7 +73,7 @@ public class PageListController extends AbstractAuditDataHandlerController {
         }
         Audit audit;
         try {
-            audit = getAuditDataService().read(Long.valueOf(auditId));
+            audit = auditDataService.read(Long.valueOf(auditId));
         } catch (NumberFormatException e) {
             throw new ForbiddenPageException(e);
         }
@@ -92,7 +92,7 @@ public class PageListController extends AbstractAuditDataHandlerController {
      * the request. Only multi-pages audit are considered here.
      *
      * @param request
-     * @param webResource
+     * @param audit
      * @param model
      * @return
      * @throws Exception
@@ -119,7 +119,7 @@ public class PageListController extends AbstractAuditDataHandlerController {
                 model.addAttribute(TgolKeyStore.CONTRACT_ID_KEY, currentContract.getId());
                 String testLabel = ServletRequestUtils.getStringParameter(request, TgolKeyStore.TEST_KEY);
                 if (StringUtils.isNotBlank(testLabel)) {
-                    model.addAttribute(TgolKeyStore.TEST_CODE_KEY, getTestDataService().getTestFromAuditAndLabel(audit, testLabel));
+                    model.addAttribute(TgolKeyStore.TEST_CODE_KEY, testDataService.getTestFromAuditAndLabel(audit, testLabel));
                 }
                 return this.preparePageListData(audit, model);
             } catch (ServletRequestBindingException e) {
@@ -139,7 +139,7 @@ public class PageListController extends AbstractAuditDataHandlerController {
             }
             String testLabel = ServletRequestUtils.getStringParameter(request, TgolKeyStore.TEST_KEY);
             if (StringUtils.isNotBlank(testLabel)) {
-                model.addAttribute(TgolKeyStore.TEST_CODE_KEY, getTestDataService().getTestFromAuditAndLabel(audit, testLabel));
+                model.addAttribute(TgolKeyStore.TEST_CODE_KEY, testDataService.getTestFromAuditAndLabel(audit, testLabel));
             }
             return this.preparePageListStatsByHttpStatusCode(
                     audit,
@@ -214,7 +214,7 @@ public class PageListController extends AbstractAuditDataHandlerController {
     private int getWebResourceCount(
             Long idAudit,
             HttpStatusCodeFamily hpcf) {
-        return getStatisticsDataService().getWebResourceCountByAuditAndHttpStatusCode(
+        return statisticsDataService.getWebResourceCountByAuditAndHttpStatusCode(
                 idAudit,
                 hpcf,
                 null,

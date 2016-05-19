@@ -36,6 +36,7 @@ import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.security.userdetails.TgolUserDetailsService;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,47 +58,20 @@ import org.springframework.web.servlet.LocaleResolver;
 @Controller
 public class LoginController extends AbstractUserAndContractsController{
 
+    @Autowired
     private AuthenticationManager authenticationManager;
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
-
     UserDetails guestUserDetails;
-
+    @Value("${guestPassword:guest}")
     private String guestPassword;
-    public void setGuestPassword(String guestPassword) {
-        this.guestPassword = guestPassword;
-    }
-    
+    @Autowired
     TgolUserDetailsService tgolUserDetailsService;
     @Autowired
-    public void setTgolUserDetails(TgolUserDetailsService tgolUserDetailsService) {
-        this.tgolUserDetailsService = tgolUserDetailsService;
-    }
-    
     private LocaleResolver localeResolver;
-    @Autowired
-    public final void setLocaleResolver(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-    
-    private final Map<String, String> guestListByLang = new LinkedHashMap<>();
-    public Map<String, String> getGuestListByLang() {
-        return guestListByLang;
-    }
-
-    public void setGuestListByLang(Map<String, String> guestListByLang) {
-        this.guestListByLang.putAll(guestListByLang);
-    }
-    
+    @Value("#{${guestListByLang:}}")
+    private Map<String, String> guestListByLang = new LinkedHashMap<>();
+    @Value("${forbiddenLangForOnlineDemo:}")
     private final List<String> forbiddenLangForOnlineDemo = new ArrayList<>();
-    public List<String> getForbiddenLangForOnlineDemo() {
-        return forbiddenLangForOnlineDemo;
-    }
 
-    public void setForbiddenLangForOnlineDemo(List<String> forbiddenLangForOnlineDemo) {
-        this.forbiddenLangForOnlineDemo.addAll(forbiddenLangForOnlineDemo);
-    }
     
     @RequestMapping(value = TgolKeyStore.LOGIN_URL, method=RequestMethod.GET)
     public String displayLoginPage (

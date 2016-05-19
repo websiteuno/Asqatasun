@@ -21,32 +21,37 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.io.IOException;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.TestSolution;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.service.audit.ProcessResultDataService;
 import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.Site;
+import org.asqatasun.webapp.dto.data.FailedThemeInfo;
+import org.asqatasun.webapp.dto.data.ResultCounter;
+import org.asqatasun.webapp.dto.factory.AuditStatisticsFactory;
+import org.asqatasun.webapp.dto.factory.ResultCounterFactory;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
-import org.asqatasun.webapp.presentation.data.FailedThemeInfo;
-import org.asqatasun.webapp.presentation.data.ResultCounter;
-import org.asqatasun.webapp.presentation.factory.AuditStatisticsFactory;
-import org.asqatasun.webapp.presentation.factory.ResultCounterFactory;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /** 
  *
@@ -55,41 +60,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuditSynthesisController extends AbstractAuditDataHandlerController {
 
-    private int nbOfDisplayedFailedTest = 5;
-    public void setNbOfDisplayedFailedTest(int nbOfDisplayedFailedTest) {
-        this.nbOfDisplayedFailedTest = nbOfDisplayedFailedTest;
-    }
+    @Value("${nbOfDisplayedFailedTest:5}")
+    private int nbOfDisplayedFailedTest;
+    @Value("${nbOfDisplayedFailedPages=10}")
+    private int nbOfDisplayedFailedPages;
+    @Value("${authorizedScopeForSynthesis:DOMAIN,SCENARIO}")
+    private List<String> authorizedScopeForSynthesis;
+    @Autowired
+    private ProcessResultDataService processResultDataService;
 
-    private int nbOfDisplayedFailedPages = 10;
-    public void setNbOfDisplayedFailedPages(int nbOfDisplayedFailedPages) {
-        this.nbOfDisplayedFailedPages = nbOfDisplayedFailedPages;
-    }
-
-    private List<String> authorizedScopeForSynthesis = new ArrayList();
-    public void setAuthorizedScopeForSynthesis(List<String> authorizedScopeForSynthesis) {
-        this.authorizedScopeForSynthesis = authorizedScopeForSynthesis;
-    }
-
-    public List<String> getAuthorizedScopeForSynthesis() {
-        return authorizedScopeForSynthesis;
+    public AuditSynthesisController() {
+        super();
     }
 
     public boolean isAuthorizedScopeForSynthesis(Audit audit) {
         if (audit.getSubject() instanceof Page) {
             return false;
         }
-        String scope = getActDataService().getActFromAudit(audit).getScope().getCode().name();
+        String scope = actDataService.getActFromAudit(audit).getScope().getCode().name();
         return (authorizedScopeForSynthesis.contains(scope));
-    }
-    
-    private ProcessResultDataService processResultDataService;
-    @Autowired
-    public void setProcessResultDataService(ProcessResultDataService processResultDataService) {
-        this.processResultDataService = processResultDataService;
-    }
-    
-    public AuditSynthesisController() {
-        super();
     }
 
     /**
@@ -113,7 +102,7 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
         } catch (NumberFormatException nfe) {
             throw new ForbiddenPageException();
         }
-        Audit audit = getAuditDataService().read(aId);
+        Audit audit = auditDataService.read(aId);
         if (isUserAllowedToDisplayResult(audit)) {
             if (isAuthorizedScopeForSynthesis(audit)) {
                 Contract contract = retrieveContractFromAudit(audit);
@@ -154,7 +143,7 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
         } catch (NumberFormatException nfe) {
             throw new ForbiddenPageException();
         }
-        Audit audit = getAuditDataService().read(aId);
+        Audit audit = auditDataService.read(aId);
         if (isUserAllowedToDisplayResult(audit)) {
             if (isAuthorizedScopeForSynthesis(audit)) {
                 Contract contract = retrieveContractFromAudit(audit);
@@ -163,12 +152,12 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
                 model.addAttribute(
                         TgolKeyStore.CONTRACT_NAME_KEY, contract.getLabel());
                 model.addAttribute(TgolKeyStore.AUDIT_ID_KEY, auditId);
-                model.addAttribute(TgolKeyStore.REFERENTIAL_CD_KEY, getParameterDataService().getReferentialKeyFromAudit(audit));
+                model.addAttribute(TgolKeyStore.REFERENTIAL_CD_KEY, parameterDataService.getReferentialKeyFromAudit(audit));
                 model.addAttribute(TgolKeyStore.WEBRESOURCE_ID_KEY, audit.getSubject().getId());
                 Site site = (Site) audit.getSubject();
                 addAuditStatisticsToModel(site, model, TgolKeyStore.TEST_DISPLAY_SCOPE_VALUE);//TODO cas manual
                 model.addAttribute(TgolKeyStore.FAILED_TEST_INFO_BY_OCCURRENCE_SET_KEY,
-                        getStatisticsDataService().getFailedTestByOccurrence(site, audit, -1));
+                        statisticsDataService.getFailedTestByOccurrence(site, audit, -1));
                 model.addAttribute(TgolKeyStore.HAS_SITE_SCOPE_TEST_KEY,
                         processResultDataService.hasAuditSiteScopeResult(site, getSiteScope()));
                 model.addAttribute(TgolKeyStore.STATUS_KEY, computeAuditStatus(site.getAudit()));
@@ -201,8 +190,8 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
                 new LinkedHashMap<>();
         @SuppressWarnings("unchecked")
         Collection<FailedThemeInfo> tfiCollection =
-                (Collection<FailedThemeInfo>) getStatisticsDataService().
-                getResultCountByResultTypeAndTheme(site, audit, TestSolution.FAILED, nbOfDisplayedFailedTest);
+                statisticsDataService.
+                    getResultCountByResultTypeAndTheme(site, audit, TestSolution.FAILED, nbOfDisplayedFailedTest);
 
         for (FailedThemeInfo tfi : tfiCollection) {
             ResultCounter failedCounter = ResultCounterFactory.getInstance().getResultCounter();
@@ -211,18 +200,18 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
         }
         model.addAttribute(
                 TgolKeyStore.AUDITED_PAGES_COUNT_KEY,
-                getStatisticsDataService().getWebResourceCountByAuditAndHttpStatusCode(
+                statisticsDataService.getWebResourceCountByAuditAndHttpStatusCode(
                 audit.getId(),
                 HttpStatusCodeFamily.f2xx,
                 null,
                 null).intValue());
         model.addAttribute(TgolKeyStore.TOP5_SORTED_THEME_MAP, top5SortedThemeMap);
         model.addAttribute(TgolKeyStore.FAILED_PAGE_INFO_BY_TEST_SET_KEY,
-                getStatisticsDataService().getFailedWebResourceSortedByTest(site, audit, nbOfDisplayedFailedPages));
+                statisticsDataService.getFailedWebResourceSortedByTest(site, audit, nbOfDisplayedFailedPages));
         model.addAttribute(TgolKeyStore.FAILED_PAGE_INFO_BY_OCCURRENCE_SET_KEY,
-                getStatisticsDataService().getFailedWebResourceSortedByOccurrence(site, audit, nbOfDisplayedFailedPages));
+                statisticsDataService.getFailedWebResourceSortedByOccurrence(site, audit, nbOfDisplayedFailedPages));
         model.addAttribute(TgolKeyStore.FAILED_TEST_INFO_BY_OCCURRENCE_SET_KEY,
-                getStatisticsDataService().getFailedTestByOccurrence(site, audit, nbOfDisplayedFailedTest));
+                statisticsDataService.getFailedTestByOccurrence(site, audit, nbOfDisplayedFailedTest));
         model.addAttribute(TgolKeyStore.HAS_SITE_SCOPE_TEST_KEY,
                 processResultDataService.hasAuditSiteScopeResult(site, getSiteScope()));
         model.addAttribute(TgolKeyStore.STATUS_KEY, computeAuditStatus(site.getAudit()));
