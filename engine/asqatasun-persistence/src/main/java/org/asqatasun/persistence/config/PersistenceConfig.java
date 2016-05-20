@@ -75,7 +75,7 @@ public class PersistenceConfig extends PersistenceCommonConfig{
         return setUpBasicDataSource(url, username, password);
     }
 
-    @Bean(initMethod = "migrate")
+    @Bean(name="flyway", initMethod = "migrate")
     public Flyway dbInitialization() {
         return setUpFlyway(dataSource(), url);
     }
