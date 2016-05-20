@@ -66,7 +66,7 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
     public final void setSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
         this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
     }
-    @Autowired
+//    @Autowired
     public final void addSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
         this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
     }

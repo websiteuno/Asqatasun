@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/security
+      http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+
+    <http auto-config="true"  disable-url-rewriting="true">
+        <access-denied-handler error-page="/access-denied.html"/>
+<!--        <intercept-url pattern="/*.html*" requires-channel="https"/>-->
+<!--        <intercept-url pattern="/login.html*" filters="none"/>-->
+        <intercept-url pattern="/admin.html" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/add*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/edit*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/delete*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/manage*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/manage-contracts/*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/manage-contracts/add*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/manage-contracts/delete*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/admin/manage-contracts/edit*" access="ROLE_ADMIN"/>
+        <intercept-url pattern="/home.html" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/home/contract*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/home/contract/*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/home/contract/audit*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/home/contract/page*" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+        <form-login login-page="/login.html" authentication-failure-url="/login.html?error=errorOnLogin" default-target-url="/dispatch.html"/>
+        <logout delete-cookies="JSESSIONID" invalidate-session="false"/>
+        <session-management invalid-session-url="/login.html"  >
+            <concurrency-control max-sessions="100" error-if-maximum-exceeded="true"  />
+        </session-management>
+    </http>
+
+    <!-- This annotation needs to be defined in the servlet context to be applied
+    at the controller level -->
+    <!--<global-method-security access-decision-manager-ref="accessDecisionManager"/>-->
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="authenticationProvider">
+            <password-encoder hash="md5"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+        <beans:constructor-arg name="decisionVoters">
+            <beans:list>
+                <beans:bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+
+
+
+</beans:beans>

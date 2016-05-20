@@ -31,6 +31,7 @@ import org.asqatasun.webapp.dto.data.AuditProgressionEnum;
 import org.asqatasun.webapp.dto.data.ContractInfo;
 import org.asqatasun.webapp.dto.ContractInfoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -48,6 +49,7 @@ public class ContractInfoFactory {
     @Autowired
     protected ContractDataService contractDataService;
     @Autowired
+    @Qualifier("contractActionHandler")
     private ActionHandler actionHandler;
 
     /**

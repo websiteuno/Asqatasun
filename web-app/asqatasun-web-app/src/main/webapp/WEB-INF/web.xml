@@ -29,28 +29,28 @@
     </context-param>
 
     <!-- listener classes -->
-    <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
-    <listener>
-        <listener-class>
-            org.springframework.web.context.request.RequestContextListener
-        </listener-class>
-    </listener>
-    <listener>
-        <!--This one is needed to enable the session management of spring security-->
-        <listener-class>
-            org.springframework.security.web.session.HttpSessionEventPublisher
-        </listener-class>
-    </listener>
-    <!-- This listener is set to access properties from the jsp-->
-    <listener>
-        <listener-class>
-            org.asqatasun.webapp.util.webapp.ConfigPropertiesExposerListener
-        </listener-class>
-    </listener>
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.springframework.web.context.ContextLoaderListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.springframework.web.context.request.RequestContextListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--<listener>-->
+        <!--&lt;!&ndash;This one is needed to enable the session management of spring security&ndash;&gt;-->
+        <!--<listener-class>-->
+            <!--org.springframework.security.web.session.HttpSessionEventPublisher-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--&lt;!&ndash; This listener is set to access properties from the jsp&ndash;&gt;-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.asqatasun.webapp.util.webapp.ConfigPropertiesExposerListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
 
     <!-- servlet dispatcher declaration -->
     <servlet>
@@ -89,16 +89,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>openEntityManagerInViewFilter1</filter-name>
-        <filter-class>
-            org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter
-        </filter-class>
-        <init-param>
-            <param-name>entityManagerFactoryBeanName</param-name>
-            <param-value>entityManagerFactory</param-value>
-        </init-param>
-    </filter>
+    <!--<filter>-->
+        <!--<filter-name>openEntityManagerInViewFilter1</filter-name>-->
+        <!--<filter-class>-->
+            <!--org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter-->
+        <!--</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>entityManagerFactoryBeanName</param-name>-->
+            <!--<param-value>entityManagerFactory</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
 
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -132,72 +132,72 @@
         <session-timeout>60</session-timeout>
     </session-config>
     
-    <error-page>
-        <error-code>400</error-code>
-        <location>/access-denied.html</location>
-    </error-page>
-    <error-page>
-        <error-code>401</error-code>
-        <location>/access-denied.html</location>
-    </error-page>
-    <error-page>
-        <error-code>403</error-code>
-        <location>/access-denied.html</location>
-    </error-page>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/access-denied.html</location>
-    </error-page>
-    <error-page>
-        <error-code>405</error-code>
-        <location>/access-denied.html</location>
-    </error-page>
-    <error-page>
-        <error-code>500</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>501</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>502</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>503</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>504</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>505</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>506</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>507</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>508</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>509</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>510</error-code>
-        <location>/oups.html</location>
-    </error-page>
-    <error-page>
-        <error-code>520</error-code>
-        <location>/oups.html</location>
-    </error-page>
+    <!--<error-page>-->
+        <!--<error-code>400</error-code>-->
+        <!--<location>/access-denied.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>401</error-code>-->
+        <!--<location>/access-denied.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>403</error-code>-->
+        <!--<location>/access-denied.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>404</error-code>-->
+        <!--<location>/access-denied.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>405</error-code>-->
+        <!--<location>/access-denied.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>500</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>501</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>502</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>503</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>504</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>505</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>506</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>507</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>508</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>509</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>510</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
+    <!--<error-page>-->
+        <!--<error-code>520</error-code>-->
+        <!--<location>/oups.html</location>-->
+    <!--</error-page>-->
 </web-app>

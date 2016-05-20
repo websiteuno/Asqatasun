@@ -25,14 +25,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
 import org.asqatasun.webapp.util.TgolKeyStore;
@@ -201,6 +200,31 @@ public class LoginControllerTest extends TestCase {
             }
 
             @Override
+            public boolean authenticate(HttpServletResponse httpServletResponse) throws IOException, ServletException {
+                return false;
+            }
+
+            @Override
+            public void login(String s, String s1) throws ServletException {
+
+            }
+
+            @Override
+            public void logout() throws ServletException {
+
+            }
+
+            @Override
+            public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException {
+                return null;
+            }
+
+            @Override
+            public Part getPart(String s) throws IOException, IllegalStateException, ServletException {
+                return null;
+            }
+
+            @Override
             public Object getAttribute(String string) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
@@ -343,6 +367,41 @@ public class LoginControllerTest extends TestCase {
             @Override
             public int getLocalPort() {
                 throw new UnsupportedOperationException("Not supported yet.");
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return null;
+            }
+
+            @Override
+            public AsyncContext startAsync() {
+                return null;
+            }
+
+            @Override
+            public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) {
+                return null;
+            }
+
+            @Override
+            public boolean isAsyncStarted() {
+                return false;
+            }
+
+            @Override
+            public boolean isAsyncSupported() {
+                return false;
+            }
+
+            @Override
+            public AsyncContext getAsyncContext() {
+                return null;
+            }
+
+            @Override
+            public DispatcherType getDispatcherType() {
+                return null;
             }
         }, model);
         assertEquals(expResult, result);

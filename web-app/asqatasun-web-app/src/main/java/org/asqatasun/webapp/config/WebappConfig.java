@@ -34,8 +34,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @PropertySources({
         @PropertySource("classpath:asqatasun-private.properties"),
-        @PropertySource("${confDir}/asqatasun.properties"),
-        @PropertySource("${confDir}/ESAPI.properties")
+        @PropertySource("${confDir}/conf/asqatasun.properties"),
+        @PropertySource("${confDir}/conf/ESAPI.properties")
 })
 @ComponentScan({
         "org.asqatasun.persistence.config",
@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.asqatasun.webapp.entity.service",
         "org.asqatasun.webapp.entity.dao",
         "org.asqatasun.webapp.entity.decorator",
-        "org.asqatasun.webapp.statistics.",
+        "org.asqatasun.webapp.statistics",
         "org.asqatasun.webapp.orchestrator",
         "org.asqatasun.webapp.validator",
         "org.asqatasun.webapp.ui.form.menu",
@@ -72,7 +72,7 @@ public class WebappConfig {
     }
 
     @Bean
-    public PropertyPlaceholderConfigurer placeHolderConfigurer() {
+    public ExposablePropertyPlaceholderConfigurer placeHolderConfigurer() {
         ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer =
                 new ExposablePropertyPlaceholderConfigurer();
         exposablePropertyPlaceholderConfigurer.setFileEncoding("UTF-8");
