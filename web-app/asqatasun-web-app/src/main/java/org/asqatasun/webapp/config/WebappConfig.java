@@ -21,11 +21,37 @@
  */
 package org.asqatasun.webapp.config;
 
+import org.apache.commons.lang3.StringUtils;
+import org.asqatasun.webapp.exception.TgolHandlerExceptionResolver;
 import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by meskoj on 16/05/16.
@@ -37,6 +63,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         @PropertySource("${confDir}/asqatasun.properties"),
         @PropertySource("${confDir}/ESAPI.properties")
 })
+@EnableWebMvc
 @ComponentScan({
         "org.asqatasun.persistence.config",
         "org.asqatasun.entity",
@@ -47,7 +74,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.asqatasun.webapp.entity.service",
         "org.asqatasun.webapp.entity.dao",
         "org.asqatasun.webapp.entity.decorator",
-        "org.asqatasun.webapp.statistics.",
+        "org.asqatasun.webapp.statistics",
         "org.asqatasun.webapp.orchestrator",
         "org.asqatasun.webapp.validator",
         "org.asqatasun.webapp.ui.form.menu",
@@ -64,19 +91,136 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "org.asqatasun.emailsender",
         "org.asqatasun.webapp.highlighter"
 })
-public class WebappConfig {
+public class WebappConfig extends WebMvcConfigurerAdapter {
 
-    @Bean
+    @Value("${asqatasunVersion}")
+    String asqatasunVersion;
+
+    @Value("${enable-account-settings}")
+    boolean enableAccountSettings;
+
+    @Bean (name = "propertySourcesPlaceholderConfigurer")
     static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    @Bean (name = "propertiesFactoryBean")
+    public PropertiesFactoryBean propertiesFactoryBean() {
+        PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
+        Properties propertiesMaps = new Properties();
+        propertiesMaps.setProperty("asqatasunVersion", asqatasunVersion);
+        propertiesMaps.setProperty("enable-account-settings", Boolean.toString(enableAccountSettings));
+        propertiesFactoryBean.setProperties(propertiesMaps);
+        return propertiesFactoryBean;
+    }
+
+//    @Bean (name="exposedPropertiesConfigurer")
+//    public PropertyPlaceholderConfigurer placeHolderConfigurer() {
+//        ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer =
+//                new ExposablePropertyPlaceholderConfigurer();
+//        exposablePropertyPlaceholderConfigurer.setFileEncoding("UTF-8");
+//        return exposablePropertyPlaceholderConfigurer;
+//    }
+
+    @Bean(name = "messageSource")
+    public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {
+        ClassLoader cl = this.getClass().getClassLoader();
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(cl);
+        Resource[] resources = new Resource[0];
+
+        // load dynamically all i18 files. They have to be in the classpath under an i18n folder.
+        try {
+            resources = resolver.getResources("classpath*:i18n/*I18N.properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        List<String> baseNames = new ArrayList<>();
+
+        for (Resource resource : resources){
+            baseNames.add("classpath:i18n/"+ StringUtils.remove(resource.getFilename(), ".properties"));
+        }
+
+        ReloadableResourceBundleMessageSource bundleMessageSource =
+                new ReloadableResourceBundleMessageSource();
+        bundleMessageSource.setDefaultEncoding("UTF-8");
+        bundleMessageSource.setBasenames(baseNames.toArray(new String[baseNames.size()]));
+        return bundleMessageSource;
+    }
+
+    @Bean(name = "viewResolver")
+    public ViewResolver getViewResolver(){
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/view/");
+        resolver.setSuffix(".jsp");
+        resolver.setExposedContextBeanNames("propertySourcesPlaceholderConfigurer");
+        resolver.setExposeContextBeansAsAttributes(true);
+        return resolver;
+    }
+
     @Bean
-    public PropertyPlaceholderConfigurer placeHolderConfigurer() {
-        ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer =
-                new ExposablePropertyPlaceholderConfigurer();
-        exposablePropertyPlaceholderConfigurer.setFileEncoding("UTF-8");
-        return exposablePropertyPlaceholderConfigurer;
+    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+        Properties errorMaps = new Properties();
+        errorMaps.setProperty("org.asqatasun.webapp.exception.ForbiddenUserException", "access-denied");
+        errorMaps.setProperty("org.asqatasun.webapp.exception.ForbiddenPageException", "access-denied");
+        errorMaps.setProperty("org.asqatasun.webapp.exception.ForbiddenAuditException", "access-denied");
+        errorMaps.setProperty("org.asqatasun.webapp.exception.LostInSpaceException", "oups");
+        errorMaps.setProperty("org.asqatasun.webapp.exception.KrashAuditException","oups");
+        errorMaps.setProperty("org.springframework.web.bind.MissingServletRequestParameterException","access-denied");
+        errorMaps.setProperty("org.springframework.web.method.annotation.support.MethodArgumentNotValidException","access-denied");
+        resolver.setExceptionMappings(errorMaps);
+        Properties statusCodeMaps = new Properties();
+        statusCodeMaps.setProperty("access-denied", "403");
+        statusCodeMaps.setProperty("oups", "200");
+        resolver.setStatusCodes(statusCodeMaps);
+        resolver.setDefaultStatusCode(404);
+        return resolver;
+    }
+
+
+    @Bean (name="multipartResolver")
+    public CommonsMultipartResolver commonsMultipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        // the maximum file size in bytes 104857600 = 100Mbytes
+        commonsMultipartResolver.setMaxUploadSize(104857600l);
+        return commonsMultipartResolver;
+    }
+
+    @Bean
+    public TgolHandlerExceptionResolver tgolHandlerExceptionResolver() {
+        return new TgolHandlerExceptionResolver();
+    }
+
+    @Bean
+    public AnnotationMethodHandlerExceptionResolver annotationMethodHandlerExceptionResolver() {
+        return new AnnotationMethodHandlerExceptionResolver();
+    }
+
+    @Bean
+    public ResponseStatusExceptionResolver responseStatusExceptionResolver() {
+        return new ResponseStatusExceptionResolver();
+    }
+
+
+    /* Localization section is started */
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor(){
+        LocaleChangeInterceptor localeChangeInterceptor=new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        return localeChangeInterceptor;
+    }
+
+    @Bean(name = "localeResolver")
+    public LocaleResolver getLocaleResolver(){
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setCookieName("lang");
+        return localeResolver;
     }
 
 }

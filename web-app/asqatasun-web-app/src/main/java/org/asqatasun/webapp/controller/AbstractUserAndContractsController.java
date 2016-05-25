@@ -81,8 +81,8 @@ public class AbstractUserAndContractsController extends AbstractController{
                 dateFormat, false));
     }
 
-    @Autowired
-    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
+//    @Autowired
+//    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
     @Autowired
     private EmailSender emailSender;
     @Autowired
@@ -386,40 +386,41 @@ public class AbstractUserAndContractsController extends AbstractController{
      * @param user
      */
     private void sendEmailInscription(User user) {
-        String emailFrom =
-            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_FROM_KEY);
-        String[] emailTo =
-                exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_TO_KEY).split(",");
-        Set<String> emailToSet = new HashSet();
-        emailToSet.addAll(Arrays.asList(emailTo));
-        String emailSubject =
-            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_SUBJECT_KEY);
-        String emailContent =
-            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_CONTENT_KEY);
-        emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_EMAIL_KEY, user.getEmail1());
-        emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_URL_KEY, user.getWebUrl1());
-        if (user.getName() != null) {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, user.getName());
-        } else {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, "");
-        }
-        if (user.getFirstName() != null) {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, user.getFirstName());
-        } else {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, "");
-        }
-        if (user.getPhoneNumber() != null) {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, user.getPhoneNumber());
-        } else {
-            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, "");
-        }
-        emailSender.sendEmail(
-                emailFrom, 
-                emailToSet, 
-                Collections.<String>emptySet(), 
-                StringUtils.EMPTY,
-                emailSubject, 
-                emailContent);
+
+//        String emailFrom =
+//            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_FROM_KEY);
+//        String[] emailTo =
+//                exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_TO_KEY).split(",");
+//        Set<String> emailToSet = new HashSet();
+//        emailToSet.addAll(Arrays.asList(emailTo));
+//        String emailSubject =
+//            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_SUBJECT_KEY);
+//        String emailContent =
+//            exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.EMAIL_CONTENT_KEY);
+//        emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_EMAIL_KEY, user.getEmail1());
+//        emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_URL_KEY, user.getWebUrl1());
+//        if (user.getName() != null) {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, user.getName());
+//        } else {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, "");
+//        }
+//        if (user.getFirstName() != null) {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, user.getFirstName());
+//        } else {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, "");
+//        }
+//        if (user.getPhoneNumber() != null) {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, user.getPhoneNumber());
+//        } else {
+//            emailContent = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, "");
+//        }
+//        emailSender.sendEmail(
+//                emailFrom,
+//                emailToSet,
+//                Collections.<String>emptySet(),
+//                StringUtils.EMPTY,
+//                emailSubject,
+//                emailContent);
     }
 
     /**

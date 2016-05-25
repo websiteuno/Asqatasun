@@ -21,7 +21,7 @@
 <c:choose>
     <c:when test="${not empty param.login_error}">
         <c:set var="usernameValue">
-            <%= session.getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY)%>
+            <%= session.getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)%>
         </c:set>
     </c:when>
     <c:when test="${not empty param.email}">
@@ -70,7 +70,7 @@
                id="j_username" 
                <c:if test="${not empty usernameValue}"> value="${usernameValue}"</c:if> />
         <label for="j_password">
-            <fmt:message key="login.password"/>
+            <spring:message code="login.password"/>
         </label>
         <input type="password" 
                name="j_password" 

@@ -7,50 +7,50 @@
 
     <!-- context param configuration that locates spring security configuration
     file and the main spring context configuration file -->
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
-            /WEB-INF/conf/tgol-service.xml
-            /WEB-INF/conf/tgol-security.xml
-        </param-value>
-    </context-param>
+    <!--<context-param>-->
+        <!--<param-name>contextConfigLocation</param-name>-->
+        <!--<param-value>-->
+            <!--/WEB-INF/conf/tgol-service.xml-->
+            <!--/WEB-INF/conf/tgol-security.xml-->
+        <!--</param-value>-->
+    <!--</context-param>-->
 
-    <context-param>
-        <param-name>spring.profiles.active</param-name>
-        <param-value>webapp</param-value>
-    </context-param>
-    <context-param>
-        <param-name>spring.profiles.default</param-name>
-        <param-value>webapp</param-value>
-    </context-param>
-    <context-param>
-        <param-name>spring.liveBeansView.mbeanDomain</param-name>
-        <param-value>webapp</param-value>
-    </context-param>
+    <!--<context-param>-->
+        <!--<param-name>spring.profiles.active</param-name>-->
+        <!--<param-value>webapp</param-value>-->
+    <!--</context-param>-->
+    <!--<context-param>-->
+        <!--<param-name>spring.profiles.default</param-name>-->
+        <!--<param-value>webapp</param-value>-->
+    <!--</context-param>-->
+    <!--<context-param>-->
+        <!--<param-name>spring.liveBeansView.mbeanDomain</param-name>-->
+        <!--<param-value>webapp</param-value>-->
+    <!--</context-param>-->
 
-    <!-- listener classes -->
-    <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
-    <listener>
-        <listener-class>
-            org.springframework.web.context.request.RequestContextListener
-        </listener-class>
-    </listener>
-    <listener>
-        <!--This one is needed to enable the session management of spring security-->
-        <listener-class>
-            org.springframework.security.web.session.HttpSessionEventPublisher
-        </listener-class>
-    </listener>
-    <!-- This listener is set to access properties from the jsp-->
-    <listener>
-        <listener-class>
-            org.asqatasun.webapp.util.webapp.ConfigPropertiesExposerListener
-        </listener-class>
-    </listener>
+    <!--&lt;!&ndash; listener classes &ndash;&gt;-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.springframework.web.context.ContextLoaderListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.springframework.web.context.request.RequestContextListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--<listener>-->
+        <!--&lt;!&ndash;This one is needed to enable the session management of spring security&ndash;&gt;-->
+        <!--<listener-class>-->
+            <!--org.springframework.security.web.session.HttpSessionEventPublisher-->
+        <!--</listener-class>-->
+    <!--</listener>-->
+    <!--&lt;!&ndash; This listener is set to access properties from the jsp&ndash;&gt;-->
+    <!--<listener>-->
+        <!--<listener-class>-->
+            <!--org.asqatasun.webapp.util.webapp.ConfigPropertiesExposerListener-->
+        <!--</listener-class>-->
+    <!--</listener>-->
 
     <!-- servlet dispatcher declaration -->
     <servlet>

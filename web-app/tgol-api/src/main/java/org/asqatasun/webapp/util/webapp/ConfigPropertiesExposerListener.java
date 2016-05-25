@@ -48,6 +48,9 @@ public class ConfigPropertiesExposerListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("#################################");
+        System.out.println("contextInitialized");
+        System.out.println("#################################");
          // TODO add ability to configure non default values via serveltContexParams
         ServletContext servletContext = sce.getServletContext();
          WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
