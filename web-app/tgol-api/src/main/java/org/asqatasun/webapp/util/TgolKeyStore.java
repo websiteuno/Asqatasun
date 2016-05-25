@@ -426,7 +426,7 @@ public final class TgolKeyStore {
     public static final String FORGOTTEN_PASSWD_EMAIL_SUBJECT_KEY = "forgotten-password.emailSubject";
     public static final String FORGOTTEN_PASSWD_EMAIL_CONTENT_KEY = "forgotten-password.emailContent";
     public static final String FORGOTTEN_PASSWD_BUNDLE_NAME = "i18n/forgotten-password-page-I18N";
-    public static final String FORGOTTEN_PASSWD_CHANGE_PASSWORD_URL_KEY = "changePasswordUrl";
+//    public static final String FORGOTTEN_PASSWD_CHANGE_PASSWORD_URL_KEY = "changePasswordUrl";
 
     public static final String AUTHENTICATED_KEY = "authenticated";
     

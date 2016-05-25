@@ -60,12 +60,13 @@ import org.springframework.web.servlet.LocaleResolver;
 @Controller
 public class ForgottenOrChangePasswordController extends AbstractController {
 
+    @Value("${changePasswordUrl}")
+    String changePasswordUrl;
+
     @Autowired
     private ChangePasswordFormValidator changePasswordFormValidator;
     @Autowired
     private ForgottenPasswordFormValidator forgottenPasswordFormValidator;
-    @Autowired
-    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
     @Autowired
     private EmailSender emailSender;
     @Autowired
@@ -410,7 +411,7 @@ public class ForgottenOrChangePasswordController extends AbstractController {
      */
     private String computeReturnedUrl(User user) {
         StringBuilder sb = new StringBuilder();
-        sb.append(exposablePropertyPlaceholderConfigurer.getResolvedProps().get(TgolKeyStore.FORGOTTEN_PASSWD_CHANGE_PASSWORD_URL_KEY));
+        sb.append(changePasswordUrl);
         sb.append("?user=");
         sb.append(user.getId());
         sb.append("&token=");
