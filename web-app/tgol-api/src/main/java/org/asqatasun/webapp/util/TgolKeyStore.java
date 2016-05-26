@@ -398,17 +398,12 @@ public final class TgolKeyStore {
     public static final String PROXY_USER_CONF_KEY = "proxyUser";
     public static final String PROXY_PASSWORD_CONF_KEY = "proxyPassword";
     public static final String PROXY_EXCLUSION_URL_CONF_KEY = "proxyExclusionUrl";
-    public static final String EMAIL_SENT_TO_USER_EXCLUSION_CONF_KEY = "emailSentToUserExclusionList";
     
     /* url param keys */
     public static final String CRITERION_RESULT_PAGE_KEY = "criterion-result";
     public static final String REFERER_HEADER_KEY = "referer";
     
     /* email creator keys */
-    public static final String EMAIL_FROM_KEY="emailFrom";
-    public static final String EMAIL_TO_KEY="emailTo";
-    public static final String EMAIL_SUBJECT_KEY="emailSubject";
-    public static final String EMAIL_CONTENT_KEY="emailContent";
     public static final String EMAIL_CONTENT_URL_KEY="#urlToTest";
     public static final String EMAIL_CONTENT_EMAIL_KEY="#email";
     public static final String EMAIL_CONTENT_FIRST_NAME_KEY="#firstName";
