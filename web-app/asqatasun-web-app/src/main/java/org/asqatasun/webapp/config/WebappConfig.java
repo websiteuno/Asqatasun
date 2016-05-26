@@ -23,10 +23,8 @@ package org.asqatasun.webapp.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.webapp.exception.TgolHandlerExceptionResolver;
-import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -46,7 +44,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,18 +106,10 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
         PropertiesFactoryBean propertiesFactoryBean = new PropertiesFactoryBean();
         Properties propertiesMaps = new Properties();
         propertiesMaps.setProperty("asqatasunVersion", asqatasunVersion);
-        propertiesMaps.setProperty("enable-account-settings", Boolean.toString(enableAccountSettings));
+        propertiesMaps.setProperty("enableAccountSettings", Boolean.toString(enableAccountSettings));
         propertiesFactoryBean.setProperties(propertiesMaps);
         return propertiesFactoryBean;
     }
-
-//    @Bean (name="exposedPropertiesConfigurer")
-//    public PropertyPlaceholderConfigurer placeHolderConfigurer() {
-//        ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer =
-//                new ExposablePropertyPlaceholderConfigurer();
-//        exposablePropertyPlaceholderConfigurer.setFileEncoding("UTF-8");
-//        return exposablePropertyPlaceholderConfigurer;
-//    }
 
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource() {
@@ -152,7 +141,7 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(".jsp");
-        resolver.setExposedContextBeanNames("propertySourcesPlaceholderConfigurer");
+        resolver.setExposedContextBeanNames("propertiesFactoryBean");
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
