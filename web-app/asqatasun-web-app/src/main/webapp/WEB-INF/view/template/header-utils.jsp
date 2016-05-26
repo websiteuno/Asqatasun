@@ -99,7 +99,7 @@
             </sec:authorize>
             <c:if test="${empty notAuthenException}">
                 <li>
-                    <a href="<c:url value="/j_spring_security_logout"/>" 
+                    <a href="<c:url value="/logout"/>"
                        id="logout" 
                        title="<fmt:message key="home.logout"/>">
                         <img src="${logoutLogoUrl}" 

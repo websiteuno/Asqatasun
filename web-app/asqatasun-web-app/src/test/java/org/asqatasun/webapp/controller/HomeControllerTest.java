@@ -21,6 +21,7 @@
  */
 package org.asqatasun.webapp.controller;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
@@ -70,10 +71,18 @@ public class HomeControllerTest extends TestCase {
         super.setUp();
         instance = new HomeController();
         ReflectionTestUtils.setField(instance, "displayOptionFieldsBuilderList", Collections.emptyList());
-        ContractSortCommandHelper.setExclusionContractSortKey("label-exclusion-choice");
-        ContractSortCommandHelper.setInclusionContractSortKey("label-inclusion-choice");
-        ContractSortCommandHelper.setLastAuditDateSortValue("date");
-        ContractSortCommandHelper.setLastAuditMarkSortValue("mark");
+        Field field = ContractSortCommandHelper.class.getDeclaredField("exclusionContractSortKey");
+        field.setAccessible(true);
+        field.set(null, "label-exclusion-choice");
+        field = ContractSortCommandHelper.class.getDeclaredField("inclusionContractSortKey");
+        field.setAccessible(true);
+        field.set(null, "label-inclusion-choice");
+        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditMarkSortValue");
+        field.setAccessible(true);
+        field.set(null, "mark");
+        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditDateSortValue");
+        field.setAccessible(true);
+        field.set(null, "date");
     }        
     
     @Override

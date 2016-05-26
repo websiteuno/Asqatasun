@@ -25,43 +25,61 @@ package org.asqatasun.webapp.security.userdetails;
 import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.util.List;
 
 /**
  *
  * @author jkowalczyk
  */
-@Service("authenticationProvider")
-public class TgolUserDetailsService implements AuthenticationProvider {
+@Service("userDetailsService")
+public class TgolUserDetailsService extends JdbcDaoImpl {
 
     @Autowired
     private UserDataService userDataService;
+    @Autowired
+    private DataSource dataSource;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
-        String password = (String) authentication.getCredentials();
+    private final static String USERS_BY_USERNAME_QUERY =
+            "SELECT Email1, Password, Activated as enabled FROM TGSI_USER WHERE Email1=?";
+    private static String AUTHORITIES_BY_USERNAME_QUERY =
+            "SELECT TGSI_USER.Email1, TGSI_ROLE.Role_Name as authorities FROM TGSI_USER, TGSI_ROLE "
+                    + "WHERE TGSI_USER.Email1 = ? AND TGSI_USER.ROLE_Id_Role=TGSI_ROLE.Id_Role";
 
-        User user = userDataService.getUserFromEmail(username);
+    /**
+     *
+     */
+    public TgolUserDetailsService() {
+        super();
+    }
 
-        if (user == null) {
-            throw new BadCredentialsException("Username not found.");
-        }
-
-        if (!password.equals(user.getPassword())) {
-            throw new BadCredentialsException("Wrong password.");
-        }
-
-        return new UsernamePasswordAuthenticationToken(user, password);
+    @PostConstruct
+    public void init() {
+        this.setDataSource(dataSource);
+        this.setUsersByUsernameQuery(USERS_BY_USERNAME_QUERY);
+        this.setAuthoritiesByUsernameQuery(AUTHORITIES_BY_USERNAME_QUERY);
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return true;
+    protected UserDetails createUserDetails(String username, UserDetails userFromUserQuery,
+                                            List<GrantedAuthority> combinedAuthorities) {
+
+        User user = userDataService.getUserFromEmail(username);
+
+        return new TgolUserDetails(
+                username,
+                userFromUserQuery.getPassword(),
+                userFromUserQuery.isEnabled(),
+                true,
+                true,
+                true,
+                combinedAuthorities,
+                user);
     }
 }

@@ -47,34 +47,17 @@ public final class ContractSortCommandHelper  {
 
     @Value("${lastAuditDateSortValue:date}")
     private static String lastAuditDateSortValue;
-    public static void setLastAuditDateSortValue(String lastAuditDateSortValue) {
-        ContractSortCommandHelper.lastAuditDateSortValue = lastAuditDateSortValue;
-    }
     @Value("${sortByKey:sort-by-choice}")
     private static String sortByKey;
-    public static void setSortByKey(String sortByKey) {
-        ContractSortCommandHelper.sortByKey = sortByKey;
-    }
     @Value("${sortOrderKey:order-choice}")
     private static String sortOrderKey;
-    public static void setSortOrderKey(String sortOrderKey) {
-        ContractSortCommandHelper.sortOrderKey = sortOrderKey;
-    }
     @Value("${exclusionContractSortKey:label-exclusion-choice}")
     private static String exclusionContractSortKey;
-    public static void setExclusionContractSortKey(String exclusionContractSortKey) {
-        ContractSortCommandHelper.exclusionContractSortKey = exclusionContractSortKey;
-    }
     @Value("${inclusionContractSortKey:label-inclusion-choice}")
     private static String inclusionContractSortKey;
-    public static void setInclusionContractSortKey(String inclusionContractSortKey) {
-        ContractSortCommandHelper.inclusionContractSortKey = inclusionContractSortKey;
-    }
     @Value("${lastAuditMarkSortValue:mark}")
     private static String lastAuditMarkSortValue;
-    public static void setLastAuditMarkSortValue(String lastAuditMarkSortValue) {
-        ContractSortCommandHelper.lastAuditMarkSortValue = lastAuditMarkSortValue;
-    }
+
     private ContractSortCommandHelper() {
     }
 

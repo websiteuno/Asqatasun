@@ -21,6 +21,7 @@
  */
 package org.asqatasun.webapp.command.helper;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ContractSortCommandHelperTest extends TestCase {
     /**
      * Test of getLastAuditMarkSortValue method, of class ContractSortCommandHelper.
      */
-    public void testGetLastAuditMarkSortValue() {
+    public void testGetLastAuditMarkSortValue() throws NoSuchFieldException, IllegalAccessException {
         System.out.println("getLastAuditMarkSortValue");
 
         List<ContractInfo> contractInfoSet = new ArrayList<>(); 
@@ -92,10 +93,17 @@ public class ContractSortCommandHelperTest extends TestCase {
         c5.setLastActInfo(null);
         c5.setLabel(("A4"));
         contractInfoSet.add(c5);
-        
-        ContractSortCommandHelper.setSortByKey("SORTBY");
-        ContractSortCommandHelper.setLastAuditMarkSortValue("MARK");
-        ContractSortCommandHelper.setSortOrderKey("SORTORDER");
+
+        Field field = ContractSortCommandHelper.class.getDeclaredField("sortByKey");
+        field.setAccessible(true);
+        field.set(null, "SORTBY");
+        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditMarkSortValue");
+        field.setAccessible(true);
+        field.set(null, "lMARK");
+        field = ContractSortCommandHelper.class.getDeclaredField("sortOrderKey");
+        field.setAccessible(true);
+        field.set(null, "SORTORDER");
+
         Map<String, Object> map = new HashMap<>();
         map.put("SORTORDER", SortOrderEnum.ASCENDING.getCode());
         map.put("SORTBY", "MARK");

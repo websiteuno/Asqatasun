@@ -22,13 +22,17 @@
 package org.asqatasun.webapp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Created by meskoj on 25/05/16.
@@ -38,17 +42,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthenticationProvider authenticationProvider;
-
-//    @Autowired
-//    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider);
-//    }
+    @Qualifier(value = "userDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("bill").password("abc123").roles("USER");
-        auth.inMemoryAuthentication().withUser("admin").password("root123").roles("ADMIN");
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -64,26 +63,27 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     "/Font/**",
                     "/Js/**",
                     "/External-Js/**",
-                    "/j_spring_security_check",
+                    "/login",
+//                    "/forgotten-password.html").permitAll()
+//            .antMatchers(
                     "/forgotten-password.html",
-                    "/AppController/echo.html").permitAll()
-            .antMatchers(
                     "/dispatch.html",
                     "/home.html",
                     "/home/*",
-                    "/home/**/*").hasAnyRole("ROLE_USER","ROLE_ADMIN")
-            .antMatchers(
+//                    "/home/**/*").hasRole("USER")
+//            .antMatchers(
+                    "/home/**/*",
                     "/admin*",
                     "/admin/*",
-                    "/admin/**/*").hasAnyRole("ROLE_ADMIN")
-//            .anyRequest().authenticated()
+                    "/admin/**/*").permitAll()
+//                    "/admin/**/*").hasAnyRole("USER","ADMIN")
             .and()
             .formLogin()
                 .usernameParameter("j_username") /* BY DEFAULT IS username!!! */
                 .passwordParameter("j_password") /* BY DEFAULT IS password!!! */
                 .loginProcessingUrl("/login")
                 .loginPage("/login.html")
-                .defaultSuccessUrl("/dispatch.html")
+                .defaultSuccessUrl("/home.html")
                 .failureUrl("/login.html?error=errorOnLogin")
                 .permitAll()
                 .and()
@@ -102,6 +102,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         web
             .ignoring()
             .antMatchers("/static/**");
+    }
+
+    //bean for md5 encryption
+    @Bean
+    public Md5PasswordEncoder passwordEncoder() throws Exception {
+        return new Md5PasswordEncoder();
     }
 
 }

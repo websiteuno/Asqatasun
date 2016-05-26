@@ -59,19 +59,10 @@ public final class AuditSetUpCommandFactory {
 
     @Autowired
     private ParameterDataServiceDecorator parameterDataService;
-    public void setParameterDataService(ParameterDataServiceDecorator parameterDataService) {
-        this.parameterDataService = parameterDataService;
-    }
     @Autowired
     private ParameterElementDataService parameterElementDataService;
-    public void setParameterElementDataService(ParameterElementDataService parameterElementDataService) {
-        this.parameterElementDataService = parameterElementDataService;
-    }
     @Autowired
     private ContractDataService contractDataService;
-    public void setContractDataService(ContractDataService contractDataService) {
-        this.contractDataService = contractDataService;
-    }
     @Autowired
     private ScenarioDataService scenarioDataService;
 

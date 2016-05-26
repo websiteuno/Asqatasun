@@ -21,14 +21,11 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.util.*;
 import junit.framework.TestCase;
-import static org.easymock.EasyMock.*;
 import org.asqatasun.entity.parameterization.Parameter;
 import org.asqatasun.entity.parameterization.ParameterElement;
 import org.asqatasun.entity.service.parameterization.ParameterElementDataService;
 import org.asqatasun.webapp.command.factory.AuditSetUpCommandFactory;
-import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.decorator.asqatasun.parameterization.ParameterDataServiceDecorator;
@@ -42,12 +39,13 @@ import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.form.FormField;
-import org.asqatasun.webapp.form.builder.*;
+import org.asqatasun.webapp.form.builder.AbstractGenericFormFieldBuilder;
+import org.asqatasun.webapp.form.builder.SelectElementBuilder;
+import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
 import org.asqatasun.webapp.ui.form.builder.SelectElementBuilderImpl;
 import org.asqatasun.webapp.ui.form.builder.SelectFormFieldBuilderImpl;
 import org.asqatasun.webapp.ui.form.builder.TextualFormFieldBuilderImpl;
 import org.asqatasun.webapp.ui.form.parameterization.builder.AuditSetUpFormFieldBuilderImpl;
-import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -56,6 +54,11 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+
+import java.lang.reflect.Field;
+import java.util.*;
+
+import static org.easymock.EasyMock.*;
 
 /**
  *
@@ -66,7 +69,6 @@ public class AuditSetUpControllerTest extends TestCase {
     private AuditSetUpController instance;
 
     Authentication mockAuthentication;
-//    AuthenticationDetails mockAuthenticationDetails;
     ActDataService mockActDataService;
     User mockUser;
     UserDataService mockUserDataService;
@@ -102,10 +104,6 @@ public class AuditSetUpControllerTest extends TestCase {
             verify(mockAuthentication);
             mockAuthentication = null;
         }
-//        if (mockAuthenticationDetails != null) {
-//            verify(mockAuthenticationDetails);
-//            mockAuthenticationDetails = null;
-//        }
         verify(mockActDataService);
         mockActDataService=null;
         if (mockUser != null) {
@@ -156,7 +154,7 @@ public class AuditSetUpControllerTest extends TestCase {
         }
     }
     
-    public void testDisplayPageAuditPageSetUp() {
+    public void testDisplayPageAuditPageSetUp() throws NoSuchFieldException, IllegalAccessException {
         System.out.println("testDisplayPageAuditPageSetUp");
         
         // set-up
@@ -180,7 +178,7 @@ public class AuditSetUpControllerTest extends TestCase {
         
     }
 
-    public void testDisplayPageAuditSiteSetUp() {
+    public void testDisplayPageAuditSiteSetUp() throws NoSuchFieldException, IllegalAccessException {
         System.out.println("testDisplayPageAuditSiteSetUp");
         
         // Set-up
@@ -199,7 +197,7 @@ public class AuditSetUpControllerTest extends TestCase {
         assertEquals(true, model.asMap().get(TgolKeyStore.DEFAULT_PARAM_SET_KEY));
     }
     
-    public void testDisplayPageAuditUploadSetUp() {
+    public void testDisplayPageAuditUploadSetUp() throws NoSuchFieldException, IllegalAccessException {
         System.out.println("testDisplayPageAuditUploadSetUp"); 
         
         // Set-up
@@ -467,10 +465,16 @@ public class AuditSetUpControllerTest extends TestCase {
      * The AuditSetUpCommandFactory factory needs to be initialised with 
      * parameterDataService instance and contractDataService
      */
-    private void setUpAuditSetUpCommandFactory() {
-        AuditSetUpCommandFactory.getInstance().setParameterDataService(getParameterDataService());
-        AuditSetUpCommandFactory.getInstance().setParameterElementDataService(getParameterElementDataService());
-        AuditSetUpCommandFactory.getInstance().setContractDataService(mockContractDataService);
+    private void setUpAuditSetUpCommandFactory() throws NoSuchFieldException, IllegalAccessException {
+        Field field = AuditSetUpCommandFactory.class.getDeclaredField("parameterDataService");
+        field.setAccessible(true);
+        field.set(null, getParameterDataService());
+        field = AuditSetUpCommandFactory.class.getDeclaredField("parameterElementDataService");
+        field.setAccessible(true);
+        field.set(null, getParameterElementDataService());
+        field = AuditSetUpCommandFactory.class.getDeclaredField("contractDataService");
+        field.setAccessible(true);
+        field.set(null, mockContractDataService);
     }
     
     /**

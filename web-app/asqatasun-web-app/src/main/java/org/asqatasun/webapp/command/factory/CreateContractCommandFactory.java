@@ -21,8 +21,6 @@
  */
 package org.asqatasun.webapp.command.factory;
 
-import java.io.Serializable;
-import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.webapp.command.CreateContractCommand;
 import org.asqatasun.webapp.entity.contract.Contract;
@@ -38,6 +36,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  *
@@ -85,7 +85,9 @@ public class CreateContractCommandFactory implements Serializable {
     /**
      * Private constructor
      */
-    private CreateContractCommandFactory() {}
+    private CreateContractCommandFactory() {
+        System.out.println("bouboubou");
+    }
     
     /**
      * Singleton pattern based on the "Initialization-on-demand 
@@ -192,7 +194,7 @@ public class CreateContractCommandFactory implements Serializable {
      * @param ccc 
      */
     private void addNewFunctionalityToCommand(CreateContractCommand ccc) {
-        Map<String,Boolean> functMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> functMap = new LinkedHashMap<>();
         
         for (Functionality funct : this.functionalityList){
             functMap.put(funct.getCode(),Boolean.FALSE);
@@ -206,7 +208,7 @@ public class CreateContractCommandFactory implements Serializable {
      * @param contract 
      */
     private void addReferentialToCommand(CreateContractCommand ccc, Contract contract) {
-        Map<String,Boolean> refMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> refMap = new LinkedHashMap<>();
         
         for (Referential ref : referentialList){
             if (contract.getReferentialSet().contains(ref)) {
@@ -224,7 +226,7 @@ public class CreateContractCommandFactory implements Serializable {
 
      */
     private void addReferentialToExistingCommand(CreateContractCommand ccc) {
-        Map<String,Boolean> refMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> refMap = new LinkedHashMap<>();
         
         for (Map.Entry<String,Boolean> entry : ccc.getReferentialMap().entrySet()){
             if (entry.getValue() == null) {
@@ -241,7 +243,7 @@ public class CreateContractCommandFactory implements Serializable {
      * @param ccc 
      */
     private void addNewReferentialToCommand(CreateContractCommand ccc) {
-        Map<String,Boolean> refMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> refMap = new LinkedHashMap<>();
         
         for (Referential ref : referentialList){
             refMap.put(ref.getCode(),Boolean.FALSE);
@@ -255,7 +257,7 @@ public class CreateContractCommandFactory implements Serializable {
      * @param contract 
      */
     private void addOptionToCommand(CreateContractCommand ccc, Contract contract) {
-        Map<String,String> optionMap = new LinkedHashMap<String, String>();
+        Map<String,String> optionMap = new LinkedHashMap<>();
         
         for (Option option : optionList){
             optionMap.put(

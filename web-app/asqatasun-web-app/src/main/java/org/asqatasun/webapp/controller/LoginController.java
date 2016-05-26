@@ -56,8 +56,8 @@ import java.util.Locale;
 @Controller
 public class LoginController extends AbstractUserAndContractsController{
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
+//    @Autowired
+//    private AuthenticationProvider authenticationProvider;
     UserDetails guestUserDetails;
     @Value("${guestPassword:guest}")
     private String guestPassword;
@@ -121,7 +121,7 @@ public class LoginController extends AbstractUserAndContractsController{
 //            }
 //        }
 
-        doGuestAutoLogin(request, lGuestUser);
+//        doGuestAutoLogin(request, lGuestUser);
 
         if (forbiddenLangForOnlineDemo.contains(languageKey)) {
             return TgolKeyStore.HOME_VIEW_REDIRECT_NAME;
@@ -135,20 +135,20 @@ public class LoginController extends AbstractUserAndContractsController{
         return TgolKeyStore.AUDIT_PAGE_SET_UP_REDIRECT_NAME;
    }
     
-    private void doGuestAutoLogin(HttpServletRequest request, String guestUser) {
-        try {
-            // Must be called from request filtered by Spring Security, otherwise SecurityContextHolder is not updated
-            UsernamePasswordAuthenticationToken token = 
-                    new UsernamePasswordAuthenticationToken(guestUser, guestPassword);
-            token.setDetails(new WebAuthenticationDetails(request));
-            Authentication guest = authenticationProvider.authenticate(token);
-            Logger.getLogger(this.getClass()).debug("Logging in with [{}]" + guest.getPrincipal());
-            SecurityContextHolder.getContext().setAuthentication(guest);
-        } catch (Exception e) {
-            SecurityContextHolder.getContext().setAuthentication(null);
-            Logger.getLogger(this.getClass()).debug("Failure in autoLogin",  e);
-        }
-    }
+//    private void doGuestAutoLogin(HttpServletRequest request, String guestUser) {
+//        try {
+//            // Must be called from request filtered by Spring Security, otherwise SecurityContextHolder is not updated
+//            UsernamePasswordAuthenticationToken token =
+//                    new UsernamePasswordAuthenticationToken(guestUser, guestPassword);
+//            token.setDetails(new WebAuthenticationDetails(request));
+//            Authentication guest = authenticationProvider.authenticate(token);
+//            Logger.getLogger(this.getClass()).debug("Logging in with [{}]" + guest.getPrincipal());
+//            SecurityContextHolder.getContext().setAuthentication(guest);
+//        } catch (Exception e) {
+//            SecurityContextHolder.getContext().setAuthentication(null);
+//            Logger.getLogger(this.getClass()).debug("Failure in autoLogin",  e);
+//        }
+//    }
     
     /**
      * 

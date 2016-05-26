@@ -38,8 +38,7 @@ public final class UploadAuditSetUpCommandHelper  {
     /**
      * Local Map to deal with uploaded files with the same name
      */
-    private static Map<String, Integer> fileNameCounterMap = 
-            new HashMap<String, Integer>();
+    private static Map<String, Integer> fileNameCounterMap = new HashMap<>();
 
     private UploadAuditSetUpCommandHelper() {
     }
@@ -49,7 +48,7 @@ public final class UploadAuditSetUpCommandHelper  {
      * file name and the value is the file content.
      */
     public static synchronized Map<String, String> convertFilesToMap(CommonsMultipartFile[] fileInputList ) {
-        Map<String, String> fileMap = new LinkedHashMap<String, String>();
+        Map<String, String> fileMap = new LinkedHashMap<>();
         CommonsMultipartFile tmpMultiFile;
         String tmpCharset;
         fileNameCounterMap.clear();

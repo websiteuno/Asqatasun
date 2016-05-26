@@ -44,6 +44,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver;
 import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -138,11 +139,16 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
 
     @Bean(name = "viewResolver")
     public ViewResolver getViewResolver(){
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/WEB-INF/view/");
-        resolver.setSuffix(".jsp");
-        resolver.setExposedContextBeanNames("propertiesFactoryBean");
-        resolver.setExposeContextBeansAsAttributes(true);
+//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+//        resolver.setPrefix("/WEB-INF/view/");
+//        resolver.setSuffix(".jsp");
+//        resolver.setExposedContextBeanNames("propertiesFactoryBean");
+//        resolver.setExposeContextBeansAsAttributes(true);
+//        return resolver;
+        ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
+        resolver.setBasename("view");
+//        resolver.setExposedContextBeanNames("propertiesFactoryBean");
+//        resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
 
