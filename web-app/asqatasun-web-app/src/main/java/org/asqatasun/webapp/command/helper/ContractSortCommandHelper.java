@@ -21,22 +21,23 @@
  */
 package org.asqatasun.webapp.command.helper;
 
-import java.util.*;
 import org.apache.commons.lang3.StringUtils;
-import org.displaytag.properties.SortOrderEnum;
 import org.asqatasun.webapp.command.ContractSortCommand;
 import org.asqatasun.webapp.command.factory.ContractSortCommandFactory;
+import org.asqatasun.webapp.dto.data.ContractInfo;
+import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.form.FormField;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.ui.form.parameterization.helper.FormFieldHelper;
-import org.asqatasun.webapp.dto.data.ContractInfo;
-import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
 import org.asqatasun.webapp.util.TgolKeyStore;
+import org.displaytag.properties.SortOrderEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+
+import java.util.*;
 
 /**
  *

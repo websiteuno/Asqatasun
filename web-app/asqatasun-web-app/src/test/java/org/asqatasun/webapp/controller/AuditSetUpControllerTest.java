@@ -55,7 +55,6 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 import static org.easymock.EasyMock.*;
@@ -466,15 +465,15 @@ public class AuditSetUpControllerTest extends TestCase {
      * parameterDataService instance and contractDataService
      */
     private void setUpAuditSetUpCommandFactory() throws NoSuchFieldException, IllegalAccessException {
-        Field field = AuditSetUpCommandFactory.class.getDeclaredField("parameterDataService");
-        field.setAccessible(true);
-        field.set(null, getParameterDataService());
-        field = AuditSetUpCommandFactory.class.getDeclaredField("parameterElementDataService");
-        field.setAccessible(true);
-        field.set(null, getParameterElementDataService());
-        field = AuditSetUpCommandFactory.class.getDeclaredField("contractDataService");
-        field.setAccessible(true);
-        field.set(null, mockContractDataService);
+        ReflectionTestUtils.setField(AuditSetUpCommandFactory.getInstance(),
+                                     "contractDataService",
+                                     mockContractDataService);
+        ReflectionTestUtils.setField(AuditSetUpCommandFactory.getInstance(),
+                                     "parameterElementDataService",
+                                     getParameterElementDataService());
+        ReflectionTestUtils.setField(AuditSetUpCommandFactory.getInstance(),
+                                     "parameterDataService",
+                                     getParameterDataService());
     }
     
     /**
