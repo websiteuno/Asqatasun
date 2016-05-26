@@ -33,7 +33,6 @@ import org.asqatasun.webapp.entity.service.user.UserDataService;
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.validator.CreateUserFormValidator;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.ui.ExtendedModelMap;
@@ -50,8 +49,6 @@ public class SignUpControllerTest extends TestCase {
     private CreateUserFormValidator createUserFormValidator;
     private UserDataService mockUserDataService;
     private User mockUser;
-    private EmailSender mockEmailSender;
-    private ExposablePropertyPlaceholderConfigurer mockExposablePropertyPlaceholderConfigurer;
     private CreateUserCommand mockValidCreateUserCommand;
     private CreateUserCommand mockInvalidCreateUserCommand;
     private BindingResult mockInvalidBindingResult;
@@ -72,18 +69,12 @@ public class SignUpControllerTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        
-        if (mockEmailSender != null) {
-            verify(mockEmailSender);
-        }
+
         if (mockUserDataService != null) {
             verify(mockUserDataService);
         }
         if (mockUser != null) {
             verify(mockUser);
-        }
-        if (mockExposablePropertyPlaceholderConfigurer != null) {
-            verify(mockExposablePropertyPlaceholderConfigurer);
         }
         if (mockInvalidBindingResult != null) {
             verify(mockInvalidBindingResult);
@@ -114,38 +105,6 @@ public class SignUpControllerTest extends TestCase {
         // the form of the view
         assertTrue(model.asMap().get(TgolKeyStore.CREATE_USER_COMMAND_KEY) instanceof 
                 CreateUserCommand);
-    }
-
-    /**
-     * Test of submitForm method, of class SignUpController.
-     * @throws java.lang.Exception
-     */
-    public void testSubmitForm() throws Exception {
-        System.out.println("submitForm");
-
-        setUpMockRoleDataService();
-        setUpUserDataService();
-        setUpMockExposablePropertyPlaceholderConfigurer();
-        setUpValidatorAndBindingResult();
-        setUpMockEmailSender();
-                
-        // Set up instance dependences
-        Model model = new ExtendedModelMap();
-
-        // the returned UserSignUpCommand is seen as valid regarding the validator
-        // the CONFIRMATION sign-up page is displayed
-        String expResult = TgolKeyStore.SIGN_UP_CONFIRMATION_VIEW_REDIRECT_NAME;
-        String result = instance.submitSignUpForm(mockValidCreateUserCommand, mockValidBindingResult, model);
-        assertEquals(expResult, result);
-        
-        // the returned UserSignUpCommand is seen as invalid regarding the validator
-        // the sign-up form is displayed again
-        
-        expResult = TgolKeyStore.SIGN_UP_VIEW_NAME;
-        result = instance.submitSignUpForm(mockInvalidCreateUserCommand, mockInvalidBindingResult, model);
-        assertEquals(expResult, result);
-        assertSame(model.asMap().get(TgolKeyStore.CREATE_USER_COMMAND_KEY),
-                mockInvalidCreateUserCommand);
     }
 
     /**
@@ -242,36 +201,6 @@ public class SignUpControllerTest extends TestCase {
        replay(mockInvalidBindingResult);
 
        ReflectionTestUtils.setField(instance, "createUserFormValidator", createUserFormValidator);
-   }
- 
-   private void setUpMockExposablePropertyPlaceholderConfigurer() {
-       mockExposablePropertyPlaceholderConfigurer = createMock(ExposablePropertyPlaceholderConfigurer.class);
-       Map<String, String> props = new HashMap();
-       props.put(TgolKeyStore.EMAIL_FROM_KEY, "from@user.com");
-       props.put(TgolKeyStore.EMAIL_TO_KEY, "to@user.com");
-       props.put(TgolKeyStore.EMAIL_SUBJECT_KEY, "subject");
-       props.put(TgolKeyStore.EMAIL_CONTENT_KEY, "content");
-       
-       expect(mockExposablePropertyPlaceholderConfigurer.getResolvedProps()).andReturn(props).times(4);
-       replay(mockExposablePropertyPlaceholderConfigurer);
-
-       ReflectionTestUtils.setField(instance, "exposablePropertyPlaceholderConfigurer", mockExposablePropertyPlaceholderConfigurer);
-   }
-   
-   private void setUpMockEmailSender() {
-       mockEmailSender = createMock(EmailSender.class);
-       Set<String> toUserList = new HashSet();
-       toUserList.add("to@user.com");
-       mockEmailSender.sendEmail(
-               "from@user.com", 
-               toUserList, 
-               Collections.EMPTY_SET, 
-               StringUtils.EMPTY, 
-               "subject", 
-               "content");
-       expectLastCall();
-       replay(mockEmailSender);
-       ReflectionTestUtils.setField(instance, "emailSender", mockEmailSender);
    }
  
    private void setUpMockRoleDataService() {

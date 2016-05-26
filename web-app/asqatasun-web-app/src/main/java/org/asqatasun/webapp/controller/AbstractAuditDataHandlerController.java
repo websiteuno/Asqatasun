@@ -24,6 +24,7 @@ package org.asqatasun.webapp.controller;
 import java.util.*;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import org.displaytag.pagination.PaginatedList;
@@ -148,11 +149,12 @@ public abstract class AbstractAuditDataHandlerController extends AbstractControl
         return ((Set) ((HashSet) defaultParamSet).clone());
     }
 
-    //    @Value("${defaultParametersToDisplay}")
+    @Resource(name = "defaultParametersToDisplay")
     private Map<String, String> parametersToDisplay;
-    public void setParametersToDisplay(Map<String, String> parametersToDisplay) {
-        this.parametersToDisplay = parametersToDisplay;
+    public Map<String, String> getParametersToDisplay() {
+        return parametersToDisplay;
     }
+
     @Value("${authorizedScopeForPageList:SCENARIO,DOMAIN}")
     private List<String> authorizedScopeForPageList;
     public void setAuthorizedScopeForPageList(List<String> authorizedScopeForPageList) {
@@ -192,7 +194,7 @@ public abstract class AbstractAuditDataHandlerController extends AbstractControl
     protected AuditStatistics getAuditStatistics(WebResource webResource, Model model, String displayScope, boolean isAuditManual){
         return AuditStatisticsFactory.getInstance().getAuditStatistics(
                 webResource, 
-                parametersToDisplay,
+                getParametersToDisplay(),
                 displayScope,
                 isAuditManual);
     }

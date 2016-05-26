@@ -24,8 +24,8 @@ package org.asqatasun.webapp.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.emailsender.EmailSender;
 import org.asqatasun.entity.service.audit.AuditDataService;
 import org.asqatasun.util.MD5Encoder;
@@ -41,11 +41,9 @@ import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
 import org.asqatasun.webapp.form.parameterization.builder.ContractOptionFormFieldBuilder;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.validator.CreateContractFormValidator;
 import org.asqatasun.webapp.validator.CreateUserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,55 +56,28 @@ import org.springframework.web.bind.annotation.InitBinder;
  * @author jkowalczyk
  */
 @Controller
-public class AbstractUserAndContractsController extends AbstractController{
+public class AbstractUserAndContractsController extends AbstractController {
 
-    @Value("${emailFrom}")
-    String emailFrom;
-    @Value("${emailTo}")
-    String emailTo;
-    @Value("${emailSubject}")
-    String emailSubject;
-    @Value("${emailContent}")
-    String emailContent;
-
+    @Resource(name = "formFieldBuilderList")
     List<FormFieldBuilder> displayOptionFieldsBuilderList;
-    public final void setDisplayOptionFieldsBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
-        this.displayOptionFieldsBuilderList = formFieldBuilderList;
-    }
-    
-    private Map<String, List<ContractOptionFormFieldBuilder>> contractOptionFormFieldBuilderMap;
-    public Map<String, List<ContractOptionFormFieldBuilder>> getContractOptionFormFieldBuilderMap() {
-        return contractOptionFormFieldBuilderMap;
-    }
+    @Resource(name = "contractOptionFormFieldBuilderMap")
+    protected Map<String, List<ContractOptionFormFieldBuilder>> contractOptionFormFieldBuilderMap;
 
-    public final void setContractOptionFormFieldBuilderMap(
-            final Map<String, List<ContractOptionFormFieldBuilder>> formFieldBuilderMap) {
-        this.contractOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
-    
+    @Autowired
+    private CreateUserFormValidator createUserFormValidator;
+    @Autowired
+    protected CreateContractFormValidator createContractFormValidator;
+    @Autowired
+    private ActDataService actDataService;
+    @Autowired
+    private AuditDataService auditDataService;
+
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(
                 dateFormat, false));
     }
-
-    @Autowired
-    private EmailSender emailSender;
-    @Autowired
-    private CreateUserFormValidator createUserFormValidator;
-    @Autowired
-    private CreateContractFormValidator createContractFormValidator;
-    public CreateContractFormValidator getCreateContractFormValidator() {
-        return createContractFormValidator;
-    }
-    @Autowired
-    private ActDataService actDataService;
-    public ActDataService getActDataService() {
-        return actDataService;
-    }
-    @Autowired
-    private AuditDataService auditDataService;
 
     /**
      * 
@@ -206,7 +177,6 @@ public class AbstractUserAndContractsController extends AbstractController{
         User user;
         if (!newUserFromAdmin) {
             user = createUser(createUserCommand,false,false);
-            sendEmailInscription(user);
         } else {
             user = createUser(createUserCommand,true,true);
             model.addAttribute(TgolKeyStore.USER_LIST_KEY,getUserDataService().findAll());
@@ -346,7 +316,7 @@ public class AbstractUserAndContractsController extends AbstractController{
     /**
      * 
      * @param model
-     * @param CreateUserCommand
+     * @param createUserCommand
      * @param errorViewName
      * @return
      */
@@ -387,42 +357,7 @@ public class AbstractUserAndContractsController extends AbstractController{
         }
         return errorViewName;
     }
-    
-        /**
-     * This method gets data from a property file to fill-in the inscription
-     * e-mail
-     * @param user
-     */
-    private void sendEmailInscription(User user) {
 
-        String[] emailTo = this.emailTo.split(",");
-        Set<String> emailToSet = new HashSet();
-        emailToSet.addAll(Arrays.asList(emailTo));
-        String content = emailContent.replace(TgolKeyStore.EMAIL_CONTENT_EMAIL_KEY, user.getEmail1())
-                                     .replace(TgolKeyStore.EMAIL_CONTENT_URL_KEY, user.getWebUrl1();
-        if (user.getName() != null) {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, user.getName());
-        } else {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_LAST_NAME_KEY, "");
-        }
-        if (user.getFirstName() != null) {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, user.getFirstName());
-        } else {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_FIRST_NAME_KEY, "");
-        }
-        if (user.getPhoneNumber() != null) {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, user.getPhoneNumber());
-        } else {
-            content = content.replace(TgolKeyStore.EMAIL_CONTENT_PHONE_NUMBER_KEY, "");
-        }
-        emailSender.sendEmail(
-                emailFrom,
-                emailToSet,
-                Collections.<String>emptySet(),
-                StringUtils.EMPTY,
-                emailSubject,
-                content);
-    }
 
     /**
      * @param user
@@ -445,12 +380,12 @@ public class AbstractUserAndContractsController extends AbstractController{
     * @param contract 
     */
     protected void deleteAllAuditsFromContract(Contract contract) {
-        Collection<Act> actsByContract = getActDataService().getAllActsByContract(contract);
+        Collection<Act> actsByContract = actDataService.getAllActsByContract(contract);
         for (Act act : actsByContract) {
             if (act.getAudit() != null) {
                 auditDataService.delete(act.getAudit().getId());
             }
-            getActDataService().delete(act.getId());
+            actDataService.delete(act.getId());
         }
     }
 

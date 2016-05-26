@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
@@ -61,8 +62,11 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
 
     @Autowired
     private ExportService exportService;
-//    @Value("${auditExportParametersToDisplay}")
-//    private Map<String, String> parametersToDisplay;
+    @Resource(name = "auditExportDefaultParametersToDisplay")
+    private Map<String, String> auditExportParametersToDisplay;
+    public Map<String, String> getParametersToDisplay() {
+        return auditExportParametersToDisplay;
+    }
 
     public AuditExportResultController() {
         super();

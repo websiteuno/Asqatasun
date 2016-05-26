@@ -38,7 +38,6 @@ import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.ui.form.menu.SecondaryLevelMenuDisplayer;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.validator.ChangePasswordFormValidator;
 import org.asqatasun.webapp.validator.ForgottenPasswordFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -398,7 +397,7 @@ public class ForgottenOrChangePasswordController extends AbstractController {
         emailSender.sendEmail(
                 emailFrom, 
                 emailToSet, 
-                Collections.<String>emptySet(), 
+                Collections.<String>emptySet(),
                 StringUtils.EMPTY, 
                 emailSubject, 
                 emailContent);

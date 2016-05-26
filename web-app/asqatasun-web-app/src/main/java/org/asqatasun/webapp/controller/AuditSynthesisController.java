@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -68,6 +69,11 @@ public class AuditSynthesisController extends AbstractAuditDataHandlerController
     private List<String> authorizedScopeForSynthesis;
     @Autowired
     private ProcessResultDataService processResultDataService;
+    @Resource(name = "auditSynthesisParametersToDisplay")
+    private Map<String, String> auditSynthesisParametersToDisplay;
+    public Map<String, String> getParametersToDisplay() {
+        return auditSynthesisParametersToDisplay;
+    }
 
     public AuditSynthesisController() {
         super();

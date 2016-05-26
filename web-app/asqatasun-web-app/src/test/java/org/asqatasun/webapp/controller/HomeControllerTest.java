@@ -69,8 +69,7 @@ public class HomeControllerTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         instance = new HomeController();
-        List<FormFieldBuilder> formFieldBuilderList = new ArrayList<FormFieldBuilder>();
-        instance.setDisplayOptionFieldsBuilderList(formFieldBuilderList);
+        ReflectionTestUtils.setField(instance, "displayOptionFieldsBuilderList", Collections.emptyList());
         ContractSortCommandHelper.setExclusionContractSortKey("label-exclusion-choice");
         ContractSortCommandHelper.setInclusionContractSortKey("label-inclusion-choice");
         ContractSortCommandHelper.setLastAuditDateSortValue("date");

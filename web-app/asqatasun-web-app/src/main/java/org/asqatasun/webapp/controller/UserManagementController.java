@@ -391,7 +391,7 @@ public class UserManagementController extends AbstractUserAndContractsController
                 model,
                 null,
                 null,
-                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap()),
+                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap),
                 TgolKeyStore.ADD_CONTRACT_VIEW_NAME);
     }
 
@@ -413,11 +413,11 @@ public class UserManagementController extends AbstractUserAndContractsController
             Model model) {
 
         Map<String, List<ContractOptionFormField>> optionFormFieldMap =
-                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap());
+                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap);
 
-        getCreateContractFormValidator().setContractOptionFormFieldMap(optionFormFieldMap);
+        createContractFormValidator.setContractOptionFormFieldMap(optionFormFieldMap);
         // We check whether the form is valid
-        getCreateContractFormValidator().validateMultipleUsers(ccc, result);
+        createContractFormValidator.validateMultipleUsers(ccc, result);
         if (result.hasErrors()) {
             return displayFormWithErrors(
                     model,

@@ -440,7 +440,7 @@ public class AuditSetUpControllerTest extends TestCase {
         viewFunctionalityBindingMap.put("audit-upload-set-up", "FUNCTIONALITY1");
         viewFunctionalityBindingMap.put("audit-site-set-up", "FUNCTIONALITY1");
         viewFunctionalityBindingMap.put("audit-page-set-up", "FUNCTIONALITY1");
-        instance.setViewFunctionalityBindingMap(viewFunctionalityBindingMap);
+        ReflectionTestUtils.setField(instance, "viewFunctionalityBindingMap", viewFunctionalityBindingMap);
     }
     
     /**
@@ -449,8 +449,7 @@ public class AuditSetUpControllerTest extends TestCase {
      * of the contract
      */
     private void setUpEmptyViewFunctionalityBindingMap() {
-        Map<String, String> viewFunctionalityBindingMap =  new HashMap<>();
-        instance.setViewFunctionalityBindingMap(viewFunctionalityBindingMap);
+        ReflectionTestUtils.setField(instance, "viewFunctionalityBindingMap", Collections.emptyMap());
     }
      
     /**
@@ -459,9 +458,9 @@ public class AuditSetUpControllerTest extends TestCase {
      */
     private void setUpFormFieldBuilder() {
         instance.setReferentialAndLevelFormFieldBuilderList(buildMockRefAndLevelSelectFormFieldList());
-        instance.setPageOptionFormFieldBuilderMap(buildMockOptionAuditSetUpFormFieldList());
-        instance.setSiteOptionFormFieldBuilderMap(buildMockOptionAuditSetUpFormFieldList());
-        instance.setUploadOptionFormFieldBuilderMap(buildMockOptionAuditSetUpFormFieldList());
+        ReflectionTestUtils.setField(instance, "pageOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
+        ReflectionTestUtils.setField(instance, "siteOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
+        ReflectionTestUtils.setField(instance, "uploadOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
     }
     
     /**

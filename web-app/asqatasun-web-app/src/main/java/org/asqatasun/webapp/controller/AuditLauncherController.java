@@ -42,7 +42,6 @@ import org.asqatasun.webapp.exception.LostInSpaceException;
 import org.asqatasun.webapp.orchestrator.AsqatasunOrchestrator;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.asqatasun.webapp.util.webapp.ExposablePropertyPlaceholderConfigurer;
 import org.asqatasun.webapp.voter.restriction.RestrictionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -90,13 +89,12 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
      * default audit page parameter set.
      */
     Set<Parameter> auditPageParamSet = null;
-    @Autowired
-    private ExposablePropertyPlaceholderConfigurer exposablePropertyPlaceholderConfigurer;
 
     /**
      *
      */
-    private List<String> emailSentToUserExclusionList;
+    @Value("${emailSentToUserExclusionList}")
+    private String emailSentToUserExclusionList;
 
     /**
      * Direct call to the property place holder configurer due to exposition
@@ -105,12 +103,7 @@ public class AuditLauncherController extends AbstractAuditDataHandlerController 
      * @return
      */
     public List<String> getEmailSentToUserExclusionList() {
-        if (emailSentToUserExclusionList == null) {
-            String rawList = exposablePropertyPlaceholderConfigurer.
-                    getResolvedProps().get(TgolKeyStore.EMAIL_SENT_TO_USER_EXCLUSION_CONF_KEY);
-            emailSentToUserExclusionList = Arrays.asList(rawList.split(";"));
-        }
-        return emailSentToUserExclusionList;
+        return Arrays.asList(emailSentToUserExclusionList.split(";"));
     }
     /**
      * The user options that have to be converted as audit parameters

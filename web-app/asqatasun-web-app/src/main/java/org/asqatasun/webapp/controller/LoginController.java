@@ -21,28 +21,18 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.asqatasun.webapp.entity.contract.Contract;
-import org.asqatasun.webapp.security.userdetails.TgolUserDetailsService;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +40,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.LocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /** 
  *
@@ -59,12 +57,12 @@ import org.springframework.web.servlet.LocaleResolver;
 public class LoginController extends AbstractUserAndContractsController{
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationProvider authenticationProvider;
     UserDetails guestUserDetails;
     @Value("${guestPassword:guest}")
     private String guestPassword;
-    @Autowired
-    TgolUserDetailsService tgolUserDetailsService;
+//    @Autowired
+//    TgolUserDetailsService tgolUserDetailsService;
     @Autowired
     private LocaleResolver localeResolver;
 //    @Value("#{${guestListByLang:}}")
@@ -72,7 +70,6 @@ public class LoginController extends AbstractUserAndContractsController{
     @Value("${forbiddenLangForOnlineDemo:}")
     private final List<String> forbiddenLangForOnlineDemo = new ArrayList<>();
 
-    
     @RequestMapping(value = TgolKeyStore.LOGIN_URL, method=RequestMethod.GET)
     public String displayLoginPage (
             @RequestParam(value=TgolKeyStore.EMAIL_KEY, required=false) String email,
@@ -116,13 +113,13 @@ public class LoginController extends AbstractUserAndContractsController{
         if (isAuthenticated()) {
             return TgolKeyStore.ACCESS_DENIED_VIEW_NAME;
         }
-        if (guestUserDetails == null) {
-            try {
-                guestUserDetails = tgolUserDetailsService.loadUserByUsername(lGuestUser);
-            } catch (UsernameNotFoundException unfe) {
-                return TgolKeyStore.NO_DEMO_AVAILABLE_VIEW_NAME;
-            }
-        }
+//        if (guestUserDetails == null) {
+//            try {
+//                guestUserDetails = tgolUserDetailsService.loadUserByUsername(lGuestUser);
+//            } catch (UsernameNotFoundException unfe) {
+//                return TgolKeyStore.NO_DEMO_AVAILABLE_VIEW_NAME;
+//            }
+//        }
 
         doGuestAutoLogin(request, lGuestUser);
 
@@ -144,7 +141,7 @@ public class LoginController extends AbstractUserAndContractsController{
             UsernamePasswordAuthenticationToken token = 
                     new UsernamePasswordAuthenticationToken(guestUser, guestPassword);
             token.setDetails(new WebAuthenticationDetails(request));
-            Authentication guest = authenticationManager.authenticate(token);
+            Authentication guest = authenticationProvider.authenticate(token);
             Logger.getLogger(this.getClass()).debug("Logging in with [{}]" + guest.getPrincipal());
             SecurityContextHolder.getContext().setAuthentication(guest);
         } catch (Exception e) {

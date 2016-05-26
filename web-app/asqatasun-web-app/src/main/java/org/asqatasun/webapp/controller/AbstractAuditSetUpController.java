@@ -22,6 +22,7 @@
 package org.asqatasun.webapp.controller;
 
 import java.util.*;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.asqatasun.webapp.command.AuditSetUpCommand;
@@ -41,6 +42,7 @@ import org.asqatasun.webapp.ui.form.parameterization.helper.AuditSetUpFormFieldH
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.AuditSetUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,78 +60,41 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
     /**
      * The list of FormField builders that handles the audit site options
      */
-    private Map<String, List<AuditSetUpFormFieldBuilderImpl>> siteOptionFormFieldBuilderMap;
-    public Map<String, List<AuditSetUpFormFieldBuilderImpl>> getSiteOptionFormFieldBuilderMap() {
-        return siteOptionFormFieldBuilderMap;
-    }
-    
-    public final void setSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
-        this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
-    @Autowired
-    public final void addSiteOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
-        this.siteOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
-    
-    /**
-     * The audit Site set-up validator
-     */
-    private AuditSetUpFormValidator auditSiteSetUpFormValidator;
-    public AuditSetUpFormValidator getAuditSiteSetUpFormValidator() {
-        return auditSiteSetUpFormValidator;
-    }
-    
-    public final void setAuditSiteSetUpValidator(AuditSetUpFormValidator auditSiteSetUpValidator) {
-        this.auditSiteSetUpFormValidator = auditSiteSetUpValidator;
-    }
+    @Resource(name = "siteOptionFormFieldBuilderMap")
+    protected Map<String, List<AuditSetUpFormFieldBuilderImpl>> siteOptionFormFieldBuilderMap;
 
     /**
      * The list of FormField builders that handles the audit page options
      */
-    private Map<String, List<AuditSetUpFormFieldBuilderImpl>> pageOptionFormFieldBuilderMap;
-    public Map<String, List<AuditSetUpFormFieldBuilderImpl>> getPageOptionFormFieldBuilderMap() {
-        return pageOptionFormFieldBuilderMap;
-    }
-    
-    public final void setPageOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
-        this.pageOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
-    
-    /**
-     * The audit Page set-up validator
-     */
-    private AuditSetUpFormValidator auditPageSetUpFormValidator;
-    public AuditSetUpFormValidator getAuditPageSetUpFormValidator() {
-        return auditPageSetUpFormValidator;
-    }
-    
-    public final void setAuditPageSetUpValidator(AuditSetUpFormValidator auditPageSetUpValidator) {
-        this.auditPageSetUpFormValidator = auditPageSetUpValidator;
-    }
+    @Resource(name = "pageOptionFormFieldBuilderMap")
+    protected Map<String, List<AuditSetUpFormFieldBuilderImpl>> pageOptionFormFieldBuilderMap;
     
     /**
      * The list of FormField builders that handles the audit upload options
      */
-    private Map<String, List<AuditSetUpFormFieldBuilderImpl>> uploadOptionFormFieldBuilderMap;
-    public Map<String, List<AuditSetUpFormFieldBuilderImpl>> getUploadOptionFormFieldBuilderMap() {
-        return uploadOptionFormFieldBuilderMap;
-    }
-    
-    public final void setUploadOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
-        this.uploadOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
-    
+    @Resource(name = "uploadOptionFormFieldBuilderMap")
+    protected Map<String, List<AuditSetUpFormFieldBuilderImpl>> uploadOptionFormFieldBuilderMap;
+
+    /**
+     * The audit Site set-up validator
+     */
+    @Autowired
+    @Qualifier(value = "auditSiteSetUpFormValidator")
+    protected AuditSetUpFormValidator auditSiteSetUpFormValidator;
+
+    /**
+     * The audit Page set-up validator
+     */
+    @Autowired
+    @Qualifier(value = "auditPageSetUpFormValidator")
+    protected AuditSetUpFormValidator auditPageSetUpFormValidator;
+
     /**
      * The audit Upload set-up validator
      */
-    private AuditSetUpFormValidator auditUploadSetUpFormValidator;
-    public AuditSetUpFormValidator getAuditUploadSetUpFormValidator() {
-        return auditUploadSetUpFormValidator;
-    }
-    
-    public final void setAuditUploadSetUpValidator(AuditSetUpFormValidator auditUploadSetUpValidator) {
-        this.auditUploadSetUpFormValidator = auditUploadSetUpValidator;
-    }
+    @Autowired
+    @Qualifier(value = "auditUploadSetUpFormValidator")
+    protected AuditSetUpFormValidator auditUploadSetUpFormValidator;
 
     /**
      * The list of FormField builders that handles the choice of the referential
@@ -145,14 +110,8 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
      * allows to access. It is used to ensure the displayed set-up view
      * is authorised regarding the contract functionalities.
      */
+    @Resource(name = "viewFunctionalityBindingMap")
     Map<String, String> viewFunctionalityBindingMap;
-    public Map<String, String> getViewFunctionalityBindingMap() {
-        return viewFunctionalityBindingMap;
-    }
-
-    public void setViewFunctionalityBindingMap(Map<String, String> viewFunctionalityBindingMap) {
-        this.viewFunctionalityBindingMap = viewFunctionalityBindingMap;
-    }
 
     @Autowired
     private AuditLauncherController auditLauncherController;

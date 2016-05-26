@@ -22,6 +22,7 @@
 package org.asqatasun.webapp.controller;
 
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.asqatasun.webapp.action.voter.ActionHandler;
 import org.asqatasun.webapp.command.ContractSortCommand;
@@ -30,6 +31,8 @@ import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
 import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.util.TgolKeyStore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +41,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 /** 
  *
  * @author jkowalczyk
@@ -46,19 +48,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController extends AbstractController {
 
+    @Autowired
+    @Qualifier(value = "contractActionHandler")
     private ActionHandler actionHandler;
-    public ActionHandler getActionHandler() {
-        return actionHandler;
-    }
 
-    public void setActionHandler(ActionHandler contractActionHandler) {
-        this.actionHandler = contractActionHandler;
-    }
-
+    @Resource(name = "displayOptionFieldsBuilderList")
     List<FormFieldBuilder> displayOptionFieldsBuilderList;
-    public final void setDisplayOptionFieldsBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
-        this.displayOptionFieldsBuilderList = formFieldBuilderList;
-    }
     
     public HomeController() {
         super();

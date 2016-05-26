@@ -24,6 +24,7 @@ package org.asqatasun.webapp.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.util.JRStyledTextParser;
@@ -45,6 +46,7 @@ import org.asqatasun.webapp.util.TgolKeyStore;
 import org.asqatasun.webapp.validator.AddScenarioFormValidator;
 import org.asqatasun.webapp.validator.AuditSetUpFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,14 +68,8 @@ public class AuditScenarioController extends AbstractAuditSetUpController {
     private AddScenarioFormValidator addScenarioFormValidator;
     @Autowired
     private ScenarioDataService scenarioDataService;
+    @Resource(name = "scenarioOptionFormFieldBuilderMap")
     private Map<String, List<AuditSetUpFormFieldBuilderImpl>> scenarioOptionFormFieldBuilderMap;
-    public Map<String, List<AuditSetUpFormFieldBuilderImpl>> getScenarioOptionFormFieldBuilderMap() {
-        return scenarioOptionFormFieldBuilderMap;
-    }
-
-    public final void setScenarioOptionFormFieldBuilderMap(final Map<String, List<AuditSetUpFormFieldBuilderImpl>> formFieldBuilderMap) {
-        this.scenarioOptionFormFieldBuilderMap = formFieldBuilderMap;
-    }
 
     public AuditScenarioController() {
         super();
@@ -204,7 +200,7 @@ public class AuditScenarioController extends AbstractAuditSetUpController {
                 TgolKeyStore.AUDIT_SCENARIO_SET_UP_VIEW_NAME,
                 contractId,
                 scenarioId,
-                getScenarioOptionFormFieldBuilderMap(),
+                scenarioOptionFormFieldBuilderMap,
                 ScopeEnum.SCENARIO,
                 model);
     }
@@ -219,8 +215,8 @@ public class AuditScenarioController extends AbstractAuditSetUpController {
         Contract contract = getContractDataService().read(auditSetUpCommand.getContractId());   
         Map<String, List<AuditSetUpFormField>> formFielMap = getFreshAuditSetUpFormFieldMap(
                     contract, 
-                    getScenarioOptionFormFieldBuilderMap());
-        AuditSetUpFormValidator auditSetUpFormValidator = getAuditSiteSetUpFormValidator();
+                    scenarioOptionFormFieldBuilderMap);
+        AuditSetUpFormValidator auditSetUpFormValidator = auditSiteSetUpFormValidator;
         return submitForm(
                 contract, 
                 auditSetUpCommand, 

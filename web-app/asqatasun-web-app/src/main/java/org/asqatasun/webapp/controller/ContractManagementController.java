@@ -181,7 +181,7 @@ public class ContractManagementController extends AbstractUserAndContractsContro
                 model,
                 userToManage,
                 null,
-                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap()),
+                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap),
                 TgolKeyStore.ADD_CONTRACT_VIEW_NAME);
     }
     
@@ -215,11 +215,11 @@ public class ContractManagementController extends AbstractUserAndContractsContro
         }
         
         Map<String, List<ContractOptionFormField>> optionFormFieldMap = 
-                    ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap());
+                    ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap);
 
-        getCreateContractFormValidator().setContractOptionFormFieldMap(optionFormFieldMap);
+        createContractFormValidator.setContractOptionFormFieldMap(optionFormFieldMap);
         // We check whether the form is valid
-        getCreateContractFormValidator().validate(createContractCommand, result);
+        createContractFormValidator.validate(createContractCommand, result);
         // If the form has some errors, we display it again with errors' details
         User currentModifiedUser=getUserDataService().read(lUserId);
 
@@ -278,7 +278,7 @@ public class ContractManagementController extends AbstractUserAndContractsContro
                 model,
                 contract.getUser(),
                 contract,
-                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap()),
+                ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap),
                 TgolKeyStore.EDIT_CONTRACT_VIEW_NAME);
     }
     
@@ -313,11 +313,11 @@ public class ContractManagementController extends AbstractUserAndContractsContro
 
         Contract contract = getContractDataService().read(lContractId);
         Map<String, List<ContractOptionFormField>> optionFormFieldMap = 
-                    ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(getContractOptionFormFieldBuilderMap());
+                    ContractOptionFormFieldHelper.getFreshContractOptionFormFieldMap(contractOptionFormFieldBuilderMap);
 
-        getCreateContractFormValidator().setContractOptionFormFieldMap(optionFormFieldMap);
+        createContractFormValidator.setContractOptionFormFieldMap(optionFormFieldMap);
         // We check whether the form is valid
-        getCreateContractFormValidator().validate(createContractCommand, result);
+        createContractFormValidator.validate(createContractCommand, result);
         // If the form has some errors, we display it again with errors' details
         if (result.hasErrors()) {
             return displayFormWithErrors(

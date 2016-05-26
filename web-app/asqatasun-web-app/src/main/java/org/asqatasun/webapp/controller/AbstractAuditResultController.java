@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -66,20 +67,8 @@ import org.springframework.ui.Model;
 @Controller
 public class AbstractAuditResultController extends AbstractAuditDataHandlerController {
 
-    private final List<FormFieldBuilder> sortFormFieldBuilderList = new ArrayList<>();
-//    @Autowired
-    public final void setFormFieldBuilderList(final List<FormFieldBuilder> formFieldBuilderList) {
-        this.sortFormFieldBuilderList.addAll(formFieldBuilderList);
-    }
-
-    /**
-     *
-     * @param formFieldBuilder
-     */
-//    @Autowired
-    public final void addFormFieldBuilder(final FormFieldBuilder formFieldBuilder) {
-        this.sortFormFieldBuilderList.add(formFieldBuilder);
-    }
+    @Resource(name = "formFieldBuilderList")
+    private List<FormFieldBuilder> sortFormFieldBuilderList;
 
     @Value("${themeSortKey:theme}")
     private String themeSortKey;

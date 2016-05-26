@@ -70,7 +70,7 @@ public class AuditSetUpController extends AbstractAuditSetUpController{
                 TgolKeyStore.AUDIT_PAGE_SET_UP_VIEW_NAME, 
                 contractId, 
                 "",
-                getPageOptionFormFieldBuilderMap(), 
+                pageOptionFormFieldBuilderMap,
                 ScopeEnum.PAGE,
                 model);
     }
@@ -94,7 +94,7 @@ public class AuditSetUpController extends AbstractAuditSetUpController{
                 TgolKeyStore.AUDIT_UPLOAD_SET_UP_VIEW_NAME, 
                 contractId, 
                 "",
-                getUploadOptionFormFieldBuilderMap(), 
+                uploadOptionFormFieldBuilderMap,
                 ScopeEnum.FILE,
                 model);
     }
@@ -118,7 +118,7 @@ public class AuditSetUpController extends AbstractAuditSetUpController{
                 TgolKeyStore.AUDIT_SITE_SET_UP_VIEW_NAME, 
                 contractId, 
                 "",
-                getSiteOptionFormFieldBuilderMap(), 
+                siteOptionFormFieldBuilderMap,
                 ScopeEnum.DOMAIN,
                 model);
     }
@@ -148,20 +148,20 @@ public class AuditSetUpController extends AbstractAuditSetUpController{
             case DOMAIN:
                 formFielMap = getFreshAuditSetUpFormFieldMap(
                     contract, 
-                    getSiteOptionFormFieldBuilderMap());
-                auditSetUpFormValidator = getAuditSiteSetUpFormValidator();
+                    siteOptionFormFieldBuilderMap);
+                auditSetUpFormValidator = auditSiteSetUpFormValidator;
                 break;
             case PAGE:
                 formFielMap = getFreshAuditSetUpFormFieldMap(
                     contract, 
-                    getPageOptionFormFieldBuilderMap());
-                auditSetUpFormValidator = getAuditPageSetUpFormValidator();
+                    pageOptionFormFieldBuilderMap);
+                auditSetUpFormValidator = auditPageSetUpFormValidator;
                 break;
             case FILE:
                 formFielMap = getFreshAuditSetUpFormFieldMap(
                     contract, 
-                    getUploadOptionFormFieldBuilderMap());
-                auditSetUpFormValidator = getAuditUploadSetUpFormValidator();
+                    uploadOptionFormFieldBuilderMap);
+                auditSetUpFormValidator = auditUploadSetUpFormValidator;
                 break;
         }
         return submitForm(
