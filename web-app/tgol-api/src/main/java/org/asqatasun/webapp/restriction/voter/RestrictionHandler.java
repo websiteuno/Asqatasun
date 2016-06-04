@@ -19,7 +19,7 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.voter.restriction;
+package org.asqatasun.webapp.restriction.voter;
 
 import javax.annotation.Nullable;
 import org.asqatasun.webapp.entity.contract.Contract;

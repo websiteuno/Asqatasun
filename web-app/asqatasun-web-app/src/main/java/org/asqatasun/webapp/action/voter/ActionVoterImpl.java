@@ -22,6 +22,7 @@
 package org.asqatasun.webapp.action.voter;
 
 import org.asqatasun.webapp.action.Action;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

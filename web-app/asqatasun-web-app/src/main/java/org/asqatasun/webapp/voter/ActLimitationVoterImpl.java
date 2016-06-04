@@ -19,31 +19,41 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.voter.restriction;
+package org.asqatasun.webapp.voter;
 
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.option.OptionElement;
+import org.asqatasun.webapp.entity.service.contract.ActDataService;
+import org.asqatasun.webapp.restriction.voter.RestrictionVoter;
+import org.asqatasun.webapp.util.TgolKeyStore;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author jkowalczyk
  */
-public interface RestrictionVoter {
+public class ActLimitationVoterImpl implements RestrictionVoter {
 
-    /**
-     * 
-     * @param contract
-     * @param optionElement
-     * @param clientIp
-     * @param scope
-     * @return 
-     *       A string representing the result of the vote
-     */
-    String checkRestriction(
+    private ActDataService actDataService;
+
+    @Autowired
+    public void setActDataService(ActDataService actDataService) {
+        this.actDataService = actDataService;
+    }
+
+    @Override
+    public String checkRestriction(
             Contract contract, 
             OptionElement optionElement, 
             String clientIp, 
-            ScopeEnum scope);
+            ScopeEnum scope) {
+        
+        int nbOfAct = Integer.valueOf(optionElement.getValue());
+        if (nbOfAct <= actDataService.getNumberOfAct(contract)) {
+            return TgolKeyStore.ACT_QUOTA_EXCEEDED;
+        }
+        return TgolKeyStore.ACT_ALLOWED;
+    }
 
 }

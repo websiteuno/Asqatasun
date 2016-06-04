@@ -22,10 +22,11 @@
 package org.asqatasun.webapp.action.voter;
 
 import org.asqatasun.webapp.action.Action;
+import org.asqatasun.webapp.action.builder.ActionBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.asqatasun.webapp.action.builder.ActionBuilder;
 
 /**
  *

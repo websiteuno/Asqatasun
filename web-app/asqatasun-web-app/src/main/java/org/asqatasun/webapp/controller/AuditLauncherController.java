@@ -42,7 +42,7 @@ import org.asqatasun.webapp.exception.LostInSpaceException;
 import org.asqatasun.webapp.orchestrator.AsqatasunOrchestrator;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.asqatasun.webapp.util.TgolKeyStore;
-import org.asqatasun.webapp.voter.restriction.RestrictionHandler;
+import org.asqatasun.webapp.restriction.voter.RestrictionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

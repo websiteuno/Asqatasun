@@ -19,14 +19,17 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.voter.restriction;
+package org.asqatasun.webapp.voter;
 
-import java.util.Map;
-import java.util.Set;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.option.OptionElement;
+import org.asqatasun.webapp.restriction.voter.RestrictionHandler;
+import org.asqatasun.webapp.restriction.voter.RestrictionVoter;
 import org.asqatasun.webapp.util.TgolKeyStore;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -61,7 +64,7 @@ public class RestrictionHandlerImpl implements RestrictionHandler {
 
     /**
      * 
-     * @param option
+     * @param optionElement
      * @return 
      */
     private RestrictionVoter chooseRestrictionVoter(OptionElement optionElement) {

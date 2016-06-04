@@ -19,23 +19,32 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.voter.restriction;
+package org.asqatasun.webapp.voter;
 
-import java.util.Calendar;
-import java.util.Date;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.option.OptionElement;
 import org.asqatasun.webapp.entity.service.contract.ActDataService;
+import org.asqatasun.webapp.restriction.voter.RestrictionVoter;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
  * @author jkowalczyk
  */
-public class ActByIpLimitationVoterImpl implements RestrictionVoter {
+public class ActByScopeLimitationVoterImpl implements RestrictionVoter {
 
+    private Collection<ScopeEnum> scopes = new ArrayList<ScopeEnum>();
+    public void setScopes(Collection<String> scopes) {
+        for (String scope : scopes) {
+            this.scopes.add(ScopeEnum.valueOf(scope));
+        }
+    }
+    
     private ActDataService actDataService;
 
     @Autowired
@@ -49,15 +58,14 @@ public class ActByIpLimitationVoterImpl implements RestrictionVoter {
             OptionElement optionElement, 
             String clientIp, 
             ScopeEnum scope) {
-        
-        String[] limitationValues = optionElement.getValue().split("/");
-        int nbOfAct = Integer.valueOf(limitationValues[0]);
-        int period = Integer.valueOf(limitationValues[1]);
-        Date now = Calendar.getInstance().getTime();
-        Date limitDate = new Date(now.getTime() - (period * 1000L));
-        if (actDataService.getNumberOfActByPeriodAndIp(contract, limitDate, clientIp) >= nbOfAct) {
-            return TgolKeyStore.ACT_QUOTA_BY_IP_EXCEEDED;
+        if (!scopes.contains(scope)) {
+            return TgolKeyStore.ACT_ALLOWED;
+        }
+        int nbOfAct = Integer.valueOf(optionElement.getValue());
+        if (nbOfAct <= actDataService.getNumberOfActByScope(contract, scopes)) {
+            return TgolKeyStore.ACT_QUOTA_EXCEEDED;
         }
         return TgolKeyStore.ACT_ALLOWED;
     }
+
 }

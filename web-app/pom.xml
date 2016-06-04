@@ -17,7 +17,6 @@
         <module>tgol-persistence</module>
         <module>tgol-si</module>
         <module>tgol-orchestrator</module>
-        <module>tgol-voter</module>
         <module>tgol-report</module>
         <module>tgol-security</module>
         <module>asqatasun-web-app</module>
