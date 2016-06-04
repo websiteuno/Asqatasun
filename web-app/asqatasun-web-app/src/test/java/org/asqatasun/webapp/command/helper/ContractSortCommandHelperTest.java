@@ -21,7 +21,6 @@
  */
 package org.asqatasun.webapp.command.helper;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +32,7 @@ import org.asqatasun.webapp.dto.data.ActInfo;
 import org.asqatasun.webapp.dto.ActInfoImpl;
 import org.asqatasun.webapp.dto.data.ContractInfo;
 import org.asqatasun.webapp.dto.ContractInfoImpl;
+import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  *
@@ -94,15 +94,18 @@ public class ContractSortCommandHelperTest extends TestCase {
         c5.setLabel(("A4"));
         contractInfoSet.add(c5);
 
-        Field field = ContractSortCommandHelper.class.getDeclaredField("sortByKey");
-        field.setAccessible(true);
-        field.set(null, "SORTBY");
-        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditMarkSortValue");
-        field.setAccessible(true);
-        field.set(null, "lMARK");
-        field = ContractSortCommandHelper.class.getDeclaredField("sortOrderKey");
-        field.setAccessible(true);
-        field.set(null, "SORTORDER");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "sortByKey",
+                "SORTBY");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "lastAuditMarkSortValue",
+                "lMARK");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "sortOrderKey",
+                "SORTORDER");
 
         Map<String, Object> map = new HashMap<>();
         map.put("SORTORDER", SortOrderEnum.ASCENDING.getCode());

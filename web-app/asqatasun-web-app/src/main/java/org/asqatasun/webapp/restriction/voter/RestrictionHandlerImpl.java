@@ -19,13 +19,11 @@
  *
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
-package org.asqatasun.webapp.voter;
+package org.asqatasun.webapp.restriction.voter;
 
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.option.OptionElement;
-import org.asqatasun.webapp.restriction.voter.RestrictionHandler;
-import org.asqatasun.webapp.restriction.voter.RestrictionVoter;
 import org.asqatasun.webapp.util.TgolKeyStore;
 
 import java.util.Map;

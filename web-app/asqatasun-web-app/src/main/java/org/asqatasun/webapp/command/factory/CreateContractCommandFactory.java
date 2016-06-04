@@ -85,9 +85,7 @@ public class CreateContractCommandFactory implements Serializable {
     /**
      * Private constructor
      */
-    private CreateContractCommandFactory() {
-        System.out.println("bouboubou");
-    }
+    private CreateContractCommandFactory() {}
     
     /**
      * Singleton pattern based on the "Initialization-on-demand 

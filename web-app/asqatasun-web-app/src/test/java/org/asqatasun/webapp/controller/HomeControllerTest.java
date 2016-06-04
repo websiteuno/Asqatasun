@@ -21,7 +21,6 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.lang.reflect.Field;
 import java.util.*;
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
@@ -34,7 +33,6 @@ import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.service.contract.ActDataService;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
 import org.asqatasun.webapp.entity.user.User;
-import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
 import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
 import org.asqatasun.webapp.security.userdetails.TgolUserDetails;
@@ -71,18 +69,22 @@ public class HomeControllerTest extends TestCase {
         super.setUp();
         instance = new HomeController();
         ReflectionTestUtils.setField(instance, "displayOptionFieldsBuilderList", Collections.emptyList());
-        Field field = ContractSortCommandHelper.class.getDeclaredField("exclusionContractSortKey");
-        field.setAccessible(true);
-        field.set(null, "label-exclusion-choice");
-        field = ContractSortCommandHelper.class.getDeclaredField("inclusionContractSortKey");
-        field.setAccessible(true);
-        field.set(null, "label-inclusion-choice");
-        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditMarkSortValue");
-        field.setAccessible(true);
-        field.set(null, "mark");
-        field = ContractSortCommandHelper.class.getDeclaredField("lastAuditDateSortValue");
-        field.setAccessible(true);
-        field.set(null, "date");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "exclusionContractSortKey",
+                "label-exclusion-choice");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "inclusionContractSortKey",
+                "label-inclusion-choice");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "lastAuditMarkSortValue",
+                "mark");
+        ReflectionTestUtils.setField(
+                ContractSortCommandHelper.getInstance(),
+                "lastAuditDateSortValue",
+                "date");
     }        
     
     @Override
