@@ -21,35 +21,12 @@
  */
 package org.asqatasun.webapp.config;
 
-import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.webapp.command.factory.*;
-import org.asqatasun.webapp.exception.TgolHandlerExceptionResolver;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
-import org.springframework.web.servlet.view.ResourceBundleViewResolver;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import org.asqatasun.webapp.command.helper.ContractSortCommandHelper;
+import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
+import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by meskoj on 16/05/16.
@@ -80,5 +57,20 @@ public class SingletonConfig  {
     @Bean (name = "AuditResultSortCommandFactory")
     static AuditResultSortCommandFactory auditResultSortCommandFactory() {
         return AuditResultSortCommandFactory.getInstance();
+    }
+
+    @Bean (name = "contractSortCommandHelper")
+    static ContractSortCommandHelper contractSortCommandHelper() {
+        return ContractSortCommandHelper.getInstance();
+    }
+
+    @Bean (name = "contractInfoFactory")
+    static ContractInfoFactory contractInfoFactory() {
+        return ContractInfoFactory.getInstance();
+    }
+
+    @Bean (name = "detailedContractInfoFactory")
+    static DetailedContractInfoFactory detailedContractInfoFactory() {
+        return DetailedContractInfoFactory.getInstance();
     }
 }
