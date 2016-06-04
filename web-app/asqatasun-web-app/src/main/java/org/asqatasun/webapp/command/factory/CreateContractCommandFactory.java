@@ -161,7 +161,7 @@ public class CreateContractCommandFactory implements Serializable {
      * 
      */
     private void addFunctionalityToCommand(CreateContractCommand ccc, Contract contract) {
-        Map<String,Boolean> functMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> functMap = new LinkedHashMap<>();
         
         for (Functionality funct : this.functionalityList){
             if (contract.getFunctionalitySet().contains(funct)) {
@@ -177,7 +177,7 @@ public class CreateContractCommandFactory implements Serializable {
      * 
      */
     private void addFunctionalityToExistingCommand(CreateContractCommand ccc) {
-        Map<String,Boolean> functMap = new LinkedHashMap<String,Boolean>();
+        Map<String,Boolean> functMap = new LinkedHashMap<>();
         
         for (Map.Entry<String,Boolean> entry : ccc.getFunctionalityMap().entrySet()){
             if (entry.getValue() == null) {

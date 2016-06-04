@@ -21,12 +21,12 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
+import org.asqatasun.webapp.dto.DetailedContractInfoImpl;
+import org.asqatasun.webapp.dto.data.DetailedContractInfo;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.option.OptionElement;
-import org.asqatasun.webapp.dto.data.DetailedContractInfo;
-import org.asqatasun.webapp.dto.DetailedContractInfoImpl;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -44,22 +44,28 @@ public final class DetailedContractInfoFactory extends ContractInfoFactory {
 
     @Value("${nbMaxActRestrictionCode:NB_OF_AUDIT_TO_DISPLAY}")
     private String nbMaxActRestrictionCode;
-    
-    /**
-     * The unique shared instance of DetailedContractInfoFactory
-     */
-    private static DetailedContractInfoFactory detailedContractInfoFactory;
 
     /**
-     * Default private constructor
+     * The holder that handles the unique instance of DetailedContractInfoFactory
      */
-    private DetailedContractInfoFactory() {}
+    private static class DetailedContractInfoFactoryHolder {
+        private static final DetailedContractInfoFactory INSTANCE = new DetailedContractInfoFactory();
+    }
 
-    public static synchronized DetailedContractInfoFactory getInstance() {
-        if (detailedContractInfoFactory == null) {
-            detailedContractInfoFactory = new DetailedContractInfoFactory();
-        }
-        return detailedContractInfoFactory;
+    /**
+     * Private constructor
+     */
+    private DetailedContractInfoFactory() {
+        super();
+    }
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of ContractInfoFactory
+     */
+    public static DetailedContractInfoFactory getInstance() {
+        return DetailedContractInfoFactoryHolder.INSTANCE;
     }
 
     public DetailedContractInfo getDetailedContractInfo(Contract contract) {

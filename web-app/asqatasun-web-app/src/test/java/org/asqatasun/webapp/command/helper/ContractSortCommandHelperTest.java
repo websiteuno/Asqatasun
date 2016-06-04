@@ -109,14 +109,14 @@ public class ContractSortCommandHelperTest extends TestCase {
         map.put("SORTBY", "MARK");
 
         csc.setSortOptionMap(map);
-        ContractSortCommandHelper.sortContractInfoSetRegardingCommand(contractInfoSet, csc);
+        ContractSortCommandHelper.getInstance().sortContractInfoSetRegardingCommand(contractInfoSet, csc);
         
         map = new HashMap<>();
         map.put("SORTORDER", SortOrderEnum.DESCENDING.getCode());
         map.put("SORTBY", "MARK");
 
         csc.setSortOptionMap(map);
-        ContractSortCommandHelper.sortContractInfoSetRegardingCommand(contractInfoSet, csc);
+        ContractSortCommandHelper.getInstance().sortContractInfoSetRegardingCommand(contractInfoSet, csc);
         
 //        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.

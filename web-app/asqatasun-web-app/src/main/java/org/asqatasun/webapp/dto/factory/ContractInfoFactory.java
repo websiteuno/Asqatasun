@@ -22,15 +22,16 @@
 package org.asqatasun.webapp.dto.factory;
 
 import org.asqatasun.webapp.action.voter.ActionHandler;
+import org.asqatasun.webapp.dto.ContractInfoImpl;
+import org.asqatasun.webapp.dto.data.AuditProgressionEnum;
+import org.asqatasun.webapp.dto.data.ContractInfo;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.entity.service.contract.ActDataService;
 import org.asqatasun.webapp.entity.service.contract.ContractDataService;
-import org.asqatasun.webapp.dto.data.AuditProgressionEnum;
-import org.asqatasun.webapp.dto.data.ContractInfo;
-import org.asqatasun.webapp.dto.ContractInfoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -48,23 +49,28 @@ public class ContractInfoFactory {
     @Autowired
     protected ContractDataService contractDataService;
     @Autowired
+    @Qualifier(value = "contractActionHandler")
     private ActionHandler actionHandler;
 
     /**
-     * The unique shared instance of ContractInfoFactory
+     * The holder that handles the unique instance of ContractInfoFactory
      */
-    private static ContractInfoFactory contractInfoFactory;
+    private static class ContractInfoFactoryHolder {
+        private static final ContractInfoFactory INSTANCE = new ContractInfoFactory();
+    }
 
     /**
-     * Default private constructor
+     * Private constructor
      */
-    protected ContractInfoFactory(){}
+    protected ContractInfoFactory() {}
 
-    public static synchronized ContractInfoFactory getInstance(){
-        if (contractInfoFactory == null) {
-            contractInfoFactory = new ContractInfoFactory();
-        }
-        return contractInfoFactory;
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of ContractInfoFactory
+     */
+    public static ContractInfoFactory getInstance() {
+        return ContractInfoFactoryHolder.INSTANCE;
     }
 
     /**

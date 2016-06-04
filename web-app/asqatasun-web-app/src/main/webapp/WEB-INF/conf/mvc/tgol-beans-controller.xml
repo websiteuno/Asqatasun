@@ -140,5 +140,10 @@
             </list>
         </entry>
     </util:map>
+    <util:list id="contractManagementOptionFieldsBuilderList" list-class="java.util.ArrayList">
+        <ref bean="displayContractOrderSelectFormFieldBuilder"/>
+        <ref bean="inclusionRegexpContractFormFieldBuilder"/>
+        <ref bean="exclusionRegexpContractFormFieldBuilder"/>
+    </util:list>
 
 </beans>
