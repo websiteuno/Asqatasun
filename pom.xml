@@ -1229,10 +1229,10 @@
                         <groupId>org.apache.httpcomponents</groupId>
                         <artifactId>httpcore</artifactId>
                     </exclusion>
-                    <exclusion>
-                        <groupId>com.google.guava</groupId>
-                        <artifactId>guava</artifactId>
-                    </exclusion>
+                    <!--<exclusion>-->
+                        <!--<groupId>com.google.guava</groupId>-->
+                        <!--<artifactId>guava</artifactId>-->
+                    <!--</exclusion>-->
                 </exclusions>
             </dependency>
             <dependency>
