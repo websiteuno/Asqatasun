@@ -21,9 +21,6 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.util.*;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.asqatasun.webapp.command.AuditSetUpCommand;
 import org.asqatasun.webapp.command.factory.AuditSetUpCommandFactory;
@@ -35,8 +32,8 @@ import org.asqatasun.webapp.entity.referential.Referential;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.form.SelectFormField;
-import org.asqatasun.webapp.ui.form.builder.SelectFormFieldBuilderImpl;
 import org.asqatasun.webapp.form.parameterization.AuditSetUpFormField;
+import org.asqatasun.webapp.ui.form.builder.SelectFormFieldBuilderImpl;
 import org.asqatasun.webapp.ui.form.parameterization.builder.AuditSetUpFormFieldBuilderImpl;
 import org.asqatasun.webapp.ui.form.parameterization.helper.AuditSetUpFormFieldHelper;
 import org.asqatasun.webapp.util.TgolKeyStore;
@@ -47,6 +44,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /** 
  *
@@ -100,10 +101,9 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
      * The list of FormField builders that handles the choice of the referential
      * and its level
      */
+    @Autowired
+    @Qualifier(value="levelSelectFormFieldBuilder")
     List<SelectFormFieldBuilderImpl> referentialAndLevelFormFieldBuilderList;
-    public final void setReferentialAndLevelFormFieldBuilderList(List<SelectFormFieldBuilderImpl> selectFormFieldBuilderList) {
-        this.referentialAndLevelFormFieldBuilderList = selectFormFieldBuilderList;
-    }
 
     /**
      * This map binds the audit set-up view with the functionality code that 

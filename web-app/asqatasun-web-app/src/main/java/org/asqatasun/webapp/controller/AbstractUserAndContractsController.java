@@ -22,11 +22,6 @@
 
 package org.asqatasun.webapp.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import org.asqatasun.emailsender.EmailSender;
 import org.asqatasun.entity.service.audit.AuditDataService;
 import org.asqatasun.util.MD5Encoder;
 import org.asqatasun.webapp.command.CreateContractCommand;
@@ -37,7 +32,6 @@ import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.service.contract.ActDataService;
 import org.asqatasun.webapp.entity.user.User;
-import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
 import org.asqatasun.webapp.form.parameterization.builder.ContractOptionFormFieldBuilder;
 import org.asqatasun.webapp.util.TgolKeyStore;
@@ -51,6 +45,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author jkowalczyk
@@ -58,8 +60,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 @Controller
 public class AbstractUserAndContractsController extends AbstractController {
 
-    @Resource(name = "formFieldBuilderList")
-    List<FormFieldBuilder> displayOptionFieldsBuilderList;
     @Resource(name = "contractOptionFormFieldBuilderMap")
     protected Map<String, List<ContractOptionFormFieldBuilder>> contractOptionFormFieldBuilderMap;
 

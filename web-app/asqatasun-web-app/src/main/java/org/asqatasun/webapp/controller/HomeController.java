@@ -65,7 +65,7 @@ public class HomeController extends AbstractController {
         User user = getCurrentUser();
         model.addAttribute(
                 TgolKeyStore.CONTRACT_LIST_KEY, 
-                ContractSortCommandHelper.prepareContractInfo(
+                ContractSortCommandHelper.getInstance().prepareContractInfo(
                     user, 
                     null,
                     displayOptionFieldsBuilderList,
@@ -87,7 +87,7 @@ public class HomeController extends AbstractController {
         // The page is displayed with sort option. Form needs to be set up
         model.addAttribute(
                 TgolKeyStore.CONTRACT_LIST_KEY, 
-                ContractSortCommandHelper.prepareContractInfo(
+                ContractSortCommandHelper.getInstance().prepareContractInfo(
                     user, 
                     contractDisplayCommand,
                     displayOptionFieldsBuilderList,

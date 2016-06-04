@@ -22,9 +22,9 @@ package org.asqatasun.webapp.controller;
  * Contact us by mail: asqatasun AT asqatasun DOT org
  */
 
-
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.asqatasun.webapp.command.ContractSortCommand;
@@ -35,6 +35,7 @@ import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.user.User;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
+import org.asqatasun.webapp.form.builder.FormFieldBuilder;
 import org.asqatasun.webapp.form.parameterization.ContractOptionFormField;
 import org.asqatasun.webapp.ui.form.parameterization.helper.ContractOptionFormFieldHelper;
 import org.asqatasun.webapp.util.TgolKeyStore;
@@ -53,6 +54,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class ContractManagementController extends AbstractUserAndContractsController {
+
+    @Resource(name = "contractManagementOptionFieldsBuilderList")
+    List<FormFieldBuilder> displayOptionFieldsBuilderList;
 
     public ContractManagementController() {
         super();
@@ -103,7 +107,7 @@ public class ContractManagementController extends AbstractUserAndContractsContro
 
         model.addAttribute(
                 TgolKeyStore.CONTRACT_LIST_KEY, 
-                ContractSortCommandHelper.prepareContract(
+                ContractSortCommandHelper.getInstance().prepareContract(
                     userToManage, 
                     null,
                     displayOptionFieldsBuilderList,
@@ -140,7 +144,7 @@ public class ContractManagementController extends AbstractUserAndContractsContro
         
         model.addAttribute(
                 TgolKeyStore.CONTRACT_LIST_KEY, 
-                ContractSortCommandHelper.prepareContract(
+                ContractSortCommandHelper.getInstance().prepareContract(
                     userToManage, 
                     contractDisplayCommand,
                     displayOptionFieldsBuilderList,

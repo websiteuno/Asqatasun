@@ -23,7 +23,6 @@ package org.asqatasun.webapp.command.helper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.webapp.command.ContractSortCommand;
-import org.asqatasun.webapp.command.factory.AddScenarioCommandFactory;
 import org.asqatasun.webapp.command.factory.ContractSortCommandFactory;
 import org.asqatasun.webapp.dto.data.ContractInfo;
 import org.asqatasun.webapp.dto.factory.ContractInfoFactory;

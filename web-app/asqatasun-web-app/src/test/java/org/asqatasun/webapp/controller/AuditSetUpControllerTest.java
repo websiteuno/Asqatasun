@@ -454,7 +454,7 @@ public class AuditSetUpControllerTest extends TestCase {
      * deal with the referential and level selection
      */
     private void setUpFormFieldBuilder() {
-        instance.setReferentialAndLevelFormFieldBuilderList(buildMockRefAndLevelSelectFormFieldList());
+        ReflectionTestUtils.setField(instance, "referentialAndLevelFormFieldBuilderList", buildMockRefAndLevelSelectFormFieldList());
         ReflectionTestUtils.setField(instance, "pageOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
         ReflectionTestUtils.setField(instance, "siteOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
         ReflectionTestUtils.setField(instance, "uploadOptionFormFieldBuilderMap", buildMockOptionAuditSetUpFormFieldList());
