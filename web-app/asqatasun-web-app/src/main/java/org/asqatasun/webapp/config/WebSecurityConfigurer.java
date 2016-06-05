@@ -63,19 +63,14 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     "/Js/**",
                     "/External-Js/**",
                     "/login",
-//                    "/forgotten-password.html").permitAll()
-//            .antMatchers(
-                    "/forgotten-password.html",
+                    "/forgotten-password.html").permitAll()
+            .antMatchers(
                     "/dispatch.html",
                     "/home.html",
-                    "/home/*",
-//                    "/home/**/*").hasRole("USER")
-//            .antMatchers(
-                    "/home/**/*",
-                    "/admin*",
-                    "/admin/*",
-                    "/admin/**/*").permitAll()
-//                    "/admin/**/*").hasAnyRole("USER","ADMIN")
+                    "/home/**").hasAnyRole("USER","ADMIN")
+            .antMatchers(
+                    "/admin.html",
+                    "/admin/**").hasAnyRole("ADMIN")
             .and()
             .formLogin()
                 .usernameParameter("j_username") /* BY DEFAULT IS username!!! */
