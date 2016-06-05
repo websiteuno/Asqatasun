@@ -21,8 +21,8 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
-import org.asqatasun.webapp.dto.data.FailedThemeInfo;
 import org.asqatasun.webapp.dto.FailedThemeInfoImpl;
+import org.asqatasun.webapp.dto.data.FailedThemeInfo;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,28 +33,24 @@ import org.springframework.stereotype.Component;
 public final class FailedThemeInfoFactory {
 
     /**
-     * The unique shared instance of FailedThemeInfoFactory
+     * The holder that handles the unique instance of FailedThemeInfoFactory
      */
-    private static FailedThemeInfoFactory failedThemeInfoFactory;
-
-    /**
-     * Default private constructor
-     */
-    private FailedThemeInfoFactory(){}
-
-    public static synchronized FailedThemeInfoFactory getInstance(){
-        if (failedThemeInfoFactory == null) {
-            failedThemeInfoFactory = new FailedThemeInfoFactory();
-        }
-        return failedThemeInfoFactory;
+    private static class FailedThemeInfoFactoryHolder {
+        private static final FailedThemeInfoFactory INSTANCE = new FailedThemeInfoFactory();
     }
 
     /**
-     * 
-     * @return
+     * Private constructor
      */
-    public FailedThemeInfo getFailedThemeInfo(){
-        return new FailedThemeInfoImpl();
+    protected FailedThemeInfoFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of FailedThemeInfoFactory
+     */
+    public static FailedThemeInfoFactory getInstance() {
+        return FailedThemeInfoFactoryHolder.INSTANCE;
     }
 
     /**

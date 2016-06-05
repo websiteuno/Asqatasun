@@ -21,8 +21,8 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
-import org.asqatasun.webapp.dto.data.FailedTestInfo;
 import org.asqatasun.webapp.dto.FailedTestInfoImpl;
+import org.asqatasun.webapp.dto.data.FailedTestInfo;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,28 +33,24 @@ import org.springframework.stereotype.Component;
 public final class FailedTestInfoFactory {
 
     /**
-     * The unique shared instance of FailedTestInfoFactory
+     * The holder that handles the unique instance of FailedTestInfoFactory
      */
-    private static FailedTestInfoFactory failedTestInfoFactory;
-
-    /**
-     * Default private constructor
-     */
-    private FailedTestInfoFactory(){}
-
-    public static synchronized FailedTestInfoFactory getInstance(){
-        if (failedTestInfoFactory == null) {
-            failedTestInfoFactory = new FailedTestInfoFactory();
-        }
-        return failedTestInfoFactory;
+    private static class FailedTestInfoFactoryHolder {
+        private static final FailedTestInfoFactory INSTANCE = new FailedTestInfoFactory();
     }
 
     /**
-     * 
-     * @return
+     * Private constructor
      */
-    public FailedTestInfo getFailedTestInfo(){
-        return new FailedTestInfoImpl();
+    protected FailedTestInfoFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of FailedTestInfoFactory
+     */
+    public static FailedTestInfoFactory getInstance() {
+        return FailedTestInfoFactoryHolder.INSTANCE;
     }
 
     /**

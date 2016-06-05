@@ -21,11 +21,8 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
-import org.asqatasun.entity.reference.Scope;
-import org.asqatasun.entity.service.audit.ProcessResultDataService;
-import org.asqatasun.webapp.dto.data.PageResult;
 import org.asqatasun.webapp.dto.PageResultImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.asqatasun.webapp.dto.data.PageResult;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,33 +32,25 @@ import org.springframework.stereotype.Component;
 @Component("pageResultFactory")
 public class PageResultFactory {
 
-//    @Autowired
-//    private ProcessResultDataService processResultDataService;
-//
-//    private Scope scope;
-//    public Scope getScope() {
-//        return scope;
-//    }
-//
-//    public void setScope(Scope scope) {
-//        this.scope = scope;
-//    }
-
     /**
-     * The unique shared instance of PageResultFactory
+     * The holder that handles the unique instance of PageResultFactory
      */
-    private static PageResultFactory pageResultFactory;
+    private static class PageResultFactoryHolder {
+        private static final PageResultFactory INSTANCE = new PageResultFactory();
+    }
 
     /**
-     * Default private constructor
+     * Private constructor
      */
     protected PageResultFactory() {}
 
-    public static synchronized PageResultFactory getInstance() {
-        if (pageResultFactory == null) {
-            pageResultFactory = new PageResultFactory();
-        }
-        return pageResultFactory;
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of PageResultFactory
+     */
+    public static PageResultFactory getInstance() {
+        return PageResultFactoryHolder.INSTANCE;
     }
 
     /**

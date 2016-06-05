@@ -34,28 +34,26 @@ import org.springframework.stereotype.Component;
 public final class FailedPageInfoFactory {
 
     /**
-     * The unique shared instance of FailedPageInfoFactory
+     * The holder that handles the unique instance of FailedPageInfoFactory
      */
-    private static FailedPageInfoFactory failedPageInfoFactory;
-
-    /**
-     * Default private constructor
-     */
-    private FailedPageInfoFactory(){}
-
-    public static synchronized FailedPageInfoFactory getInstance(){
-        if (failedPageInfoFactory == null) {
-            failedPageInfoFactory = new FailedPageInfoFactory();
-        }
-        return failedPageInfoFactory;
+    private static class FailedPageInfoFactoryHolder {
+        private static final FailedPageInfoFactory INSTANCE = new FailedPageInfoFactory();
     }
 
     /**
-     * 
-     * @return
+     * Private constructor
      */
-    public FailedPageInfo getFailedPageInfo(){
-        return new FailedPageInfoImpl();
+    private FailedPageInfoFactory() {
+        super();
+    }
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of FailedPageInfoFactory
+     */
+    public static FailedPageInfoFactory getInstance() {
+        return FailedPageInfoFactoryHolder.INSTANCE;
     }
 
     /**

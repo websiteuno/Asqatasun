@@ -50,28 +50,24 @@ public final class CriterionResultFactory {
     private CriterionDataService criterionDataService;
 
     /**
-     * The unique shared instance of CriterionResultFactory
+     * The holder that handles the unique instance of CriterionResultFactory
      */
-    private static CriterionResultFactory criterionResultFactory;
-
-    /**
-     * Default private constructor
-     */
-    private CriterionResultFactory(){}
-
-    public static synchronized CriterionResultFactory getInstance(){
-        if (criterionResultFactory == null) {
-            criterionResultFactory = new CriterionResultFactory();
-        }
-        return criterionResultFactory;
+    private static class CriterionResultFactoryHolder {
+        private static final CriterionResultFactory INSTANCE = new CriterionResultFactory();
     }
 
     /**
-     *
-     * @return
+     * Private constructor
      */
-    public TestResult getTestResult() {
-        return new TestResultImpl();
+    protected CriterionResultFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of CriterionResultFactory
+     */
+    public static CriterionResultFactory getInstance() {
+        return CriterionResultFactoryHolder.INSTANCE;
     }
 
     /**

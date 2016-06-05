@@ -62,7 +62,7 @@ public final class DetailedContractInfoFactory extends ContractInfoFactory {
     /**
      * Singleton pattern based on the "Initialization-on-demand
      * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
-     * @return the unique instance of ContractInfoFactory
+     * @return the unique instance of DetailedContractInfoFactory
      */
     public static DetailedContractInfoFactory getInstance() {
         return DetailedContractInfoFactoryHolder.INSTANCE;

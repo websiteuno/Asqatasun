@@ -23,8 +23,7 @@ package org.asqatasun.webapp.config;
 
 import org.asqatasun.webapp.command.factory.*;
 import org.asqatasun.webapp.command.helper.ContractSortCommandHelper;
-import org.asqatasun.webapp.dto.factory.ContractInfoFactory;
-import org.asqatasun.webapp.dto.factory.DetailedContractInfoFactory;
+import org.asqatasun.webapp.dto.factory.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -64,13 +63,33 @@ public class SingletonConfig  {
         return ContractSortCommandHelper.getInstance();
     }
 
+    @Bean (name = "actInfoFactory")
+    static ActInfoFactory actInfoFactory() {
+        return ActInfoFactory.getInstance();
+    }
+
+    @Bean (name = "auditStatisticsFactory")
+    static AuditStatisticsFactory auditStatisticsFactory() {
+        return AuditStatisticsFactory.getInstance();
+    }
+
     @Bean (name = "contractInfoFactory")
     static ContractInfoFactory contractInfoFactory() {
         return ContractInfoFactory.getInstance();
     }
 
+    @Bean (name = "criterionResultFactory")
+    static CriterionResultFactory criterionResultFactory() {
+        return CriterionResultFactory.getInstance();
+    }
+
     @Bean (name = "detailedContractInfoFactory")
     static DetailedContractInfoFactory detailedContractInfoFactory() {
         return DetailedContractInfoFactory.getInstance();
+    }
+
+    @Bean (name = "testResultFactory")
+    static TestResultFactory testResultFactoryFactory() {
+        return TestResultFactory.getInstance();
     }
 }

@@ -25,11 +25,11 @@ import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.AuditStatus;
 import org.asqatasun.entity.service.audit.ContentDataService;
 import org.asqatasun.entity.subject.WebResource;
+import org.asqatasun.webapp.dto.ActInfoImpl;
+import org.asqatasun.webapp.dto.data.ActInfo;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.decorator.asqatasun.parameterization.ParameterDataServiceDecorator;
 import org.asqatasun.webapp.entity.service.statistics.StatisticsDataService;
-import org.asqatasun.webapp.dto.data.ActInfo;
-import org.asqatasun.webapp.dto.ActInfoImpl;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -53,20 +53,24 @@ public final class ActInfoFactory {
     private ParameterDataServiceDecorator parameterDataService;
 
     /**
-     * The unique shared instance of ActInfoFactory
+     * The holder that handles the unique instance of ActInfoFactory
      */
-    private static ActInfoFactory actInfoFactory;
+    private static class ActInfoFactoryHolder {
+        private static final ActInfoFactory INSTANCE = new ActInfoFactory();
+    }
 
     /**
-     * Default private constructor
+     * Private constructor
      */
-    private ActInfoFactory(){}
+    protected ActInfoFactory() {}
 
-    public static synchronized ActInfoFactory getInstance(){
-        if (actInfoFactory == null) {
-            actInfoFactory = new ActInfoFactory();
-        }
-        return actInfoFactory;
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of ActInfoFactory
+     */
+    public static ActInfoFactory getInstance() {
+        return ActInfoFactoryHolder.INSTANCE;
     }
 
     /**

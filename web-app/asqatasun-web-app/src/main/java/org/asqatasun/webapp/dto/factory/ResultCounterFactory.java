@@ -21,8 +21,8 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
-import org.asqatasun.webapp.dto.data.ResultCounter;
 import org.asqatasun.webapp.dto.ResultCounterImpl;
+import org.asqatasun.webapp.dto.data.ResultCounter;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,38 +33,28 @@ import org.springframework.stereotype.Component;
 public final class ResultCounterFactory {
 
     /**
-     * The unique shared instance of ResultCounterFactory
+     * The holder that handles the unique instance of ResultCounterFactory
      */
-    private static ResultCounterFactory resultInfosFactory;
+    private static class ResultCounterFactoryHolder {
+        private static final ResultCounterFactory INSTANCE = new ResultCounterFactory();
+    }
 
     /**
-     * Default private constructor
+     * Private constructor
      */
-    private ResultCounterFactory(){}
+    protected ResultCounterFactory() {}
 
-    public static synchronized ResultCounterFactory getInstance(){
-        if (resultInfosFactory == null) {
-            resultInfosFactory = new ResultCounterFactory();
-        }
-        return resultInfosFactory;
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of ResultCounterFactory
+     */
+    public static ResultCounterFactory getInstance() {
+        return ResultCounterFactoryHolder.INSTANCE;
     }
 
     public ResultCounter getResultCounter(){
         return new ResultCounterImpl();
-    }
-
-    public ResultCounter getResultCounter(
-            Integer passedCount,
-            Integer failedCount,
-            Integer nmiCount,
-            Integer naCount,
-            Integer ntCount){
-        return new ResultCounterImpl(
-                passedCount, 
-                failedCount, 
-                nmiCount, 
-                naCount, 
-                ntCount);
     }
 
 }

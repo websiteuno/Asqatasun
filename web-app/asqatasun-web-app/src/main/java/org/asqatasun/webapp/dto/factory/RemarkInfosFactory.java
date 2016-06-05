@@ -21,8 +21,8 @@
  */
 package org.asqatasun.webapp.dto.factory;
 
-import org.asqatasun.webapp.dto.data.RemarkInfos;
 import org.asqatasun.webapp.dto.RemarkInfosImpl;
+import org.asqatasun.webapp.dto.data.RemarkInfos;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,24 +33,24 @@ import org.springframework.stereotype.Component;
 public final class RemarkInfosFactory {
 
     /**
-     * The unique shared instance of RemarkInfosFactory
+     * The holder that handles the unique instance of RemarkInfosFactory
      */
-    private static RemarkInfosFactory remarkInfosFactory;
-
-    /**
-     * Default private constructor
-     */
-    private RemarkInfosFactory(){}
-
-    public static synchronized RemarkInfosFactory getInstance(){
-        if (remarkInfosFactory == null) {
-            remarkInfosFactory = new RemarkInfosFactory();
-        }
-        return remarkInfosFactory;
+    private static class RemarkInfosFactoryHolder {
+        private static final RemarkInfosFactory INSTANCE = new RemarkInfosFactory();
     }
 
-    public RemarkInfos getRemarksInfo(){
-        return new RemarkInfosImpl();
+    /**
+     * Private constructor
+     */
+    protected RemarkInfosFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of RemarkInfosFactory
+     */
+    public static RemarkInfosFactory getInstance() {
+        return RemarkInfosFactoryHolder.INSTANCE;
     }
 
     public RemarkInfos getRemarksInfo(String messageCode){

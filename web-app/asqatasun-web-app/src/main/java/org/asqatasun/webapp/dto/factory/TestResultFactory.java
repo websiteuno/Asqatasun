@@ -33,10 +33,10 @@ import org.asqatasun.entity.service.audit.ProcessRemarkDataService;
 import org.asqatasun.entity.service.audit.ProcessResultDataService;
 import org.asqatasun.entity.service.reference.TestDataService;
 import org.asqatasun.entity.subject.WebResource;
+import org.asqatasun.webapp.dto.TestResultImpl;
 import org.asqatasun.webapp.dto.data.ManualResult;
 import org.asqatasun.webapp.dto.data.RemarkInfos;
 import org.asqatasun.webapp.dto.data.TestResult;
-import org.asqatasun.webapp.dto.TestResultImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -65,30 +65,26 @@ public final class TestResultFactory {
     private TestDataService testDataService;
     @Value("${selectAllThemeKey:all-theme}")
     private String selectAllThemeKey;
-    /**
-     * The unique shared instance of TestResultFactory
-     */
-    private static TestResultFactory testResultFactory;
 
     /**
-     * Default private constructor
+     * The holder that handles the unique instance of TestResultFactory
      */
-    private TestResultFactory() {
-    }
-
-    public static synchronized TestResultFactory getInstance() {
-        if (testResultFactory == null) {
-            testResultFactory = new TestResultFactory();
-        }
-        return testResultFactory;
+    private static class TestResultFactoryHolder {
+        private static final TestResultFactory INSTANCE = new TestResultFactory();
     }
 
     /**
-     *
-     * @return
+     * Private constructor
      */
-    public TestResult getTestResult() {
-        return new TestResultImpl();
+    protected TestResultFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of TestResultFactory
+     */
+    public static TestResultFactory getInstance() {
+        return TestResultFactoryHolder.INSTANCE;
     }
 
     /**

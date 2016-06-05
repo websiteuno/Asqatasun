@@ -35,11 +35,11 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.statistics.CriterionStatistics;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
+import org.asqatasun.webapp.dto.AuditStatisticsImpl;
+import org.asqatasun.webapp.dto.data.AuditStatistics;
+import org.asqatasun.webapp.dto.data.ResultCounter;
 import org.asqatasun.webapp.entity.service.contract.ActDataService;
 import org.asqatasun.webapp.entity.service.statistics.StatisticsDataService;
-import org.asqatasun.webapp.dto.data.AuditStatistics;
-import org.asqatasun.webapp.dto.AuditStatisticsImpl;
-import org.asqatasun.webapp.dto.data.ResultCounter;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.asqatasun.webapp.util.TgolKeyStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,21 +98,24 @@ public class AuditStatisticsFactory {
     }
 
     /**
-     * The unique shared instance of ContractInfoFactory
+     * The holder that handles the unique instance of AuditStatisticsFactory
      */
-    private static AuditStatisticsFactory auditStatisticsFactory;
-
-    /**
-     * Default private constructor
-     */
-    protected AuditStatisticsFactory() {
+    private static class AuditStatisticsFactoryHolder {
+        private static final AuditStatisticsFactory INSTANCE = new AuditStatisticsFactory();
     }
 
-    public static synchronized AuditStatisticsFactory getInstance() {
-        if (auditStatisticsFactory == null) {
-            auditStatisticsFactory = new AuditStatisticsFactory();
-        }
-        return auditStatisticsFactory;
+    /**
+     * Private constructor
+     */
+    protected AuditStatisticsFactory() {}
+
+    /**
+     * Singleton pattern based on the "Initialization-on-demand
+     * holder idiom". See @http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom
+     * @return the unique instance of AuditStatisticsFactory
+     */
+    public static AuditStatisticsFactory getInstance() {
+        return AuditStatisticsFactoryHolder.INSTANCE;
     }
 
     /**
