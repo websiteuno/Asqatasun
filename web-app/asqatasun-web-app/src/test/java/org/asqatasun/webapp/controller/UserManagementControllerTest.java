@@ -720,8 +720,10 @@ public class UserManagementControllerTest extends TestCase {
         replay(mockAdminRole);
         replay(mockUserRole);        
         replay(mockRoleDataService);
-        
-        CreateUserCommandFactory.getInstance().setRoleDataService(mockRoleDataService);
+
+        ReflectionTestUtils.setField(CreateUserCommandFactory.getInstance(), "roleDataService", mockRoleDataService);
+        ReflectionTestUtils.setField(CreateUserCommandFactory.getInstance(), "userRoleId", 2l);
+        ReflectionTestUtils.setField(CreateUserCommandFactory.getInstance(), "adminRoleId", 3l);
         CreateUserCommandFactory.getInstance().initRoles();
     }
 

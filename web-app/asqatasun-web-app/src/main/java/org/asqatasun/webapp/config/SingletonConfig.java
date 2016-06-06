@@ -24,6 +24,7 @@ package org.asqatasun.webapp.config;
 import org.asqatasun.webapp.command.factory.*;
 import org.asqatasun.webapp.command.helper.ContractSortCommandHelper;
 import org.asqatasun.webapp.dto.factory.*;
+import org.asqatasun.webapp.ui.form.parameterization.helper.AuditSetUpFormFieldHelper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -92,4 +93,10 @@ public class SingletonConfig  {
     static TestResultFactory testResultFactoryFactory() {
         return TestResultFactory.getInstance();
     }
+
+    @Bean (name = "auditSetUpFormFieldHelper")
+    static AuditSetUpFormFieldHelper auditSetUpFormFieldHelper() {
+        return AuditSetUpFormFieldHelper.getInstance();
+    }
+
 }

@@ -355,7 +355,7 @@ public final class AuditSetUpCommandFactory {
                 // If the level is overidden from the parameters of the last audit, 
                 // we need to update the UI elements regarding this value (set this 
                 // element as default)
-                AuditSetUpFormFieldHelper.selectDefaultLevelFromLevelValue(levelFormFieldList, defaultValue);
+                AuditSetUpFormFieldHelper.getInstance().selectDefaultLevelFromLevelValue(levelFormFieldList, defaultValue);
                 isDefaultValue = false;
             }
         }

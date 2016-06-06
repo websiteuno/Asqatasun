@@ -64,9 +64,6 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
     private ExportService exportService;
     @Resource(name = "auditExportDefaultParametersToDisplay")
     private Map<String, String> auditExportParametersToDisplay;
-    public Map<String, String> getParametersToDisplay() {
-        return auditExportParametersToDisplay;
-    }
 
     public AuditExportResultController() {
         super();
@@ -114,7 +111,6 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
                         model,
                         localeResolver.resolveLocale(request),
                         format,
-                        request,
                         response);
                 return null;
             } catch (NotSupportedExportFormatException exc) {
@@ -133,7 +129,6 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
      * @param model
      * @param locale
      * @param exportFormat
-     * @param request
      * @param response
      * @return
      * @throws IOException
@@ -143,7 +138,6 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
             Model model,
             Locale locale,
             String exportFormat,
-            HttpServletRequest request,
             HttpServletResponse response) throws NotSupportedExportFormatException {
 
         model.addAttribute(TgolKeyStore.LOCALE_KEY,locale);
@@ -153,8 +147,7 @@ public class AuditExportResultController extends AbstractAuditDataHandlerControl
         }
         List<TestResult> testResultList = TestResultFactory.getInstance().getTestResultList(
                     webResource,
-                    scope,
-                    localeResolver.resolveLocale(request));
+                    scope);
         
         AuditStatistics auditStatistics = getAuditStatistics(
                     webResource, 

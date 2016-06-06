@@ -147,7 +147,7 @@ public final class AuditResultSortCommandFactory {
         // is possible. We need to retrieve the appropriate theme list regarding
         // the referential
         // Copy the audit setup form field map from the builders
-        List<FormField> initialisedFormFieldList = new LinkedList<FormField>();
+        List<FormField> initialisedFormFieldList = new LinkedList<>();
         boolean hasTheme = false;
         for (FormFieldBuilder formFieldBuilder : formFieldBuilderList) {
             if (!formFieldBuilder.getI18nKey().equals(themeKey)) {

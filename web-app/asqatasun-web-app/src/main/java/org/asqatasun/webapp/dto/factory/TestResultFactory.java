@@ -223,14 +223,10 @@ public final class TestResultFactory {
      *
      * @param webresource
      * @param scope
-     * @param locale
      * @return the test result list without user filter (used for the export
      * function)
      */
-    public List<TestResult> getTestResultList(
-            WebResource webresource,
-            Scope scope,
-            Locale locale) {
+    public List<TestResult> getTestResultList(WebResource webresource, Scope scope) {
         // Map that associates a list of results with a theme
         List<TestResult> testResultList = new LinkedList();
         List<ProcessResult> netResultList = (List<ProcessResult>) processResultDataService.
@@ -396,7 +392,7 @@ public final class TestResultFactory {
                 testResultList.add(testResult);
             }
         }
-        Map<Theme, List<TestResult>> testResultMap = new HashMap();
+        Map<Theme, List<TestResult>> testResultMap = new HashMap<>();
         testResultMap.put(crit.getTheme(), testResultList);
         return testResultMap;
     }
@@ -412,7 +408,7 @@ public final class TestResultFactory {
             WebResource webresource,
             Test test) {
         // Map that associates a list of results with a theme
-        List<TestResult> testResultList = new LinkedList();
+        List<TestResult> testResultList = new LinkedList<>();
         List<ProcessResult> netResultList = (List<ProcessResult>) processResultDataService.
                 getProcessResultListByWebResourceAndTest(
                         webresource,
@@ -437,7 +433,7 @@ public final class TestResultFactory {
                 testResultList.add(testResult);
             }
         }
-        Map<Theme, List<TestResult>> testResultMap = new HashMap();
+        Map<Theme, List<TestResult>> testResultMap = new HashMap<>();
         testResultMap.put(test.getCriterion().getTheme(), testResultList);
         return testResultMap;
     }
@@ -512,7 +508,7 @@ public final class TestResultFactory {
                     TestResult.MAX_REMARK_INFO);
         } else if ((testResult.getResultCounter().getFailedCount() + testResult.getResultCounter().getNmiCount()) > TestResult.MAX_REMARK_INFO) {
             testResult.setTruncated(true);
-            remarks = new LinkedHashSet();
+            remarks = new LinkedHashSet<>();
             remarks.addAll(processRemarkDataService.findProcessRemarksFromProcessResultAndTestSolution(
                     processResult,
                     TestSolution.FAILED,
@@ -644,13 +640,12 @@ public final class TestResultFactory {
      * @param testResult
      * @param currentRemarkInfos
      * @param remark
-     * @param eeList
      */
     private void addElementsToRemark(
             TestResult testResult,
             RemarkInfos currentRemarkInfos,
             ProcessRemark remark) {
-        Map<String, String> elementMap = new LinkedHashMap();
+        Map<String, String> elementMap = new LinkedHashMap<>();
 
         for (EvidenceElement evidenceElement : sortEvidenceElementSet(remark.getElementList())) {
             if (!evidenceElement.getEvidence().getCode().
@@ -685,10 +680,10 @@ public final class TestResultFactory {
     /**
      * This method sorts the evidence elements in ascending order
      *
-     * @param processResultList
+     * @param eeSet
      */
     private List<EvidenceElement> sortEvidenceElementSet(Collection<EvidenceElement> eeSet) {
-        List<EvidenceElement> evidenceElementList = new ArrayList();
+        List<EvidenceElement> evidenceElementList = new ArrayList<>();
         evidenceElementList.addAll(eeSet);
         Collections.sort(evidenceElementList, new Comparator<EvidenceElement>() {
             @Override
@@ -712,7 +707,7 @@ public final class TestResultFactory {
     private Map<String, String> sortEvidenceElementMap(
             TestResult testResult,
             Map<String, String> evidenceElementMap) {
-        Map<String, String> sortedMap = new LinkedHashMap();
+        Map<String, String> sortedMap = new LinkedHashMap<>();
         String tmpKey;
         for (String testEvidenceRepresentationOrder : testResult.getTestEvidenceRepresentationOrder()) {
             tmpKey = testEvidenceRepresentationOrder;
@@ -741,8 +736,8 @@ public final class TestResultFactory {
             String themeCode,
             List<ProcessResult> netResultList) {
 
-        Collection<Test> testedTestList = new ArrayList();
-        Map<String, TestSolution> manualValues = new HashMap();
+        Collection<Test> testedTestList = new ArrayList<>();
+        Map<String, TestSolution> manualValues = new HashMap<>();
         for (ProcessResult pr : netResultList) {
             /**
              * NOT_TESTED tests may have been created by manual audit during
@@ -789,7 +784,6 @@ public final class TestResultFactory {
      *
      * @param test
      * @param wr
-     * @param pr
      * @return
      */
     private ProcessResult createNotTestedProcessResult(

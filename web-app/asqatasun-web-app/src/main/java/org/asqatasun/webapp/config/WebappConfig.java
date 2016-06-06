@@ -26,8 +26,11 @@ import org.asqatasun.webapp.exception.TgolHandlerExceptionResolver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -166,7 +169,6 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
         return resolver;
     }
 
-
     @Bean (name="multipartResolver")
     public CommonsMultipartResolver commonsMultipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
@@ -189,7 +191,6 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
     public ResponseStatusExceptionResolver responseStatusExceptionResolver() {
         return new ResponseStatusExceptionResolver();
     }
-
 
     /* Localization section is started */
 
@@ -221,6 +222,11 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
         threadPoolTaskExecutor.setMaxPoolSize(50);
         threadPoolTaskExecutor.setAllowCoreThreadTimeOut(false);
         return threadPoolTaskExecutor;
+    }
+
+    @Bean(name="conversionService")
+    public ConversionService conversionService() {
+        return new DefaultConversionService();
     }
 
 }

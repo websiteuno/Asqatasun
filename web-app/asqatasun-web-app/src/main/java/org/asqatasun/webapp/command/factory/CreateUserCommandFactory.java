@@ -27,6 +27,7 @@ import org.asqatasun.webapp.entity.service.user.RoleDataService;
 import org.asqatasun.webapp.entity.user.Role;
 import org.asqatasun.webapp.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -38,8 +39,10 @@ import javax.annotation.PostConstruct;
 @Component
 public class CreateUserCommandFactory  implements Serializable {
 
-    private Long userRoleId = Long.valueOf("2");
-    private Long adminRoleId = Long.valueOf("3");
+    @Value("${userRoleId:2}")
+    private Long userRoleId;
+    @Value("${adminRoleId:3}")
+    private Long adminRoleId;
 
     private Role userRole;
     public Role getUserRole() {
@@ -52,9 +55,6 @@ public class CreateUserCommandFactory  implements Serializable {
 
     @Autowired
     private RoleDataService roleDataService;
-    public void setRoleDataService(RoleDataService roleDataService) {
-        this.roleDataService = roleDataService;
-    }
 
     @PostConstruct
     public void initRoles() {

@@ -214,7 +214,7 @@ public class SignUpControllerTest extends TestCase {
         replay(mockUserRole);        
         replay(mockRoleDataService);
         
-        CreateUserCommandFactory.getInstance().setRoleDataService(mockRoleDataService);
+        ReflectionTestUtils.setField(CreateUserCommandFactory.getInstance(), "roleDataService", mockRoleDataService);
         CreateUserCommandFactory.getInstance().initRoles();
     }
 

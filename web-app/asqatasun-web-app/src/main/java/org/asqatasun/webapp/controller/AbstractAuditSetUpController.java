@@ -115,7 +115,12 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
 
     @Autowired
     private AuditLauncherController auditLauncherController;
-    
+
+    /**
+     * Instance of auditSetUpFormFieldHelper
+     */
+    AuditSetUpFormFieldHelper auditSetUpFormFieldHelper = AuditSetUpFormFieldHelper.getInstance();
+
     public AbstractAuditSetUpController() {
         super();
     }
@@ -156,7 +161,7 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
                         referentialAndLevelFormFieldBuilderList);
             
             String defaultRef = getDefaultReferential(authorisedReferentialList);
-            AuditSetUpFormFieldHelper.selectDefaultLevelFromRefValue(
+            auditSetUpFormFieldHelper.selectDefaultLevelFromRefValue(
                     refAndLevelFormFieldList, 
                     defaultRef);
             
@@ -320,7 +325,7 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
         // When the form is on error, the default level value corresponds to the 
         // one the user has chosen. 
         
-        AuditSetUpFormFieldHelper.selectDefaultLevelFromLevelValue(
+        auditSetUpFormFieldHelper.selectDefaultLevelFromLevelValue(
                     refAndLevelFormFieldList, 
                     auditSetUpCommand.getLevel());
         
@@ -455,7 +460,7 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
             SelectFormField selectFormField = seb.build();
             
             // enable-disable elements from the authorised referentials
-            AuditSetUpFormFieldHelper.activateAllowedReferentialField(
+            auditSetUpFormFieldHelper.activateAllowedReferentialField(
                     selectFormField, 
                     authorisedReferentialList);
             
@@ -478,7 +483,7 @@ public abstract class AbstractAuditSetUpController extends AbstractAuditDataHand
         }
         for (List<AuditSetUpFormField> apl : setUpFormFielList) {
             for (AuditSetUpFormField ap : apl) {
-                AuditSetUpFormFieldHelper.applyRestrictionToAuditSetUpFormField(
+                auditSetUpFormFieldHelper.applyRestrictionToAuditSetUpFormField(
                         ap, 
                         optionElementSet);
             }

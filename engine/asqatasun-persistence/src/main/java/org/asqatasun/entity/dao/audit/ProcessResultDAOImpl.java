@@ -39,6 +39,7 @@ import org.asqatasun.entity.reference.Test;
 import org.asqatasun.entity.reference.Theme;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.sdk.entity.dao.jpa.AbstractJPADAO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -52,34 +53,14 @@ public class ProcessResultDAOImpl extends AbstractJPADAO<ProcessResult, Long>
 
     private static final String CACHEABLE_OPTION = "org.hibernate.cacheable";
     private static final String TRUE = "true";
-    
-    private Long pageAndSiteScopeId = 3l;
-    public Long getPageAndSiteScopeId() {
-        return pageAndSiteScopeId;
-    }
 
-    public void setPageAndSiteScopeId(String pageAndSiteScopeId) {
-        this.pageAndSiteScopeId = Long.valueOf(pageAndSiteScopeId);
-    }
-
+    @Value("${pageAndSiteScopeId:3}")
+    private Long pageAndSiteScopeId;
+    @Value("${selectAllThemeKey:all-theme}")
     private String selectAllThemeKey;
-    public String getSelectAllThemeKey() {
-        return selectAllThemeKey;
-    }
-
-    public void setSelectAllThemeKey(String selectAllThemeKey) {
-        this.selectAllThemeKey = selectAllThemeKey;
-    }
-
+    @Value("${selectAllTestResultKey:all-result}")
     private String selectAllTestResultKey;
-    public String getSelectAllTestResultKey() {
-        return selectAllTestResultKey;
-    }
 
-    public void setSelectAllTestResultKey(String selectAllTestResultKey) {
-        this.selectAllTestResultKey = selectAllTestResultKey;
-    }
-    
     public ProcessResultDAOImpl() {
         super();
     }
