@@ -21,9 +21,6 @@
  */
 package org.asqatasun.webapp.controller;
 
-import java.io.IOException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.asqatasun.entity.audit.Audit;
 import org.asqatasun.entity.audit.SSP;
@@ -34,12 +31,12 @@ import org.asqatasun.entity.subject.Page;
 import org.asqatasun.entity.subject.Site;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.webapp.command.AuditResultSortCommand;
+import org.asqatasun.webapp.dto.factory.TestResultFactory;
 import org.asqatasun.webapp.entity.contract.Act;
 import org.asqatasun.webapp.entity.contract.Contract;
 import org.asqatasun.webapp.entity.contract.ScopeEnum;
 import org.asqatasun.webapp.exception.ForbiddenPageException;
 import org.asqatasun.webapp.exception.ForbiddenUserException;
-import org.asqatasun.webapp.dto.factory.TestResultFactory;
 import org.asqatasun.webapp.highlighter.HtmlHighlighter;
 import org.asqatasun.webapp.util.HttpStatusCodeFamily;
 import org.asqatasun.webapp.util.TgolKeyStore;
@@ -47,11 +44,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  *
@@ -144,8 +143,6 @@ public class AuditResultController extends AbstractAuditResultController {
     /**
      *
      * @param auditResultSortCommand
-     * @param webresourceId
-     * @param result
      * @param model
      * @param request
      * @return
@@ -154,8 +151,6 @@ public class AuditResultController extends AbstractAuditResultController {
     @Secured({TgolKeyStore.ROLE_USER_KEY, TgolKeyStore.ROLE_ADMIN_KEY})
     protected String submitPageResultSorter(
             @ModelAttribute(TgolKeyStore.AUDIT_RESULT_SORT_COMMAND_KEY) AuditResultSortCommand auditResultSortCommand,
-            @RequestParam(TgolKeyStore.WEBRESOURCE_ID_KEY) String webresourceId,
-            BindingResult result,
             Model model,
             HttpServletRequest request) {
         return dispatchDisplayResultRequest(
@@ -170,8 +165,6 @@ public class AuditResultController extends AbstractAuditResultController {
     /**
      *
      * @param webresourceId
-     * @param request
-     * @param response
      * @param model
      * @return
      */
@@ -179,8 +172,6 @@ public class AuditResultController extends AbstractAuditResultController {
     @Secured({TgolKeyStore.ROLE_USER_KEY, TgolKeyStore.ROLE_ADMIN_KEY})
     public String displaySourceCodeFromContract(
             @RequestParam(TgolKeyStore.WEBRESOURCE_ID_KEY) String webresourceId,
-            HttpServletRequest request,
-            HttpServletResponse response,
             Model model) {
         WebResource webResource;
         try {
@@ -255,8 +246,7 @@ public class AuditResultController extends AbstractAuditResultController {
                     isAuthorizedScopeForPageList(audit));
 
             model.addAttribute(TgolKeyStore.TEST_RESULT_LIST_KEY,
-                    TestResultFactory.getInstance()
-                    .getTestResultListFromCriterion(webResource, crit));
+                    TestResultFactory.getInstance().getTestResultListFromCriterion(webResource, crit));
             return TgolKeyStore.CRITERION_RESULT_VIEW_NAME;
         } else {
             throw new ForbiddenPageException();
@@ -312,8 +302,7 @@ public class AuditResultController extends AbstractAuditResultController {
 
             model.addAttribute(
                     TgolKeyStore.TEST_RESULT_LIST_KEY,
-                    TestResultFactory.getInstance().getTestResultListFromTest(
-                            webResource, test));
+                    TestResultFactory.getInstance().getTestResultListFromTest(webResource, test));
             return TgolKeyStore.TEST_RESULT_VIEW_NAME;
         } else {
             throw new ForbiddenPageException();

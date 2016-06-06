@@ -31,6 +31,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -82,6 +83,7 @@ import java.util.Properties;
         "org.asqatasun.processor",
         "org.asqatasun.consolidator",
         "org.asqatasun.analyser",
+        "org.asqatasun.webapp.statistics",
         "org.asqatasun.security",
         "org.asqatasun.nomenclatureloader",
         "org.asqatasun.ruleimplementationloader",
@@ -139,16 +141,8 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
 
     @Bean(name = "viewResolver")
     public ViewResolver getViewResolver(){
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/view/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setExposedContextBeanNames("propertiesFactoryBean");
-//        resolver.setExposeContextBeansAsAttributes(true);
-//        return resolver;
         ResourceBundleViewResolver resolver = new ResourceBundleViewResolver();
         resolver.setBasename("view");
-//        resolver.setExposedContextBeanNames("propertiesFactoryBean");
-//        resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }
 
@@ -216,6 +210,17 @@ public class WebappConfig extends WebMvcConfigurerAdapter {
         CookieLocaleResolver localeResolver = new CookieLocaleResolver();
         localeResolver.setCookieName("lang");
         return localeResolver;
+    }
+
+    @Bean(name = "threadPoolTaskExecutor")
+    public ThreadPoolTaskExecutor threadPoolTaskExecutor(){
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        threadPoolTaskExecutor.setCorePoolSize(10);
+        threadPoolTaskExecutor.setDaemon(false);
+        threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(false);
+        threadPoolTaskExecutor.setMaxPoolSize(50);
+        threadPoolTaskExecutor.setAllowCoreThreadTimeOut(false);
+        return threadPoolTaskExecutor;
     }
 
 }

@@ -98,7 +98,7 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
     private ActFactory actFactory;
     @Autowired
     private EmailSender emailSender;
-
+    @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     private final Map<ScopeEnum, Scope> scopeMap = new EnumMap<>(ScopeEnum.class);
@@ -122,20 +122,10 @@ public class AsqatasunOrchestratorImpl implements AsqatasunOrchestrator {
     private List<String> krashReportMailList;
     @Value("${isAllowedToSendKrashReport}")
     private boolean isAllowedToSendKrashReport;
-    @Value("${threadPoolTaskExecutor.corePoolSize:10}")
-    private int corePoolSize;
-    @Value("${threadPoolTaskExecutor.maxPoolSize:50}")
-    private int maxPoolSize;
 
     @PostConstruct
     public void init() {
         initializeScopeMap(scopeDataService);
-        threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-        threadPoolTaskExecutor.setCorePoolSize(corePoolSize);
-        threadPoolTaskExecutor.setDaemon(false);
-        threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(false);
-        threadPoolTaskExecutor.setMaxPoolSize(maxPoolSize);
-        threadPoolTaskExecutor.setAllowCoreThreadTimeOut(false);
     }
 
     public AsqatasunOrchestratorImpl(){}
