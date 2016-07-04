@@ -54,8 +54,9 @@ public class ProcessResultDAOImpl extends AbstractJPADAO<ProcessResult, Long>
     private static final String CACHEABLE_OPTION = "org.hibernate.cacheable";
     private static final String TRUE = "true";
 
-    @Value("${pageAndSiteScopeId:3}")
-    private Long pageAndSiteScopeId;
+    private static long PAGE_AND_SITE_SCOPE_ID = 3;
+
+    private long pageAndSiteScopeId = PAGE_AND_SITE_SCOPE_ID;
     @Value("${selectAllThemeKey:all-theme}")
     private String selectAllThemeKey;
     @Value("${selectAllTestResultKey:all-result}")
