@@ -28,6 +28,7 @@
         <module>consolidator</module>
         <module>analyser</module>
         <module>asqatasun-engine</module>
+        <module>asqatasun-web</module>
         <module>logging</module>
 
         <module>asqatasun-resources</module>
