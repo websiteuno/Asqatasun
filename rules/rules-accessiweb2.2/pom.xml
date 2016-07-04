@@ -9,7 +9,7 @@
     <artifactId>asqatasun-rules-accessiweb2.2</artifactId>
     <name>rules-accessiweb2.2</name>
     <build>
-        <finalName>accessiweb2.2-${rulesVersion}</finalName>
+        <finalName>accessiweb2.2-${asqatasunVersion}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

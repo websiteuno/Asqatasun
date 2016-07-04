@@ -44,7 +44,7 @@
                 </excludes>
             </resource>
         </resources>
-        <finalName>asqatasun-rules-seo1.0-${project.version}</finalName>
+        <finalName>asqatasun-rules-seo1.0-${asqatasunVersion}</finalName>
     </build>
     
     <dependencies>
