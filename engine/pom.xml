@@ -17,6 +17,7 @@
         <module>asqatasun-model</module>
         <module>asqatasun-services</module>
         <module>asqatasun-persistence</module>
+        <module>asqatasun-web</module>
 
         <module>rule-implementation-loader</module>
         <module>nomenclatureloader</module>
