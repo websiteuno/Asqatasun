@@ -23,7 +23,8 @@ import org.asqatasun.ruleimplementation.AbstractNotTestedRuleImplementation;
 
 /**
  * Implementation of the rule ${ruleCode.replace('-', '.')} of the referential $referentialName
- * 
+ * <br/>
+ * For more details about the implementation, refer to <a href="http://doc.asqatasun.org/en/90_Rules/rgaa3.2016/@@@FixMe/Rule-${ruleCode}.html">the rule ${ruleCode.replace('-', '.')} design page.</a>
 #set ($empty = "empty")
 #if ( $refDescriptor != $empty )
  * @see <a href="${refDescriptor}#test-$ruleCode">${ruleCode.replace('-', '.')} rule specification</a>
