@@ -16,13 +16,13 @@ fi
 #
 #############################################
 
-# Mysql
-MYSQL_ROOT_PASSWD=mysqlRootPassword
-MYSQL_CONF_FILE=/etc/mysql/my.cnf
-MYSQL_CONF_DIR=/etc/mysql/conf.d
-MYSQL_CONF_FILE_FOR_ASQATASUN=asqatasun.cnf
+# Maria
+MARIADB_ROOT_PASSWD=mariadbRootPassword
+MARIADB_CONF_FILE=/etc/mysql/my.cnf
+MARIADB_CONF_DIR=/etc/mysql/conf.d
+MARIADB_CONF_FILE_FOR_ASQATASUN=asqatasun.cnf
 
-# Mysql for Asqatasun
+# Maria for Asqatasun
 DATABASE_USER=asqatasun
 DATABASE_PASSWD=asqaP4sswd
 DATABASE_DBNAME=asqatasun
@@ -75,9 +75,16 @@ apt-get -y --no-install-recommends install \
 # Remember: don't do apt-get upgrade|safe-update|dist-upgrade in Docker
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 
-# Pre-define Mysql root passwd
-echo "mysql-server mysql-server/root_password password ${MYSQL_ROOT_PASSWD}" | debconf-set-selections
-echo "mysql-server mysql-server/root_password_again password ${MYSQL_ROOT_PASSWD}" | debconf-set-selections
+# Pre-define Maria root passwd
+echo "mysql-server mysql-server/root_password password ${MARIADB_ROOT_PASSWD}" | debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password ${MARIADB_ROOT_PASSWD}" | debconf-set-selections
+
+# TODO check the simplest way to replace libmysql-java for MariaDB equivalent:
+# * either keep it as is
+# * or directly download the .jar from
+#   https://downloads.mariadb.com/enterprise/fwvz-0gmp/connectors/java/connector-java-1.5.2/mariadb-java-client-1.5.2.jar
+#   or https://mariadb.com/my_portal/download/java-client/1.5 (auth needed ?)
+#   or https://downloads.mariadb.org/connector-java/
 
 # Required packages for Asqatasun
 #   Notes:
@@ -86,7 +93,7 @@ apt-get -y --no-install-recommends install \
     wget \
     bzip2 \
     unzip \
-    mysql-server \
+    mariadb-server \
     libmysql-java \
     tomcat7 \
     libspring-instrument-java \
@@ -102,10 +109,10 @@ apt-get -y --no-install-recommends install \
 #          or configure a Mailjet / Mandrill service
 
 #############################################
-# Mysql config
+# Maria config
 #############################################
 
-cat >${MYSQL_CONF_DIR}/${MYSQL_CONF_FILE_FOR_ASQATASUN} <<EOF
+cat >${MARIADB_CONF_DIR}/${MARIADB_CONF_FILE_FOR_ASQATASUN} <<EOF
 [client]
 default-character-set=utf8
 
@@ -123,7 +130,7 @@ EOF
 service mysql restart
 
 # Create Asqatasun database
-mysql -u root --password="${MYSQL_ROOT_PASSWD}" --execute="GRANT USAGE ON * . * TO '${DATABASE_USER}'@'${DATABASE_HOST}' IDENTIFIED BY '${DATABASE_PASSWD}'; \
+mysql -u root --password="${MARIADB_ROOT_PASSWD}" --execute="GRANT USAGE ON * . * TO '${DATABASE_USER}'@'${DATABASE_HOST}' IDENTIFIED BY '${DATABASE_PASSWD}'; \
     CREATE DATABASE IF NOT EXISTS ${DATABASE_DBNAME} CHARACTER SET utf8; \
     GRANT ALL PRIVILEGES ON ${DATABASE_DBNAME} . * TO '${DATABASE_USER}'@'${DATABASE_HOST}'; \
     FLUSH PRIVILEGES;"
