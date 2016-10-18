@@ -64,7 +64,7 @@ cp /etc/asqatasun/asqatasun.conf asqatasun.properties
 Then do
 
 ```sh
-mvn  -DconfDir=/tmp/asqatasun5api clean install
+mvn -DconfDir=/tmp/asqatasun5api clean install
 ```
 
 and 
@@ -78,10 +78,10 @@ java -Dserver.port=4242 \
 
 ## Use
 
-then browse http://localhost:4242/swagger-ui.html
+then browse [http://localhost:4242/swagger-ui.html](http://localhost:4242/swagger-ui.html)
 
 You can also have a look at: 
 
-* http://localhost:4242/criterions
-* http://localhost:4242/themes
-* http://localhost:4242/references
+* [http://localhost:4242/criterions](http://localhost:4242/criterions)
+* [http://localhost:4242/themes](http://localhost:4242/themes)
+* [http://localhost:4242/references](http://localhost:4242/references)
