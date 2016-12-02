@@ -32,7 +32,7 @@ import org.asqatasun.entity.service.subject.WebResourceDataService;
 import org.asqatasun.entity.subject.WebResource;
 import org.asqatasun.scenarioloader.ScenarioLoader;
 import org.asqatasun.scenarioloader.ScenarioLoaderFactory;
-
+import org.springframework.test.util.ReflectionTestUtils;
 /**
  *
  * @author jkowalczyk
@@ -103,9 +103,9 @@ public class ScenarioLoaderServiceImplTest extends TestCase {
         replay(mockScenarioLoaderFactory);
         
         ScenarioLoaderServiceImpl instance = new ScenarioLoaderServiceImpl();
-        instance.setContentDataService(mockContentDataService);
-        instance.setScenarioLoaderFactory(mockScenarioLoaderFactory);
-        instance.setWebResourceDataService(mockWebResourceDataService);
+        ReflectionTestUtils.setField(instance, "contentDataService", mockContentDataService);
+        ReflectionTestUtils.setField(instance, "scenarioLoaderFactory", mockScenarioLoaderFactory);
+        ReflectionTestUtils.setField(instance, "webResourceDataService", mockWebResourceDataService);
         
         instance.loadScenario(mockWebResource, scenarioFile);
         

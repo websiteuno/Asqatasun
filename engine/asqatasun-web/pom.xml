@@ -23,6 +23,7 @@
 		<java.version>1.8</java.version>
 
 		<mysqlConnectorJavaVersion>5.1.38</mysqlConnectorJavaVersion>
+        <!--<postgresql.version>9.4-1200-jdbc41</postgresql.version>-->
 		<asqatasunVersion>4.1.0-SNAPSHOT</asqatasunVersion>
 		<swaggerVersion>2.2.2</swaggerVersion>
         <yogaVersion>1.0.6</yogaVersion>
@@ -41,23 +42,116 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-api</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.asqatasun</groupId>
 			<artifactId>asqatasun-persistence</artifactId>
 			<version>${asqatasunVersion}</version>
+            <scope>compile</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.asqatasun</groupId>
-			<artifactId>asqatasun-services</artifactId>
-			<version>${asqatasunVersion}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-engine</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-services</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-contentloader</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-scenarioloader</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-contentadapter</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-processor</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-nomenclatureloader</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-rule-implementation-loader</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-consolidator</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-analyser</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-resources</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-rules-rgaa3.0</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-rules-accessiweb2.2</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.asqatasun</groupId>
+            <artifactId>asqatasun-rules-seo1.0</artifactId>
+            <version>${asqatasunVersion}</version>
+            <scope>runtime</scope>
+        </dependency>
 		<!-- mysql connector dependencies -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysqlConnectorJavaVersion}</version>
 		</dependency>
-		<dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.postgresql</groupId>-->
+            <!--<artifactId>postgresql</artifactId>-->
+            <!--<version>${postgresql.version}</version>-->
+        <!--</dependency>-->
+
+        <dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${swaggerVersion}</version>
@@ -82,7 +176,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+    </dependencies>
 	
 	<dependencyManagement>
 		<dependencies>

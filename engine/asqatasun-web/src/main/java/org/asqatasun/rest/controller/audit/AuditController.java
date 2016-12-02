@@ -1,6 +1,6 @@
 /*
  * Asqatasun - Automated webpage assessment
- * Copyright (C) 2008-2015  Asqatasun.org
+ * Copyright (C) 2008-2017  Asqatasun.org
  *
  * This file is part of Asqatasun.
  *
@@ -21,12 +21,24 @@
  */
 package org.asqatasun.rest.controller.audit;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.asqatasun.entity.audit.Audit;
-import org.asqatasun.entity.audit.AuditImpl;
+import org.asqatasun.entity.parameterization.Parameter;
+import org.asqatasun.entity.service.parameterization.ParameterDataService;
 import org.asqatasun.rest.controller.EntityController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.asqatasun.rest.request.PageAuditRequest;
+import org.asqatasun.service.AuditService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -36,13 +48,66 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value="/audits")
 public class AuditController extends EntityController<Audit> {
 
-//    @Autowired
-//    AuditService auditService;
-//    private static final String template = "Hello, %s!";
-//    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    AuditService auditService;
 
+    @Autowired
+    ParameterDataService parameterDataService;
 
-//    public Audit audit(@RequestParam(value="name") String bou) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/run", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void auditPage(@RequestBody final PageAuditRequest auditRequest) {
+        runAuditOnline(new String[]{auditRequest.url}, auditRequest.referential, auditRequest.level);
 //        return new AuditImpl();
-//    }
+    }
+
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value="/runS", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void auditScenario(@RequestBody final ScenarioAuditRequest auditRequest) {
+        runAuditScenario(auditRequest.scenarioContent, auditRequest.referential, auditRequest.level);
+    }
+
+    private void runAuditOnline(String[] urlTab, String ref, String level) {
+        Logger.getLogger(this.getClass()).info("runAuditOnline");
+
+        Set<Parameter> paramSet = parameterDataService.getParameterSetFromAuditLevel(ref, level);
+
+        List<String> pageUrlList = Arrays.asList(urlTab);
+
+        if (pageUrlList.size() > 1) {
+            auditService.auditSite("site:" + pageUrlList.get(0), pageUrlList, paramSet);
+        } else {
+            auditService.auditPage(pageUrlList.get(0), parameterDataService.getAuditPageParameterSet(paramSet));
+        }
+    }
+
+    public void runAuditScenario(String scenarioFilePath, String ref, String level) {
+
+        Set<Parameter> paramSet = parameterDataService.getParameterSetFromAuditLevel(ref, level);
+        System.out.println(scenarioFilePath);
+        File scenarioFile = new File(scenarioFilePath);
+        try {
+            auditService.auditScenario(scenarioFile.getName(), readFile(scenarioFile), paramSet);
+        } catch (IOException ex) {
+            System.out.println("Unreadable scenario file");
+            System.exit(0);
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    private String readFile(File file) throws IOException {
+        // #57 issue quick fix.......
+        return FileUtils.readFileToString(file).replace("\"formatVersion\": 2", "\"formatVersion\":1")
+                .replace("\"formatVersion\":2", "\"formatVersion\":1");
+    }
+
+    public class ScenarioAuditRequest {
+        public String referential;
+        public String level;
+        public String scenarioContent;
+    }
 }

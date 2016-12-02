@@ -41,7 +41,7 @@ import java.util.Properties;
  */
 @Configuration
 @PropertySources({
-        @PropertySource("classpath:hibernate.properties"),
+        @PropertySource("classpath:default-hibernate.properties"),
         @PropertySource("classpath:flyway.properties")
 })
 public class PersistenceConfig {
@@ -70,9 +70,9 @@ public class PersistenceConfig {
 
     @Value("${flyway.locationAutomatedCommon}")
     private String flywayLocationAutomatedCommon;
-
-    @Value("${flyway.locationAutomatedMainOnly}")
-    private String flywayLocationAutomatedMainOnly;
+//
+//    @Value("${flyway.locationAutomatedMainOnly}")
+//    private String flywayLocationAutomatedMainOnly;
 
     @Value("${jdbc.user:asqatasun}")
     private String databaseUser;
@@ -103,7 +103,7 @@ public class PersistenceConfig {
         final Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource());
         flyway.setSqlMigrationPrefix(flywayMigrationPrefix);
-        flyway.setLocations(flywayLocationAutomatedCommon, flywayLocationAutomatedMainOnly);
+        flyway.setLocations(flywayLocationAutomatedCommon);
         return flyway;
     }
 

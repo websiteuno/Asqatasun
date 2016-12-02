@@ -54,7 +54,7 @@ public class ScenarioLoaderFactoryImpl implements ScenarioLoaderFactory {
     @Autowired
     private DateFactory dateFactory;
 
-    @Value("${colorExtractor:/js/colorExtractor_nativeJs.js}")
+    @Value("${colorExtractor:/js/jsExtractor.js}")
     private String colorExtractor;
     public Map<String, String> getJsScriptMap() {
         Map<String, String> jsScriptMap = new HashMap<>();

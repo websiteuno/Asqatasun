@@ -147,29 +147,29 @@ public class ContentsAdapterImpl implements ContentsAdapter {
         }
     }
 
-    /**
-     * 
-     * @param parseHtmlVoter 
-     */
-    public void setParseHtmlVoter(AdaptationActionVoter parseHtmlVoter) {
-        if (!CollectionUtils.isEmpty(contentList) && parseHtmlVoter != null){
-            this.parseAndRetrievelRelatedContent = 
-                    parseHtmlVoter.doesExecute(contentList.iterator().next().getAudit());
-            return;
-        }
-        this.parseAndRetrievelRelatedContent = true;
-    }
-    
-    /**
-     * 
-     * @param xmlizeVoter 
-     */
-    public void setXmlizeVoter(AdaptationActionVoter xmlizeVoter) {
-        if (!CollectionUtils.isEmpty(contentList) && xmlizeVoter != null){
-            this.xmlizeContent = xmlizeVoter.doesExecute(contentList.iterator().next().getAudit());
-            return;
-        }
-        this.xmlizeContent = false;
-    }
+//    /**
+//     *
+//     * @param parseHtmlVoter
+//     */
+//    public void setParseHtmlVoter(AdaptationActionVoter parseHtmlVoter) {
+//        if (!CollectionUtils.isEmpty(contentList) && parseHtmlVoter != null){
+//            this.parseAndRetrievelRelatedContent =
+//                    parseHtmlVoter.doesExecute(contentList.iterator().next().getAudit());
+//            return;
+//        }
+//        this.parseAndRetrievelRelatedContent = true;
+//    }
+//
+//    /**
+//     *
+//     * @param xmlizeVoter
+//     */
+//    public void setXmlizeVoter(AdaptationActionVoter xmlizeVoter) {
+//        if (!CollectionUtils.isEmpty(contentList) && xmlizeVoter != null){
+//            this.xmlizeContent = xmlizeVoter.doesExecute(contentList.iterator().next().getAudit());
+//            return;
+//        }
+//        this.xmlizeContent = false;
+//    }
 
 }

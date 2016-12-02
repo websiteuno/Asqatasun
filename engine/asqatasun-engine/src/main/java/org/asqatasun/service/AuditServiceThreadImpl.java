@@ -87,7 +87,7 @@ public class AuditServiceThreadImpl implements AuditServiceThread {
 
     @Override
     public void run() {
-        try {
+//        try {
             init();
             loadContent();
             adaptContent();
@@ -95,9 +95,9 @@ public class AuditServiceThreadImpl implements AuditServiceThread {
             consolidate();
             analyse();
             fireAuditCompleted();
-        } catch (Exception e) {
-            fireAuditException(e);
-        }
+//        } catch (Exception e) {
+//            fireAuditException(e);
+//        }
     }
 
     @Override

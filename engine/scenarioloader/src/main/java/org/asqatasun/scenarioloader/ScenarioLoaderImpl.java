@@ -165,16 +165,6 @@ public class ScenarioLoaderImpl implements ScenarioLoader, NewPageListener {
         this.profileFactory = ProfileFactory.getInstance();
         this.webResource = webResource;
     }
-    
-    ScenarioLoaderImpl(
-            WebResource webResource, 
-            String scenario,
-            HarFileContentLoaderFactory harFileContentLoaderFactory) {
-        super();
-        this.scenario = scenario;
-        this.profileFactory = ProfileFactory.getInstance();
-        this.webResource = webResource;
-    }
 
     @Override
     public void run() {

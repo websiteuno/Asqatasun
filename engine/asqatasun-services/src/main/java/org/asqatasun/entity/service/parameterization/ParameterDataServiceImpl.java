@@ -46,7 +46,24 @@ import org.springframework.stereotype.Service;
 public class ParameterDataServiceImpl extends AbstractGenericDataService<Parameter, Long>
         implements ParameterDataService {
 
-    private static String DEFAULT_LEVEL_AND_REF_PARAM_KEY = "LEVEL";
+    private static final String AW22_REF = "Aw22";
+    private static final String RGAA22_REF = "Rgaa22";
+    private static final String RGAA30_REF = "Rgaa30";
+    private static String REF = AW22_REF;
+
+    private static final String BRONZE_LEVEL = "Bz";
+    private static final String A_LEVEL = "A";
+    private static final String SILVER_LEVEL = "Ar";
+    private static final String AA_LEVEL = "AA";
+    private static final String GOLD_LEVEL = "Or";
+    private static final String AAA_LEVEL = "AAA";
+
+    private static final String LEVEL_1 = "LEVEL_1";
+    private static final String LEVEL_2 = "LEVEL_2";
+    private static final String LEVEL_3 = "LEVEL_3";
+
+    private static final String LEVEL_PARAMETER_ELEMENT_CODE = "LEVEL";
+
     private static int REF_INDEX_IN_PARAM = 0;
     private static int LEVEL_INDEX_IN_PARAM = 1;
     
@@ -55,6 +72,8 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
     @Value("${levelAndRefParameterKey:LEVEL}")
     private String levelAndRefParameterKey;
 
+    @Autowired
+    ParameterElementDataService parameterElementDataService;
 
     /**
      *
@@ -110,7 +129,7 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
 
     @Override
     public Set<Parameter> updateParameterSet(final Set<Parameter> paramSet, final Set<Parameter> paramsToUpdate) {
-        Set<Parameter> paramToReturn = new HashSet<Parameter>();
+        Set<Parameter> paramToReturn = new HashSet<>();
         for (Parameter parameter : paramSet){
             boolean found = false;
             for (Parameter paramToUpdate : paramsToUpdate) {
@@ -130,7 +149,7 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
 
     @Override
     public Set<Parameter> updateParameter(final Set<Parameter> paramSet, final Parameter paramToUpdate) {
-        Set<Parameter> paramToReturn = new HashSet<Parameter>();
+        Set<Parameter> paramToReturn = new HashSet<>();
         for (Parameter parameter : paramSet) {
             if (parameter.getParameterElement().getParameterElementCode().equals(
                     paramToUpdate.getParameterElement().getParameterElementCode())) {
@@ -151,7 +170,7 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
     public Parameter getDefaultLevelParameter() {
         if (defaultLevelParameter == null) {
             for (Parameter param : getDefaultParameterSet()) {
-                if (param.getParameterElement().getParameterElementCode().equals(DEFAULT_LEVEL_AND_REF_PARAM_KEY)) {
+                if (param.getParameterElement().getParameterElementCode().equals(LEVEL_PARAMETER_ELEMENT_CODE)) {
                     defaultLevelParameter = param;
                     break;
                 }
@@ -178,6 +197,38 @@ public class ParameterDataServiceImpl extends AbstractGenericDataService<Paramet
     @Override
     public Parameter getLevelParameter(String levelKey) {
         return ((ParameterDAO) entityDao).findLevelParameter(levelKey);
+    }
+
+    @Override
+    public Set<Parameter> getAuditPageParameterSet(Set<Parameter> defaultParameterSet) {
+        ParameterElement parameterElement = parameterElementDataService.getDepthParameterElement();
+        Parameter depthParameter = getParameter(parameterElement, "0");
+        Set<Parameter> auditPageParamSet = updateParameter(defaultParameterSet, depthParameter);
+        return auditPageParamSet;
+    }
+
+    @Override
+    public Set<Parameter> getParameterSetFromAuditLevel(String ref, String level) {
+        if (ref.equalsIgnoreCase(RGAA22_REF) || ref.equalsIgnoreCase(RGAA30_REF)) {
+            if (level.equalsIgnoreCase(BRONZE_LEVEL)) {
+                level=A_LEVEL;
+            } else if (level.equalsIgnoreCase(SILVER_LEVEL)) {
+                level=AA_LEVEL;
+            } else if (level.equalsIgnoreCase(GOLD_LEVEL)) {
+                level=AAA_LEVEL;
+            }
+        }
+        if (level.equalsIgnoreCase(BRONZE_LEVEL) || level.equalsIgnoreCase(A_LEVEL)) {
+            level=LEVEL_1;
+        } else if (level.equalsIgnoreCase(SILVER_LEVEL) || level.equalsIgnoreCase(AA_LEVEL)) {
+            level=LEVEL_2;
+        } else if (level.equalsIgnoreCase(GOLD_LEVEL) || level.equalsIgnoreCase(AAA_LEVEL)) {
+            level=LEVEL_3;
+        }
+        ParameterElement levelParameterElement = parameterElementDataService.getParameterElement(LEVEL_PARAMETER_ELEMENT_CODE);
+        Parameter levelParameter = getParameter(levelParameterElement, ref + ";" + level);
+        Set<Parameter> paramSet = getDefaultParameterSet();
+        return updateParameter(paramSet, levelParameter);
     }
 
 }

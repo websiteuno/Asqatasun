@@ -42,6 +42,11 @@ public class ParameterElementDataServiceImpl extends AbstractGenericDataService<
     }
 
     @Override
+    public ParameterElement getDepthParameterElement() {
+        return getParameterElement(DEPTH_PARAMETER_ELEMENT_KEY);
+    }
+
+    @Override
     public ParameterElement create(ParameterFamily parameterFamily) {
         return ((ParameterElementFactory) entityFactory).createParameter(parameterFamily);
     }

@@ -95,25 +95,25 @@ public class AsqatasunRunner implements AuditServiceListener {
         super();
     }
 
-    public void runAuditOnline(String[] urlTab, String asqatasunHome, String ref, String level) {
+    public void runAuditOnline(String[] urlTab, String ref, String level) {
         Logger.getLogger(this.getClass()).info("runAuditOnline");
         initServices();
 
-        Set<Parameter> paramSet = getParameterSetFromAuditLevel(ref, level);
+        Set<Parameter> paramSet = parameterDataService.getParameterSetFromAuditLevel(ref, level);
 
         List<String> pageUrlList = Arrays.asList(urlTab);
 
         if (pageUrlList.size() > 1) {
             auditService.auditSite("site:" + pageUrlList.get(0), pageUrlList, paramSet);
         } else {
-            auditService.auditPage(pageUrlList.get(0), getAuditPageParameterSet(paramSet));
+            auditService.auditPage(pageUrlList.get(0), parameterDataService.getAuditPageParameterSet(paramSet));
         }
     }
 
-    public void runAuditScenario(String scenarioFilePath, String asqatasunHome, String ref, String level) {
+    public void runAuditScenario(String scenarioFilePath, String ref, String level) {
         initServices();
 
-        Set<Parameter> paramSet = getParameterSetFromAuditLevel(ref, level);
+        Set<Parameter> paramSet = parameterDataService.getParameterSetFromAuditLevel(ref, level);
         System.out.println(scenarioFilePath);
         File scenarioFile = new File(scenarioFilePath);
         try {
@@ -124,10 +124,10 @@ public class AsqatasunRunner implements AuditServiceListener {
         }
     }
     
-    public void runAuditUpload(String[] uploadFilePath, String asqatasunHome, String ref, String level) {
+    public void runAuditUpload(String[] uploadFilePath, String ref, String level) {
         initServices();
 
-        Set<Parameter> paramSet = getParameterSetFromAuditLevel(ref, level);
+        Set<Parameter> paramSet = parameterDataService.getParameterSetFromAuditLevel(ref, level);
 
         Map<String, String> fileMap = new HashMap<>();
         for (String file : Arrays.asList(uploadFilePath)) {
@@ -237,34 +237,34 @@ public class AsqatasunRunner implements AuditServiceListener {
         auditService.add(this);
     }
 
-    /**
-     * 
-     * @param ref
-     * @param level
-     * @return
-     */
-    private Set<Parameter> getParameterSetFromAuditLevel(String ref, String level) {
-        if (ref.equalsIgnoreCase(RGAA22_REF) || ref.equalsIgnoreCase(RGAA30_REF)) {
-            if (level.equalsIgnoreCase(BRONZE_LEVEL)) {
-                level=A_LEVEL;
-            } else if (level.equalsIgnoreCase(SILVER_LEVEL)) {
-                level=AA_LEVEL;
-            } else if (level.equalsIgnoreCase(GOLD_LEVEL)) {
-                level=AAA_LEVEL;
-            }
-        }
-        if (level.equalsIgnoreCase(BRONZE_LEVEL) || level.equalsIgnoreCase(A_LEVEL)) {
-            level=LEVEL_1;
-        } else if (level.equalsIgnoreCase(SILVER_LEVEL) || level.equalsIgnoreCase(AA_LEVEL)) {
-            level=LEVEL_2;
-        } else if (level.equalsIgnoreCase(GOLD_LEVEL) || level.equalsIgnoreCase(AAA_LEVEL)) {
-            level=LEVEL_3;
-        } 
-        ParameterElement levelParameterElement = parameterElementDataService.getParameterElement(LEVEL_PARAMETER_ELEMENT_CODE);
-        Parameter levelParameter = parameterDataService.getParameter(levelParameterElement, ref + ";" + level);
-        Set<Parameter> paramSet = parameterDataService.getDefaultParameterSet();
-        return parameterDataService.updateParameter(paramSet, levelParameter);
-    }
+//    /**
+//     *
+//     * @param ref
+//     * @param level
+//     * @return
+//     */
+//    private Set<Parameter> getParameterSetFromAuditLevel(String ref, String level) {
+//        if (ref.equalsIgnoreCase(RGAA22_REF) || ref.equalsIgnoreCase(RGAA30_REF)) {
+//            if (level.equalsIgnoreCase(BRONZE_LEVEL)) {
+//                level=A_LEVEL;
+//            } else if (level.equalsIgnoreCase(SILVER_LEVEL)) {
+//                level=AA_LEVEL;
+//            } else if (level.equalsIgnoreCase(GOLD_LEVEL)) {
+//                level=AAA_LEVEL;
+//            }
+//        }
+//        if (level.equalsIgnoreCase(BRONZE_LEVEL) || level.equalsIgnoreCase(A_LEVEL)) {
+//            level=LEVEL_1;
+//        } else if (level.equalsIgnoreCase(SILVER_LEVEL) || level.equalsIgnoreCase(AA_LEVEL)) {
+//            level=LEVEL_2;
+//        } else if (level.equalsIgnoreCase(GOLD_LEVEL) || level.equalsIgnoreCase(AAA_LEVEL)) {
+//            level=LEVEL_3;
+//        }
+//        ParameterElement levelParameterElement = parameterElementDataService.getParameterElement(LEVEL_PARAMETER_ELEMENT_CODE);
+//        Parameter levelParameter = parameterDataService.getParameter(levelParameterElement, ref + ";" + level);
+//        Set<Parameter> paramSet = parameterDataService.getDefaultParameterSet();
+//        return parameterDataService.updateParameter(paramSet, levelParameter);
+//    }
     
     /**
      * 

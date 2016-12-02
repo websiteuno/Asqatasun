@@ -41,19 +41,10 @@ public class ScenarioLoaderServiceImpl implements ScenarioLoaderService {
 
     @Autowired
     private ScenarioLoaderFactory scenarioLoaderFactory;
-    public void setScenarioLoaderFactory(ScenarioLoaderFactory scenarioLoaderFactory) {
-        this.scenarioLoaderFactory = scenarioLoaderFactory;
-    }
     @Autowired
     private ContentDataService contentDataService;
-    public void setContentDataService(ContentDataService contentDataService) {
-        this.contentDataService = contentDataService;
-    }
     @Autowired
     private WebResourceDataService webResourceDataService;
-    public void setWebResourceDataService(WebResourceDataService webResourceDataService) {
-        this.webResourceDataService = webResourceDataService;
-    }
 
     public ScenarioLoaderServiceImpl() {
         super();

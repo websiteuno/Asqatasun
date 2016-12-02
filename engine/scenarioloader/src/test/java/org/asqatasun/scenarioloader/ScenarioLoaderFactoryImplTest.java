@@ -23,7 +23,13 @@ package org.asqatasun.scenarioloader;
 
 import junit.framework.TestCase;
 import static org.easymock.EasyMock.*;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.asqatasun.entity.subject.WebResource;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  *

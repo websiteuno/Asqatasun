@@ -36,13 +36,13 @@ import org.springframework.stereotype.Component;
 @Component("contentsAdapterFactory")
 public class ContentsAdapterFactoryImpl implements ContentsAdapterFactory {
 
-    @Autowired
-    @Qualifier("xmlizeVoter")
-    private AdaptationActionVoter xmlizeVoter;
-
-    @Autowired
-    @Qualifier("parseHtmlVoter")
-    private AdaptationActionVoter parseHtmlVoter;
+//    @Autowired
+//    @Qualifier("xmlizeVoter")
+//    private AdaptationActionVoter xmlizeVoter;
+//
+//    @Autowired
+//    @Qualifier("parseHtmlVoter")
+//    private AdaptationActionVoter parseHtmlVoter;
     
     public ContentsAdapterFactoryImpl() {
         super();
@@ -60,12 +60,12 @@ public class ContentsAdapterFactoryImpl implements ContentsAdapterFactory {
                 tempFolderRootPath,
                 htmlCleaner,
                 htmlParser);
-        if (parseHtmlVoter != null) {
-            contentsAdapter.setParseHtmlVoter(parseHtmlVoter);
-        }
-        if (xmlizeVoter != null) {
-            contentsAdapter.setXmlizeVoter(xmlizeVoter);
-        }
+//        if (parseHtmlVoter != null) {
+//            contentsAdapter.setParseHtmlVoter(parseHtmlVoter);
+//        }
+//        if (xmlizeVoter != null) {
+//            contentsAdapter.setXmlizeVoter(xmlizeVoter);
+//        }
         contentsAdapter.setContentList(contentList);
         return contentsAdapter;
     }
